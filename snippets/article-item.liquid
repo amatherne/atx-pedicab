@@ -1,0 +1,96 @@
+
+{% if btn_type == blank or btn_type == '' or btn_type == 'button' %}
+	{% assign lnkCls = 'btn btn--small' %}
+	{% assign hide_div = true %}
+{% elsif btn_type == 'link' %}
+	{% assign lnkCls = 'article__link' %}
+	{% assign hide_div = false %}
+{% endif %}
+
+{% if btn_txt == blank or btn_txt == '' %}
+	{% assign btn_txt = 'blogs.article.read_more' | t %}
+{% endif %}
+
+<div class="article__item">
+	<a href="{{ article.url }}" class="article__link" tabindex="-1" aria-hidden="true">
+		{% if article.image %}
+			<div class="article__grid-image-wrapper">
+				<div class="article__grid-image-container">
+					<div 
+						class="bg_image {% if rowLimit == 1 %}medium--half-height{% endif %} lazyload"
+						data-bgset="{% include 'bgset', image: article.image %}"
+						data-sizes="auto"
+						data-parent-fit="cover">
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</a>
+
+	<div class="article__grid-meta{% if article.image %} article__grid-meta--has-image{% endif %}">
+		<div class="match-height-container" mh-{{class}}>
+			<a href="{{ article.url }}" class="article__link" tabindex="-1" aria-hidden="true">
+				<h3 class="article__title{% if article.image %} article__title--has-image{% endif %}">
+					{{ article.title }}
+				</h3>
+			</a>
+			{% if show_author == true %}
+				<span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+			{% endif %}
+
+			{% if show_date == true %}
+				<span class="article__date">
+					{{ article.published_at | time_tag: format: 'month_day_year' }}
+				</span>
+			{% endif %}
+
+			{% unless hide_excerpt == true %}
+			<div class="rte article__grid-excerpt">
+				{% if article.excerpt.size > 0 %}
+					{{ article.excerpt }}
+				{% else %}
+					{{ article.content | strip_html | truncate: 150 }}
+				{% endif %}
+			</div>
+			{% endunless %}
+
+			{% if article.tags.size > 0 %}
+				<div class="article__tags rte">
+					<ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
+						{% for tag in article.tags %}
+							<li>
+								<a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		
+		{% if hide_div == false %}
+			<hr class="article__divider " />
+		{% endif %}
+		
+		{% comment %}<ul class="list--inline article__meta-buttons">
+			<li>{% endcomment %}
+			<div class="{% if hide_div == true %}text-center{% endif %}">
+				<a href="{{ article.url }}" class="{{lnkCls}}" aria-label="{{ 'blogs.article.read_more_title' | t: title: article.title }}">
+					{{ btn_txt }}
+				</a>
+			</div>
+			{% comment %}</li>
+
+			{% if blog.comments_enabled? and article.comments_count > 0 %}
+				<li>
+					<a href="{{ article.url }}#comments" class="article__comment-count btn btn--tertiary btn--small">
+						{{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+					</a>
+				</li>
+			{% endif %}
+		</ul>{% endcomment %}
+	</div>
+</div>
+{% assign btn_txt 	= '' %}
+{% assign btn_type 	= '' %}
+{% assign lnkCls 	= '' %}
+

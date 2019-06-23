@@ -1,0 +1,204 @@
+<!-- sections/instafeed -->
+
+
+{% assign s = section.settings %}
+{% capture class %}section_{{section.id}}{{template.handle}}{% endcapture %}
+
+{% assign itmCSSs = '' %}
+{% assign itmJSs = '' %}
+{% assign custom = s.custom_html | raw %}
+{% assign classCSS = class | prepend: '.' %}
+{% assign cssLoop = custom | replace: '==', classCSS | replace: ';', ' !important;' %}
+
+{% assign limit = section.settings.limit %}
+
+{% case limit %}
+    {% when 1 %}{%- assign width = '' -%}
+    {% when 2 %}{%- assign width = 'large-up--one-half' -%}
+    {% when 5 or 9 or 10 %}{%- assign width = 'medium--one-third large-up--one-fifth' -%}
+    {% when 4 or 7 or 8 %}{%- assign width = 'medium--one-half large-up--one-quarter' -%}
+    {% when 6 or 11 or 12 %}{%- assign width = 'medium--one-third large-up--one-sixth' -%}
+    {% else %}{%- assign width = 'large-up--one-third' -%}
+{% endcase %}
+
+
+<div class="instagram-section {{class}}">
+	<div class="{% if s.max-width == true%}page-width{% endif %}">
+		{% if s.title != blank %}
+			<div class="section-title">
+				<h2>{{s.title}}</h2>
+			</div>
+		{% endif %}
+		<div class="grid grid_no_gutter text-center" id="instafeed">
+			{% if section.settings.accessToken == blank %}
+				{% for i in (1..limit) %}
+					<div class="grid__item small--one-half {{ width }}">
+						<a href="#" class="bg_image squared insta-{{forloop.index}}"></a>
+					</div>
+				{% endfor %}
+				<style type="text/css">
+					{% for i in (1..limit) %}
+						{% capture cycle %}{% cycle 'man', 'woman', 'bird', 'bike', 'mountain', 'art' %}{% endcapture %}
+						{% capture rando %}https://picsum.photos/300/300/?{{cycle}}{% endcapture %}
+						.insta-{{forloop.index}} {
+							background-image: url({{ rando }});
+						}
+					{% endfor %}
+				</style>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<style type="text/css">
+	/* Custom CSS */
+	{{cssLoop}}
+</style>
+
+{% if section.settings.accessToken != blank %}
+<script>
+	$( document ).ready(function() {
+		{%raw%}
+		var feed = new Instafeed({
+			sortBy: '{%endraw%}{{section.settings.sort-by}}{%raw%}',
+
+			{% endraw %}{% if section.settings.show_by == 'tag_name' %}{% raw %}
+			get: 'tagged',
+			tagName: '{%endraw%}{{section.settings.tag-name}}{%raw%}',
+			{% endraw %}{% else %}{% raw %}
+			get:'user',
+			userId: '{% endraw %}{{ section.settings.accessToken | split: '.' | first }}{% raw %}',
+			{% endraw %}{% endif %}{% raw %}
+
+			target: 'instafeed',
+			resolution: 'standard_resolution',
+			accessToken: '{%endraw%}{{section.settings.accessToken}}{%raw%}',
+			clientId: '{%endraw%}{{section.settings.clientId}}{%raw%}',
+			limit: {% endraw %}{{ limit }}{% raw %},
+		  	template: '<div class="grid__item small--one-half {% endraw %}{{ width }}{% raw %}"><a target="_blank" href="{{link}}" class="bg_image squared" style="background-image: url({{image}});" title="{{caption}}"><span class="visually-hidden">{{caption}}</span></a></div>'
+		});
+		feed.run();
+		{%endraw%}
+	});
+</script>
+{% endif %}
+
+{% schema %}
+	{
+		"name": "Instagram",
+		"class": "insta-section index-section index-section--flush",
+		"settings": [
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default": "Follow us on Instagram"
+			},
+			{
+	            "type": "checkbox",
+	            "id": "max-width",
+	            "label": "Set Max Width",
+	            "default": true
+	        },
+			{
+				"type": "text",
+				"id": "tag-name",
+				"label": "Hasttag you want featured",
+				"info": "No # 's or @'s"
+			},
+			{
+				"type": "text",
+				"id": "accessToken",
+				"label": "The accessToken from your Instagram Account"
+			},
+			{
+				"type": "text",
+				"id": "clientId",
+				"label": "The Client ID from your Instagram Account",
+				"info": "Click [here](https://www.instagram.com/developer/) to learn more about getting your Instagram Client ID."
+			},
+			{
+				"type": "select",
+				"id": "sort-by",
+				"label": "Sort By Option",
+				"default": "most-recent",
+				"options": [
+					{
+						"value": "none",
+						"label": "None"
+					},
+					{
+						"value": "most-recent",
+						"label": "Most Recent"
+					},
+					{
+						"value": "most-liked",
+						"label": "Most Liked"
+					},
+					{
+						"value": "most-commented",
+						"label": "Most Commented"
+					},
+					{
+						"value": "random",
+						"label": "Random"
+					}
+
+				]
+			},
+			{
+				"type": "select",
+				"id": "show_by",
+				"label": "Display Option",
+				"default": "tag_name",
+				"options": [
+					{
+						"value": "tag_name",
+						"label": "Hashtag"
+					},
+					{
+						"value": "user_name",
+						"label": "User"
+					}
+
+				]
+			},
+			{
+		        "type":      "range",
+		        "id":        "limit",
+		        "min":       2,
+		        "max":        12,
+		        "step":       1,
+		        "label":     "# of Posts Shown",
+		        "default":   3
+			},
+			{
+				"type":"header",
+				"content": "Custom CSS Rules"
+			},
+			{
+				"type":"paragraph",
+				"content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+			},
+			{
+				"type":"paragraph",
+				"content": "The example below applies font size to only the h2 element in the current block's container."
+			},
+			{
+				"type":"paragraph",
+				"content": "'== h2 { font-size: 20px; } '"
+			},
+			{
+				"type": "html",
+				"id": "custom_html",
+				"label": "Custom HTML"
+			}
+		],
+		"presets": [
+			{
+				"name": "Instagram",
+				"category": "Images"
+			}
+		]
+	}
+{% endschema %}

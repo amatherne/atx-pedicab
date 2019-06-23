@@ -1,0 +1,352 @@
+<!-- snippets/custom-page -->
+
+{% assign masterClass = 'custom-page-blocks' %}
+
+<div class="{{masterClass}} {{class}}">
+
+	{% for block in section.blocks %}
+		{% assign b1 = block %}
+		{% assign bs1 = b1.settings %}
+		{% if b1.type == 'group' %}
+			{% assign loop = forloop.index %}
+			{% assign gridHandle = bs1.title | handleize %}
+			{% capture contClass %}container{{b1.id}}{% endcapture %}
+
+			<div class=" {{contClass}}">		{% comment %} Start of group container {% endcomment %}
+				{% if bs1.page_width == true %}	{% comment %} Start of page width selector {% endcomment %}
+				<div class="page-width">
+				{% elsif bs1.page_width_max != blank %}
+				<div class="page-width" style="max-width: {{ bs1.page_width_max }}px">
+				{% else %}
+				<div>
+				{% endif %}
+					{% if bs1.custom_html != blank %}
+						<style type="text/css">
+							{% assign custom = bs1.custom_html | raw %}
+							{% assign contClassCSS = contClass | prepend: '.' %}
+							{% assign cssLoop = custom | replace: '==', contClassCSS | replace: '&gt;', '>' | replace: ';', ' !important;' %}
+
+							{{cssLoop}}
+						</style>
+					{% endif %}
+					{% assign mh = '' %}
+					{% if bs1.match_height == true %}
+						{% comment %}{% capture mh %} mh-{{b1.id}}{% endcapture %}{% endcomment %}
+					{% endif %}
+
+					<div class="grid {% if bs1.no_gutter == true %}grid_no_gutter{% endif %}">	{% comment %} Start of grid group {% endcomment %}
+						{% for block in section.blocks %} {% comment %} Start of block {% endcomment %}
+						{% assign b2 = block %}
+						{% assign bs2 = b2.settings %}
+						{% assign b_id = b2.id | replace: '-','' %}
+						{% assign groupName = bs2.grid_handle | handleize %}
+
+						{% comment %}groupName == gridHandle and b2.type != 'group'{% endcomment %}
+						{% comment %}{% if b2.type != 'group' and groupName == gridHandle %}
+							<div class="grid__item">1: {{groupName}}</div>
+							<div class="grid__item">2: {{gridHandle}}</div>
+							<div class="grid__item">3: {{b2.type}}</div>
+						{% endif %}{% endcomment %}
+
+						{% if b2.type != 'group' and groupName == gridHandle %}  {% comment %} Start of group checker{% endcomment %}
+							{% capture blockClass %}block{{b2.id}}{% endcapture %}
+							{% capture cssClass %}.{{class}} .block{{b2.id}}{% endcapture %}
+
+							{% 	
+								include 'width-creator',
+								hide_mob: bs2.hide_mob,
+								hide_tab: bs2.hide_tab,
+								hide_desk: bs2.hide_desk,
+								width_small: bs2.width_small,
+								width_medium: bs2.width_medium,
+								width_large: bs2.width_large
+							%}
+
+							<div class="grid__item {{-grid_widths-}} {{blockClass}} sm-start{{b_id}} {{b2.type}}-block-container" {% unless bs2.opt_out_match_height == true %}{{mh}}{% endunless %}>
+								{% case b2.type %}
+
+									{% when 'header' %}
+										<div class="{{b2.type}}-block {% if bs2.align_center == true %}medium-up--text-center{% endif %}">
+											{% if bs2.top_title != blank  %}
+												<h3 class="animate">{{bs2.top_title}}</h3>
+											{% endif %}
+											{% if bs2.title != blank  %}
+												<header class="section-title">
+													<h2>{{bs2.title}}</h2>
+												</header>
+											{% endif %}
+											<style type="text/css">
+												@media screen and (min-width:750px) {
+													{{cssClass}} .header-block h2 {
+														font-size: {{bs2.title_size}}px;
+													}
+													{{cssClass}} .header-block h3 {
+														font-size: {{bs2.top_title_size}}px;
+													}
+												}
+											</style>
+										</div>
+
+									{% when 'quote' %}
+										<div class="inner-container {{b2.type}}-block ">
+											{% if bs2.title != blank  %}
+												<header class="section-title">
+													<h2>{{bs2.title}}</h2>
+												</header>
+											{% endif %}
+											{% if bs2.text != blank %}
+												<div class="rte">
+													{% include 'icon-quote' %}
+													{{bs2.text}}
+												</div>
+											{% endif %}
+											{% if bs2.btn_txt != blank and bs2.btn_url != blank %}
+												<a class="btn " href="{{bs2.btn_url}}">{{bs2.btn_txt}}</a>
+											{% endif %}
+											<style type="text/css">
+												@media screen and (min-width:750px) {
+													{{cssClass}} .quote-block h2 {
+														font-size: {{bs2.text_size}}px !important;
+													}
+												}
+												{% assign custom = bs2.custom_html | raw %}
+												{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+												{{cssLoop}}
+											</style>
+										</div>
+
+									{% when 'content' %}
+										<div class="inner-container {{b2.type}}-block ">
+
+											<div class="rte">
+												{{collection.description}}
+											</div>
+											<style type="text/css">
+												{% assign custom = bs2.custom_html | raw %}
+												{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+												{{cssLoop}}
+
+
+											</style>
+										</div>
+
+									{% when 'text' %}
+										<div class="inner-container {{b2.type}}-block ">
+											{% if bs2.title != blank  %}
+												<header class="section-title">
+													<h2>{{bs2.title}}</h2>
+												</header>
+											{% endif %}
+											{% if bs2.text != blank %}
+												<div class="rte">{{bs2.text}}</div>
+											{% endif %}
+											{% if bs2.btn_txt != blank and bs2.btn_url != blank %}
+												<a class="btn " href="{{bs2.btn_url}}">{{bs2.btn_txt}}</a>
+											{% endif %}
+											<style type="text/css">
+												@media screen and (min-width:750px) {
+													{{cssClass}} .text-block h2 {
+														font-size: {{bs2.text_size}}px !important;
+													}
+													{% if bs2.rte_text_size %}
+													{{cssClass}} .text-block .rte {
+														font-size: {{bs2.rte_text_size}}px !important;
+													}
+													{% endif %}
+												}
+												{% assign custom = bs2.custom_html | raw %}
+												{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+												{{cssLoop}}
+											</style>
+										</div>
+
+									{% when 'image' %}
+										<div class="inner-container {{b2.type}}-block">
+											{% assign bg_image = bs2.top_image %}
+											{% assign gif_image = bs2.bottom_image %}
+
+											<div class="bg_image main-image lazyload animate js"
+												 style="background-image: url('{{ bg_image | img_url: 'master' }});">
+											</div>
+											{% if gif_image != blank %}
+											<div class="bg_image underlay-image lazyload animate js"
+												 style="background-image: url('{{ gif_image | img_url: 'master' }});">
+											</div>
+											{% endif %}
+											<style type="text/css">
+												{{cssClass}} .inner-container {
+													/* height: {{bs2.height}}px !important; */
+												}
+												{{cssClass}} .inner-container .bg_image {
+													padding-top: {{bs2.height}}px !important;
+												}
+												{% assign custom = bs2.custom_html | raw %}
+												{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+												{{cssLoop}}
+											</style>
+											<script type="text/javascript">
+												$(document).ready(function () {
+													imageHeightMatcher({
+														par: '{{cssClass}}'
+													})
+												})
+
+											</script>
+										</div>
+
+									{% when 'hero' %}
+										<div class=" {{b2.type}}-block">
+											{% if bs2.use_bg == true %}
+												<div class="bg_image animate" title="{{ bs2.image.alt | default: bs2.title }}">
+													<div class=" max-width">
+														{% if bs2.title != blank or bs2.subtitle != blank %}
+															<div class="{% if bs2.diamond == false %}center-content {{bs2.hor_align}}-align{% else %}diamond{% endif %}">
+																<h2>{{bs2.title}}</h2>
+																<h4>{{bs2.top_title}}</h4>
+
+																{% if bs2.btn_url != blank and bs2.btn_txt != blank %}
+																	<a class="btn" href="{{bs2.btn_url}}">{{bs2.btn_txt}}</a>
+																{% endif %}
+															</div>
+														{% endif %}
+													</div>
+												</div>
+
+
+									            <script type="text/javascript">
+													$(document).ready(function() {
+												        // on Load
+												        setTimeout(function(){
+												            changeOnResize{{b2.id}}();
+												        }, 500);
+
+												        // On Window Resize Event
+												        $(window).resize(function() {
+												            changeOnResize{{b2.id}}();
+												        });
+													});
+													function changeOnResize{{b2.id}}(){
+													    content{{b2.id}} = '.{{blockClass}} .diamond';
+												        container{{b2.id}} = '.{{blockClass}} .bg_image';
+												        plus{{b2.id}} = 100;
+												        $contentHeight{{b2.id}} = $(content{{b2.id}}).outerHeight() + plus{{b2.id}};
+												        $containerHeight{{b2.id}} = $(container{{b2.id}}).outerHeight();
+													    if ($contentHeight{{b2.id}} >= $containerHeight{{b2.id}}) {
+														    $(container{{b2.id}}).css('min-height', $contentHeight{{b2.id}});
+														}
+													}
+												</script>
+
+
+
+												{% assign bgImg = bs2.image %}
+												{% assign bgImgMob = bgImg %}
+												{% if bs2.image_mob != blank %}
+													{% assign bgImgMob = bs2.image_mob %}
+												{% endif %}
+												<style type="text/css">
+													{{cssClass}} h2,
+													{{cssClass}} h4 {
+														color: {{bs2.txt_color}};
+													}
+													{{cssClass}} .bg_image::after {
+														background: {{bs2.bg_color}};
+														opacity: {{ bs2.opacity | times: 0.01 }};
+													}
+													{{cssClass}} .bg_image {
+														background-image: url({{bgImg | img_url: 'master' }});
+														height: {{bs2.height}}px;
+													}
+													@media screen and (max-width:767px) {
+													{{cssClass}} .bg_image {
+														background-image: url({{bgImgMob | img_url: 'grande' }});
+													}
+													}
+
+													{% assign custom = bs2.custom_html | raw %}
+													{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+													{{cssLoop}}
+												</style>
+											{% else %}
+												{% assign mob_image = false %}
+												{% if bs2.image_mob != blank %}{% assign mob_image = true %}{% endif %}
+												<img class="{% if mob_image == true %}small--hide{% endif %}" src="{{bs2.image | img_url: 'master' }}" alt="{{ bs2.image.alt | default: 'Hero Image' }}">
+												{% if mob_image == true %}
+													<img class="medium-up--hide" src="{{bs2.image_mob | img_url: 'grande' }}" alt="{{ bs2.image_mobs2.alt | default: 'Hero Image' }}">
+												{% endif %}
+
+											{% endif %}
+										</div>
+
+									{% when 'spacer' %}
+										<div class="{{b2.type}}-block ">
+											<style type="text/css">
+												{{cssClass}} .{{b2.type}}-block {
+													height: {{bs2.height}}px;
+												}
+											</style>
+										</div>
+
+									{% when 'mini-slider' %}
+										<div class="{{b2.type}}-block ">
+											<div class="slider">
+												{% assign slideNum = 0 %}
+												{% for block in section.blocks %}
+													{% assign b3 = b2.settings %}
+													{% if b2.type == 'slide' %}
+														{% assign slideNum = slideNum | plus: 1 %}
+														<div class="slide-{{slideNum}} ">
+															{% if b3.title != blank %}
+																<h3>{{b3.title}}</h3>
+															{% endif %}
+															{% if b3.text != blank %}
+																<div class="rte">{{b3.text}}</div>
+															{% endif %}
+														</div>
+													{% endif %}
+												{% endfor %}
+											</div>
+
+											<script type="text/javascript">
+												$(document).ready(function () {
+													$('.{{blockClass}} .slider').slick({
+													  	infinite: true,
+													  	autoplay: true,
+													  	autoplaySpeed: 5000,
+													  	arrows: false,
+													  	dots: true,
+  														adaptiveHeight: false
+													});
+												})
+											</script>
+
+											<style type="text/css">
+												{% assign custom = bs2.custom_html | raw %}
+												{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+												{{cssLoop}}
+
+											</style>
+										</div>
+
+								{% endcase %}
+								{% if mh != blank %}
+									<script type="text/javascript">
+										$(document).ready(function () {
+											matchHeight( $('[{{mh}}]') )
+										})
+									</script>
+								{% endif %}
+							</div>
+						{% endif %}  	{% comment %} End of group checker{% endcomment %}
+						{% endfor %}  	{% comment %} End of block {% endcomment %}
+					</div>  			{% comment %} End of grid group {% endcomment %}
+
+				</div>  				{% comment %} End of page width selector {% endcomment %}
+			</div>						{% comment %} End of group container {% endcomment %}
+
+		{% endif %}
+	{% endfor %}
+
+</div>

@@ -1,0 +1,172 @@
+<!-- sections/featured-blocks -->
+
+{% assign s = section.settings %}
+{% capture class %}section{{section.id}}{{template.handle}}{% endcapture %}
+
+{% assign itmCSSs = '' %}
+{% assign custom = s.custom_html | raw %}
+{% assign classCSS = class | prepend: '.' %}
+{% assign cssLoop = custom | replace: '==', classCSS | replace: ';', ' !important;' %}
+
+{% case section.blocks.size %}
+    {% when 1 %}{%- assign width = '' -%}
+    {% when 2 %}{%- assign width = 'large-up--one-half' -%}
+    {% when 4 or 7 or 8 %}{%- assign width = 'medium--one-half large-up--one-quarter' -%}
+    {% else %}{%- assign width = 'large-up--one-third' -%}
+{% endcase %}
+
+<div class="featured-blocks {{class}}">
+	<div class="{% if s.max-width == true%}page-width{% endif %}">
+		{% if s.title != blank %}
+			<div class="section-title">
+				<h2>{{s.title}}</h2>
+			</div>
+		{% endif %}
+		<div class="grid">
+			{% for block in section.blocks %}
+				{% assign b = block.settings %}
+				{% assign el = 'div' %}
+				{% assign attr = '' %}
+				{% if b.url != blank %}
+					{% assign el = 'a' %}
+					{% capture attr %} href="{{b.url}}" {% endcapture %}
+				{% endif %}
+				<div class="grid__item {{width}}">
+					<{{el}} {{attr}} class="block-item img{{forloop.index}}">
+                        <div 
+                            class="bg_image lazyload"
+                            data-bgset="{% include 'bgset', image: b.image %}"
+                            data-sizes="auto"
+                            data-parent-fit="cover">
+    						<div class="text-overlay">
+    							<div class="overlay-text" tabindex="0">{{-b.text-}}</div>
+    						</div>
+                        </div>
+						<div class="text-title">
+							{{-b.title-}}
+						</div>
+					</{{el}}>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<style type="text/css">
+        {{classCSS}} .block-item .text-title {
+            color: {{s.txt_color}};
+            background-color: {{s.bg_color}};
+        }
+        {{classCSS}} .block-item:hover .text-title {
+            color: {{s.txt_hov_color}};
+            background-color: {{s.bg_hov_color}};
+        }
+        {{classCSS}} .block-item:hover .text-overlay {
+            color: {{s.txt_hov_color}};
+            background: {{s.bg_hov_color|color_modify:'alpha',0.9}};
+        }
+        /* Custom CSS */
+        {{cssLoop}}
+    </style>
+</div>
+
+{% schema %}
+{
+    "name": "Featured Blocks",
+  	"class": "index-section index-section--flush",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Section Title"
+        },
+         {
+            "type": "checkbox",
+            "id": "max-width",
+            "label": "Set Max Width",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "txt_color",
+            "label": "Bar Text Color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Bar Background Color",
+            "default": "#BF634B"
+        },
+        {
+            "type": "color",
+            "id": "txt_hov_color",
+            "label": "Bar Hover Text Color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "color",
+            "id": "bg_hov_color",
+            "label": "Bar Hover Background Color",
+            "default": "#272322"
+        },
+        {
+            "type":"header",
+            "content": "Custom CSS Rules"
+        },
+        {
+            "type":"paragraph",
+            "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+        },
+        {
+            "type":"paragraph",
+            "content": "The example below applies font size to only the h2 element in the current block's container."
+        },
+        {
+            "type":"paragraph",
+            "content": "'== h2 { font-size: 20px; } '"
+        },
+        {
+            "type": "html",
+            "id": "custom_html",
+            "label": "Custom CSS"
+        }
+    ],
+    "max_blocks": 8,
+    "blocks": [
+        {
+            "type": "block",
+            "name": "Block",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "Some Title"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text",
+                    "label": "text",
+                    "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Url (optional)"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Featured Blocks",
+			"category": "Promotional"
+		}
+	]
+}
+{% endschema %}
+

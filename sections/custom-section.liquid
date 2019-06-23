@@ -1,0 +1,2752 @@
+<!-- sections/blocks -->
+
+{% include 'page-builder' %}
+
+{% schema %}
+{
+    "name": "Ultimate Customizer",
+  	"class": "index-section index-section--flush",
+    "settings": [
+
+    ],
+    "blocks": [
+        {
+            "type": "group",
+            "name": "Group",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Group Title"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "page_width",
+                    "label": "Set Group at Site Standard width",
+                    "default": false
+                },
+                {
+                    "type": "text",
+                    "id": "page_width_max",
+                    "label": "Set Group at Custom width",
+                    "info": "Set max pixel width, number only."
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        },
+        {
+            "type": "content",
+            "name": "Content",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type":   "range",
+                    "id":     "height",
+                    "min":       20,
+                    "max":       900,
+                    "step":      20,
+                    "label":     "Section min-height (on Desktop)",
+                    "default":   400
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "name": "Header",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "text",
+                    "id": "top_title",
+                    "label": "Top Title"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "align_center",
+                    "label": "Text Center",
+                    "default": false
+                },
+                {
+                    "type":   "range",
+                    "id":     "title_size",
+                    "min":       20,
+                    "max":       200,
+                    "step":      2,
+                    "label":     "Title Font Size (on desktop)",
+                    "default":   160
+                },
+                {
+                    "type":   "range",
+                    "id":     "top_title_size",
+                    "min":       20,
+                    "max":       200,
+                    "step":      2,
+                    "label":     "Top Title Font Size (on desktop)",
+                    "default":   28
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "name": "Text",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text",
+                    "label": "Text"
+                },
+                {
+                    "type": "text",
+                    "id": "btn_txt",
+                    "label": "Button Text"
+                },
+                {
+                    "type": "url",
+                    "id": "btn_url",
+                    "label": "Button URL"
+                },
+                {
+                    "type":   "range",
+                    "id":     "text_size",
+                    "min":       12,
+                    "max":       60,
+                    "step":      1,
+                    "label":     "Title Font Size (on desktop)",
+                    "default":   18
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        },
+        {
+            "type": "list",
+            "name": "List",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+
+                {
+                    "type": "text",
+                    "id": "title_1",
+                    "label": "Title 1"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text_1",
+                    "label": "Text 1"
+                },
+                {
+                    "type": "text",
+                    "id": "title_2",
+                    "label": "Title 2"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text_2",
+                    "label": "Text 2"
+                },
+                {
+                    "type": "text",
+                    "id": "title_3",
+                    "label": "Title 3"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text_3",
+                    "label": "Text 3"
+                },
+                {
+                    "type": "text",
+                    "id": "title_4",
+                    "label": "Title 4"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text_4",
+                    "label": "Text 4"
+                },
+                
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        },
+        {
+            "type": "image",
+            "name": "Image",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+                {
+                    "type": "image_picker",
+                    "id": "top_image",
+                    "label": "Top Image"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "use_inline",
+                    "label": "Use inline image",
+                    "info": "Min-Height below will have no effect if this is set to true.",
+                    "default": false
+                },
+                {
+                    "type":   "range",
+                    "id":     "height",
+                    "min":       20,
+                    "max":       900,
+                    "step":      20,
+                    "label":     "Section min-height (on Desktop)",
+                    "default":   400
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        },
+        {
+            "type": "video",
+            "name": "Video",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+                {
+                    "type": "video_url",
+                    "id": "video_url",
+                    "label": "Video url",
+                    "accept": [
+                        "youtube",
+                        "vimeo"
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "video_hosted",
+                    "label": "Video url if hosted"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "autoplay",
+                    "label": "Make video Autoplay",
+                    "info": "This will make the video silent, too. Autoplay and Sound is not allowed by Web Standards",
+                    "default": false
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        },
+        {
+            "type": "spacer",
+            "name": "Spacer",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+                {
+                    "type":   "range",
+                    "id":     "height",
+                    "min":       10,
+                    "max":       200,
+                    "step":      2,
+                    "label":     "Spacer height",
+                    "default":   50
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "hero",
+            "name": "Hero",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "group_num",
+                    "label": "Group Name"
+                },
+                {
+                    "type": "select",
+                    "id": "width_large",
+                    "label": "Large Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_medium",
+                    "label": "Medium Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "id": "width_small",
+                    "label": "Small Width",
+                    "default": "100%",
+                    "options": [
+                        {
+                            "value": "8%",
+                            "label": "8% (1/12)"
+                        },
+                        {
+                            "value": "10%",
+                            "label": "10% (1/10)"
+                        },
+                        {
+                            "value": "16%",
+                            "label": "16% (2/12)"
+                        },
+                        {
+                            "value": "20%",
+                            "label": "20% (2/10)"
+                        },
+                        {
+                            "value": "25%",
+                            "label": "25% (3/12)"
+                        },
+                        {
+                            "value": "30%",
+                            "label": "30% (3/10)"
+                        },
+                        {
+                            "value": "33%",
+                            "label": "33% (4/12)"
+                        },
+                        {
+                            "value": "40%",
+                            "label": "40% (4/10)"
+                        },
+                        {
+                            "value": "41%",
+                            "label": "41% (5/12)"
+                        },
+                        {
+                            "value": "50%",
+                            "label": "50% (6/12)"
+                        },
+                        {
+                            "value": "58%",
+                            "label": "58% (7/12)"
+                        },
+                        {
+                            "value": "60%",
+                            "label": "60% (6/10)"
+                        },
+                        {
+                            "value": "66%",
+                            "label": "66% (8/12)"
+                        },
+                        {
+                            "value": "70%",
+                            "label": "70% (7/10)"
+                        },
+                        {
+                            "value": "75%",
+                            "label": "75% (9/12)"
+                        },
+                        {
+                            "value": "80%",
+                            "label": "80% (8/10)"
+                        },
+                        {
+                            "value": "83%",
+                            "label": "83% (10/12)"
+                        },
+                        {
+                            "value": "90%",
+                            "label": "90% (9/10)"
+                        },
+                        {
+                            "value": "91%",
+                            "label": "91% (11/12)"
+                        },
+                        {
+                            "value": "100%",
+                            "label": "100%"
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_mob",
+                    "label": "Hide Mobile",
+                    "default": false
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hide_desk",
+                    "label": "Hide Desktop",
+                    "default": false
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image_mob",
+                    "label": "Mobile Image (optional)"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "use_bg",
+                    "label": "Use Background Image",
+                    "default": false,
+                    "info":"Checking this box turns on the options below"
+                },
+                {
+                    "type": "header",
+                    "content": "When Background Image"
+                },
+                {
+                    "type":   "range",
+                    "id":     "height",
+                    "min":       200,
+                    "max":       1200,
+                    "step":      20,
+                    "label":     "Image height (when Background)",
+                    "default":   400
+                },
+                {
+                    "type": "select",
+                    "id": "hor_align",
+                    "label": "Content Alignment",
+                    "default": "left",
+                    "options": [
+                        {
+                            "value": "cente",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ]
+                },
+                {
+                    "type": "image_picker",
+                    "id": "title-image",
+                    "label": "Headline Image"
+                },
+                {
+                    "type": "textarea",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "textarea",
+                    "id": "subtitle",
+                    "label": "Subtitle"
+                },
+                {
+                    "type": "video_url",
+                    "id": "video",
+                    "label": "Video Url",
+                    "accept": [
+                        "youtube",
+                        "vimeo"
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "video_hosted",
+                    "label": "Video Url (if hosted in files)"
+                },
+                {
+                    "type": "text",
+                    "id": "btn_txt",
+                    "label": "Button Text",
+                    "default": "Explore Collections"
+                },
+                {
+                    "type": "url",
+                    "id": "btn_url",
+                    "label": "Button Url"
+                },
+                {
+                    "type": "color",
+                    "id": "bg_color",
+                    "label": "Background Color",
+                    "default":"#000000"
+                },
+                {
+                    "type": "color",
+                    "id": "txt_color",
+                    "label": "Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":   "range",
+                    "id":     "opacity",
+                    "min":       0,
+                    "max":       100,
+                    "step":      1,
+                    "label":     "Background Opacity",
+                    "default":   40
+                },
+                {
+                    "type":"header",
+                    "content": "Custom CSS Rules"
+                },
+                {
+                    "type":"paragraph",
+                    "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "The example below applies font size to only the h2 element in the current block's container."
+                },
+                {
+                    "type":"paragraph",
+                    "content": "'== h2 { font-size: 20px; } '"
+                },
+                {
+                    "type": "html",
+                    "id": "custom_html",
+                    "label": "Custom CSS"
+                }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "Ultimate Customizer",
+			"category": "Advanced layout"
+		}
+	]
+}
+{% endschema %}

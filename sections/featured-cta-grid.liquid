@@ -1,0 +1,883 @@
+<!-- sections/featured-cta-grid -->
+
+{% assign s = section.settings %}
+{% capture class %}section_{{section.id}}{{template.handle}}{% endcapture %}
+
+{% assign itmCSSs = '' %}
+{% assign itmJSs = '' %}
+{% assign custom = s.custom_html | raw %}
+{% assign classCSS = class | prepend: '.' %}
+{% assign cssLoop = custom | replace: '==', classCSS | replace: ';', ' !important;' %}
+
+{% case section.blocks.size %}
+    {% when 1 %}{%- assign width = '' -%}
+    {% when 2 %}{%- assign width = 'large-up--one-half' -%}
+    {% when 4 or 7 or 8 %}{%- assign width = 'medium--one-half large-up--one-quarter' -%}
+    {% else %}{%- assign width = 'large-up--one-third' -%}
+{% endcase %}
+
+<div class="featured-cta-grid {{class}}">
+	<div class="{% if s.max-width == true%}page-width{% endif %}">
+		{% if s.title != blank %}
+			<div class="section-title">
+				<h2>{{s.title}}</h2>
+			</div>
+		{% endif %}
+		<div class="grid grid_no_gutter vert-middle">
+			{% for block in section.blocks %}
+				{% assign b = block.settings %}
+				{% assign b_id = block.id %}
+				{% assign itmCSS = '' %}
+				{% assign itmJS = '' %}
+				{% capture class_inner  %}item{{b_id}}{% endcapture%}
+				{% assign el = 'div' %}
+				{% assign attr = '' %}
+				{% if b.url != blank %}
+					{% assign el = 'a' %}
+					{% capture attr %} href="{{b.url}}" {% endcapture %}
+				{% endif %}
+				{% assign custom_inner = b.custom_html | raw %}
+				{% assign classCSS_inner = class_inner | prepend: '.' %}
+				{% assign cssLoop_inner = custom_inner | replace: '==', classCSS_inner | replace: ';', ' !important;' %}
+
+				{% 	
+					include 'width-creator',
+					hide_mob: b.hide_mob,
+					hide_tab: b.hide_tab,
+					hide_desk: b.hide_desk,
+					width_small: b.width_small,
+					width_medium: b.width_medium,
+					width_large: b.width_large
+				%}
+
+				<div class="grid__item {{-grid_widths-}} {{class_inner}}">
+					<{{el}} {{attr}} class="block {{block.type}}-item item{{forloop.index}}" mh-{{class}}>
+						
+						{% if b.title != blank or b.text != blank %}	
+							<div class="center-content text-center">
+								{% if b.title != blank %}
+									<div class="section-title">
+										<h2>{{-b.title-}}</h2>
+									</div>
+								{% endif %}
+								{% if b.text != blank %}
+									<div class="text">{{-b.text-}}</div>
+								{% endif %}
+								
+								{% capture itmJS %}
+									centerContentResizer({
+										par: '.{{class_inner}} .item{{forloop.index}}',
+										chld: '.{{class_inner}} .item{{forloop.index}} .center-content',
+										hght: {{s.min_height_padding}},
+										type: 'height'
+									});
+								{% endcapture %}
+									
+								{% if b.txt_color != blank or b.bg_color != blank or cssLoop_inner != blank %}
+									{% capture itmCSS %}
+									{% if b.txt_color != blank %}
+									.item{{forloop.index}} .text * {
+										color: {{b.txt_color}};
+									}
+									.item{{forloop.index}} .section-title h2 {
+										color: {{b.txt_color}};
+									}
+									.item{{forloop.index}} .section-title h2::after {
+										background-color: {{b.txt_color}};
+									}
+									{% endif %}
+									{% if b.bg_color != blank %}
+									.item{{forloop.index}} {
+										background-color: {{b.bg_color}};
+									}
+									{% endif %}
+									{% if cssLoop_inner != blank %}
+										/* {{classCSS_inner}} */
+										{{cssLoop_inner}}
+									{% endif %}
+									{% endcapture %}
+								{% endif %}
+							</div>
+						{% endif %}
+
+						{% assign two_imgs = '' %}
+						{% if b.image != blank and b.image_2 != blank %}
+							{% assign two_imgs = 'double_image' %}
+						{% endif %}
+						{% if b.image != blank %}
+							<div 
+								class="bg_image {{two_imgs}} lazyload"
+								data-bgset="{% include 'bgset', image: b.image %}"
+								data-sizes="auto"
+	 							data-parent-fit="cover">
+	 						</div>
+						{% endif %}
+
+						{% if b.image_2 != blank %}
+							<div 
+								class="bg_image {{two_imgs}} lazyload"
+								data-bgset="{% include 'bgset', image: b.image_2 %}"
+								data-sizes="auto"
+	 							data-parent-fit="cover">
+	 						</div>
+						{% endif %}
+
+					</{{el}}>
+				</div>
+				{% assign itmJSs = itmJSs | append: itmJS %}
+				{% assign itmCSSs = itmCSSs | append: itmCSS %}
+			{% endfor %}
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// Item JS
+			{{itmJSs}}
+			// Section JS
+			matchHeight('[mh-{{class}}]');
+		})
+	</script>
+	<style type="text/css">
+		/* Item CSS */
+		{{itmCSSs}}
+        /* Custom CSS */
+        {{cssLoop}}
+        /* Row Heights */
+        .{{classCSS}} .block,
+        .{{classCSS}} .block .bg_image {
+        	min-height: {{s.min_height_desktop}}px;
+        }
+        .{{classCSS}} .block .bg_image.double_height {
+        	min-height: {{s.min_height_desktop|divided_by:2}}px;
+        }
+        @media screen and (max-width: 749px) {
+        	.{{classCSS}} .block,
+	        .{{classCSS}} .block .bg_image {
+	        	min-height: {{s.min_height_mobile}}px;
+	        }
+	        .{{classCSS}} .block .bg_image.double_height {
+	        	min-height: {{s.min_height_mobile|divided_by:2}}px;
+	        }
+        }
+    </style>
+</div>
+
+{% schema %}
+{
+    "name": "CTA Grid",
+  	"class": "index-section index-section--flush",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Section Title"
+        },
+        {
+            "type": "checkbox",
+            "id": "max-width",
+            "label": "Set Max Width",
+            "default": true
+        },
+        {
+            "type":"header",
+            "content": "Height Settings"
+        },
+        {
+		    "type":   	"range",
+		    "id":     	"min_height_desktop",
+		    "min":       300,
+		    "max":       900,
+		    "step":		 10,
+		    "label":     "Minimum Row Height on Desktop",
+		    "default":   500
+		},
+		{
+		    "type":   	"range",
+		    "id":     	"min_height_mobile",
+		    "min":       100,
+		    "max":       800,
+		    "step":		 10,
+		    "label":     "Minimum Row Height on Mobile",
+		    "default":   300
+		},
+		{
+		    "type":   	"range",
+		    "id":     	"min_height_padding",
+		    "min":       0,
+		    "max":       400,
+		    "step":		 10,
+		    "label":     "Padding around text content.",
+		    "default":   150
+		},
+        {
+            "type":"header",
+            "content": "Custom CSS Rules"
+        },
+        {
+            "type":"paragraph",
+            "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+        },
+        {
+            "type":"paragraph",
+            "content": "The example below applies font size to only the h2 element in the current block's container."
+        },
+        {
+            "type":"paragraph",
+            "content": "'== h2 { font-size: 20px; } '"
+        },
+        {
+            "type": "html",
+            "id": "custom_html",
+            "label": "Custom CSS"
+        }
+    ],
+    "max_blocks": 8,
+    "blocks": [
+        {
+            "type": "text",
+            "name": "Text",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "Some Title"
+                },
+                {
+                    "type": "richtext",
+                    "id": "text",
+                    "label": "text",
+                    "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Url (optional)"
+                },
+                {
+		            "type": "color",
+		            "id": "txt_color",
+		            "label": "Text Color",
+		            "default": "#ffffff"
+		        },
+		        {
+		            "type": "color",
+		            "id": "bg_color",
+		            "label": "Background Color",
+		            "default": "#517887"
+		        },
+                {
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
+				    "type": "select",
+				    "id": "width_large",
+				    "label": "Desktop Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_medium",
+				    "label": "Tablet Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_small",
+				    "label": "Mobile Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+		        {
+		            "type": "html",
+		            "id": "custom_html",
+		            "label": "Custom CSS"
+		        }
+            ]
+        },
+        {
+            "type": "image",
+            "name": "Image",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                 {
+                    "type": "image_picker",
+                    "id": "image_2",
+                    "label": "Image 2"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Url (optional)"
+                },
+                {
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
+				    "type": "select",
+				    "id": "width_large",
+				    "label": "Desktop Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_medium",
+				    "label": "Tablet Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_small",
+				    "label": "Mobile Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+		            "type": "html",
+		            "id": "custom_html",
+		            "label": "Custom CSS"
+		        }
+            ]
+        }
+    ],
+	"presets": [
+		{
+			"name": "CTA Grid",
+			"category": "Promotional"
+		}
+	]
+}
+{% endschema %}
+

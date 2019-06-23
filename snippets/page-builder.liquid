@@ -1,0 +1,610 @@
+<!-- snippet/page-builder -->
+
+{% assign s = section.settings %}
+{% comment %}{% assign masterClass = 'page-builder-container' %}{% endcomment %}
+{% capture masterClass %}section{{section.id}}{{template.handle}}{% endcapture %}
+
+<div class="page-builder-container {{masterClass}}">
+    {% for block in section.blocks %}
+        {% assign b = block.settings %}
+        {% if block.type == 'group' %}
+            {% assign loop = forloop.index %}
+            {% assign loop = b.title | handleize %}
+            {% capture contClass %}container{{block.id}}{% endcapture %}
+
+
+            <div class=" {{contClass}}">
+	            {% if b.page_width == true %}
+	            <div class="page-width">
+	            {% elsif b.page_width_max != blank %}
+	            <div class="page-width" style="max-width: {{ b.page_width_max }}px">
+	            {% else %}
+	            <div>
+	            {% endif %}
+	                {% if b.custom_html != blank %}
+	                    <style type="text/css">
+	                        {% assign custom = b.custom_html | raw %}
+	                        {% assign contClassCSS = contClass | prepend: '.' %}
+	                        {% assign cssLoop = custom | replace: '==', contClassCSS | replace: ';', ' !important;' %}
+
+	                        {{cssLoop}}
+	                    </style>
+	                {% endif %}
+
+	                <div class="grid">
+	                    {% for block in section.blocks %}
+	                    {% assign b = block.settings %}
+	                    {% assign b_id = block.id | replace: '-','' %}
+	                    {% assign groupNum = b.group_num | plus: 0 %}
+	                    {% assign groupNum = b.group_num | handleize %}
+	                    {% if groupNum == loop %}
+	                        {% capture blockClass %}block{{block.id}}{% endcapture %}
+	                        {% capture cssClass %}.{{masterClass}} .block{{block.id}}{% endcapture %}
+	                        {% assign block_width = 'one-whole' %}
+	                        
+	                        {% case b.width_small %}{% when '8%' %}{%- assign small_width = 'small--one-twelfth' -%}{% when '10%' %}{%- assign small_width = 'small--one-tenth' -%}{% when '16%' %}{%- assign small_width = 'small--two-twelfths' -%}{% when '20%' %}{%- assign small_width = 'small--two-tenths' -%}{% when '25%' %}{%- assign small_width = 'small--three-twelfths' -%}{% when '30%' %}{%- assign small_width = 'small--three-tenths' -%}{% when '33%' %}{%- assign small_width = 'small--four-twelfths' -%}{% when '40%' %}{%- assign small_width = 'small--four-tenths' -%}{% when '41%' %}{%- assign small_width = 'small--five-twelfths' -%}{% when '50%' %}{%- assign small_width = 'small--one-half' -%}{% when '58%' %}{%- assign small_width = 'small--seven-twelfths' -%}{% when '60%' %}{%- assign small_width = 'small--six-tenths' -%}{% when '66%' %}{%- assign small_width = 'small--eight-twelfths' -%}{% when '70%' %}{%- assign small_width = 'small--seven-tenths' -%}{% when '75%' %}{%- assign small_width = 'small--nine-twelfths' -%}{% when '80%' %}{%- assign small_width = 'small--eight-tenths' -%}{% when '83%' %}{%- assign small_width = 'small--ten-twelfths' -%}{% when '90%' %}{%- assign small_width = 'small--nine-tenths' -%}{% when '91%' %}{%- assign small_width = 'small--eleven-twelfths' -%}{% else %}{%- assign small_width = 'small--one-whole' -%}{% endcase %}
+	                        {% case b.width_medium %}{% when '8%' %}{%- assign medium_width = 'medium--one-twelfth' -%}{% when '10%' %}{%- assign medium_width = 'medium--one-tenth' -%}{% when '16%' %}{%- assign medium_width = 'medium--two-twelfths' -%}{% when '20%' %}{%- assign medium_width = 'medium--two-tenths' -%}{% when '25%' %}{%- assign medium_width = 'medium--three-twelfths' -%}{% when '30%' %}{%- assign medium_width = 'medium--three-tenths' -%}{% when '33%' %}{%- assign medium_width = 'medium--four-twelfths' -%}{% when '40%' %}{%- assign medium_width = 'medium--four-tenths' -%}{% when '41%' %}{%- assign medium_width = 'medium--five-twelfths' -%}{% when '50%' %}{%- assign medium_width = 'medium--one-half' -%}{% when '58%' %}{%- assign medium_width = 'medium--seven-twelfths' -%}{% when '60%' %}{%- assign medium_width = 'medium--six-tenths' -%}{% when '66%' %}{%- assign medium_width = 'medium--eight-twelfths' -%}{% when '70%' %}{%- assign medium_width = 'medium--seven-tenths' -%}{% when '75%' %}{%- assign medium_width = 'medium--nine-twelfths' -%}{% when '80%' %}{%- assign medium_width = 'medium--eight-tenths' -%}{% when '83%' %}{%- assign medium_width = 'medium--ten-twelfths' -%}{% when '90%' %}{%- assign medium_width = 'medium--nine-tenths' -%}{% when '91%' %}{%- assign medium_width = 'medium--eleven-twelfths' -%}{% else %}{%- assign medium_width = 'medium--one-whole' -%}{% endcase %}
+	                        {% case b.width_large %}{% when '8%' %}{%- assign large_width = 'large-up--one-twelfth' -%}{% when '10%' %}{%- assign large_width = 'large-up--one-tenth' -%}{% when '16%' %}{%- assign large_width = 'large-up--two-twelfths' -%}{% when '20%' %}{%- assign large_width = 'large-up--two-tenths' -%}{% when '25%' %}{%- assign large_width = 'large-up--three-twelfths' -%}{% when '30%' %}{%- assign large_width = 'large-up--three-tenths' -%}{% when '33%' %}{%- assign large_width = 'large-up--four-twelfths' -%}{% when '40%' %}{%- assign large_width = 'large-up--four-tenths' -%}{% when '41%' %}{%- assign large_width = 'large-up--five-twelfths' -%}{% when '50%' %}{%- assign large_width = 'large-up--one-half' -%}{% when '58%' %}{%- assign large_width = 'large-up--seven-twelfths' -%}{% when '60%' %}{%- assign large_width = 'large-up--six-tenths' -%}{% when '66%' %}{%- assign large_width = 'large-up--eight-twelfths' -%}{% when '70%' %}{%- assign large_width = 'large-up--seven-tenths' -%}{% when '75%' %}{%- assign large_width = 'large-up--nine-twelfths' -%}{% when '80%' %}{%- assign large_width = 'large-up--eight-tenths' -%}{% when '83%' %}{%- assign large_width = 'large-up--ten-twelfths' -%}{% when '90%' %}{%- assign large_width = 'large-up--nine-tenths' -%}{% when '91%' %}{%- assign large_width = 'large-up--eleven-twelfths' -%}{% else %}{%- assign large_width = 'large-up--one-whole' -%}{% endcase %}
+	                        {% capture grid_widths %}
+	                            {{small_width}} {{medium_width}} {{large_width}}
+	                        {% endcapture %}
+
+
+	                        {% assign hide_mobile = '' %}
+	                        {% assign hide_desktop = '' %}
+	                        {% if b.hide_mob == true %}
+	                            {% assign hide_mobile = 'small--hide' %}
+	                        {% endif %}
+	                        {% if b.hide_desk == true %}
+	                            {% assign hide_desktop = 'medium-up--hide' %}
+	                        {% endif %}
+	                        <div class="grid__item {{grid_widths}} {{blockClass}} sm-start{{b_id}} {{hide_mobile}} {{hide_desktop}}">
+	                            {% case block.type %}
+
+	                                {% when 'header' %}
+	                                    <div id="{{b_id}}" class="{% comment %}inner-container{% endcomment %} {{block.type}}-block {% if b.align_center == true %}medium-up--text-center{% endif %}">
+	                                        {% if b.top_title != blank  %}
+	                                            <h3 class="animate">{{b.top_title}}</h3>
+	                                        {% endif %}
+	                                        {% if b.title != blank  %}
+	                                            <h2 class="title animate">{{b.title}}</h2>
+	                                        {% endif %}
+	                                        <style type="text/css">
+	                                            @media screen and (min-width:768px) {
+	                                                {{cssClass}} .header-block h2 {
+	                                                    font-size: {{b.title_size}}px;
+	                                                }
+	                                                {{cssClass}} .header-block h3 {
+	                                                    font-size: {{b.top_title_size}}px;
+	                                                }
+	                                            }
+	                                        </style>
+	                                    </div>
+
+	                                {% when 'content' %}
+	                                    <div id="{{b_id}}" class="inner-container {{block.type}}-block ">
+
+	                                        <div class="rte">
+	                                            {{page.content}}
+	                                        </div>
+	                                        <style type="text/css">
+	                                            {% assign custom = b.custom_html | raw %}
+	                                            {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                            {{cssLoop}}
+
+
+	                                        </style>
+	                                    </div>
+
+	                                {% when 'text' %}
+	                                    <div id="{{b_id}}" class="inner-container {{block.type}}-block ">
+	                                        {% if b.title != blank  %}
+	                                            <h2 class="title animate">{{b.title}}</h2>
+	                                        {% endif %}
+	                                        {% if b.text != blank %}
+	                                            <div class="rte">{{b.text}}</div>
+	                                        {% endif %}
+
+	                                        {% if b.btn_txt != blank and b.btn_url != blank %}
+	                                            <a class="btn btn--hexagon invert animate" href="{{b.btn_url}}">{{b.btn_txt}}</a>
+	                                        {% endif %}
+	                                        <style type="text/css">
+	                                            @media screen and (min-width:768px) {
+	                                                {{cssClass}} .text-block h2 {
+	                                                    font-size: {{b.text_size}}px !important;
+	                                                }
+	                                            }
+
+	                                            {% assign custom = b.custom_html | raw %}
+	                                            {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                            {{cssLoop}}
+
+
+	                                        </style>
+	                                    </div>
+
+	                                {% when 'list' %}
+	                                    <div id="{{b_id}}" class="inner-container {{block.type}}-block ">
+	                                        {% for i in (1..4) %}
+	                                            {% assign num = i | plus: 0 %}
+	                                            {% capture ttl %}{% capture item %}title_{{num}}{% endcapture %}{{b[item]}}{% endcapture %}
+	                                            {% capture txt %}{% capture item %}text_{{num}}{% endcapture %}{{b[item]}}{% endcapture %}
+	                                            {% if ttl != blank and txt != blank %}
+	                                                <div class="list-item">
+	                                                    <span class="title">{{ttl}}</span>
+	                                                    <span class="content">{{txt}}</span>
+	                                                </div>
+	                                            {% endif %}
+	                                        {% endfor %}
+
+	                                        <style type="text/css">
+
+	                                            {% assign custom = b.custom_html | raw %}
+	                                            {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                            {{cssLoop}}
+
+
+	                                        </style>
+	                                    </div>
+
+	                                {% when 'image' %}
+	                                    <div id="{{b_id}}" class="inner-container {{block.type}}-block">
+	                                        {% assign bg_image = b.top_image %}
+	                                        {% unless b.use_inline == true %}
+	                                            <div class="bg_image main-image lazyload animate js"
+	                                                 title="{{bg_image.alt}}"
+	                                                 style="background-image: url('{{ bg_image | img_url: 'master' }});">
+	                                            </div>
+	                                        {% else %}
+	                                            <img src="{{bg_image|img_url:'master'}}" alt="{{bg_image.alt}}">
+	                                        {% endunless %}
+
+	                                        <style type="text/css">
+	                                            {% unless b.use_inline == true %}
+	                                            {{cssClass}} .inner-container .bg_image {
+	                                                padding-top: {{b.height}}px !important;
+	                                            }
+	                                            {% endunless %}
+
+	                                            {% assign custom = b.custom_html | raw %}
+	                                            {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                            {{cssLoop}}
+	                                        </style>
+	                                    </div>
+
+	                                {% when 'video' %}
+	                                    {% assign video = '' %}
+	                                    {% assign v = b.video_url %}
+	                                    {% assign v_type = v.type%}
+	                                    {% assign v_hosted = false %}
+	                                    {% if b.video_hosted != blank %}
+	                                        {% assign v = b.video_hosted %}
+	                                        {% assign v_hosted = true %}
+	                                        {% assign v_type = 'video' %}
+	                                    {% endif %}
+	                                    {% capture video %}
+	                                        {% if v_hosted == true %}
+	                                            <video class="html-video full-width" width="800" height="480" id="video{{block.id}}" {% if autoplay == true %}autoplay muted loop{% endif %} src="{{b.video_hosted}}"></video>
+	                                        {% else  %}
+	                                            {% if v.type == "youtube" %}
+	                                                <iframe
+	                                                    class="iframe-video full-width"
+	                                                    src="https://www.youtube.com/embed/{{ v.id }}?{% if autoplay == true %}&autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&{% endif %}vq=hd720"
+	                                                    width="800"
+	                                                    height="480"
+	                                                    allow="autoplay"
+	                                                    frameborder="0"
+	                                                    allowfullscreen></iframe>
+	                                            {% elsif v.type == "vimeo" %}
+	                                                <iframe
+	                                                    class="iframe-video full-width"
+	                                                    id="vid{{block.id}}"
+	                                                    src="//player.vimeo.com/video/{{ v.id }}{% if autoplay == true %}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1{% endif %}"
+	                                                    width="800"
+	                                                    height="480"
+	                                                    frameborder="0"
+	                                                    webkitallowfullscreen
+	                                                    mozallowfullscreen
+	                                                    allowfullscreen></iframe>
+	                                            {% endif %}
+	                                        {% endif %}
+	                                    {% endcapture %}
+	                                    <div class="video-ratio">
+	                                        {{video}}
+	                                    </div>
+	                                    <style type="text/css">
+
+	                                        {% assign custom = b.custom_html | raw %}
+	                                        {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                        {{cssLoop}}
+	                                    </style>
+
+	                                {% when 'hero' %}
+	                                    <div class=" {{block.type}}-block" id="{{b_id}}">
+	                                        {% assign v = b.video %}
+	                                        {% assign v_hosted = false %}
+	                                        {% if b.video_hosted != blank %}
+	                                            {% assign v = b.video_hosted %}
+	                                            {% assign v_hosted = true %}
+	                                        {% endif %}
+	                                        {% capture video %}
+	                                            {% if v.type == "youtube" %}
+	                                                <iframe
+	                                                    class="iframe-video"
+	                                                    data-src="https://www.youtube.com/embed/{{ v.id }}?showinfo=0&controls=0&rel=1&version=3"
+	                                                    width="800"
+	                                                    height="480"
+	                                                    frameborder="0"
+	                                                            allow="autoplay"
+	                                                    allowfullscreen></iframe>
+	                                            {% endif %}
+	                                            {% if v.type == "vimeo" %}
+	                                                <iframe
+	                                                    class="iframe-video"
+	                                                    data-src="//player.vimeo.com/video/{{ v.id }}?autoplay=1&title=0&byline=0"
+	                                                    width="800"
+	                                                    height="480"
+	                                                    frameborder="0"
+	                                                            allow="autoplay"
+	                                                    allowfullscreen></iframe>
+	                                            {% endif %}
+	                                            {% if v_hosted == true %}
+	                                                <video class="html-video" width="800" height="480" id="video{{block.id}}" controls src="{{b.video_hosted}}"></video>
+	                                            {% endif %}
+	                                        {% endcapture %}
+	                                        {% if b.use_bg == true %}
+	                                            <div class="bg_image animate" title="{{ b.image.alt | default: b.title }}">
+	                                                <div class=" max-width">
+	                                                    {% if b.title != blank or b.subtitle != blank %}
+	                                                        <div class="center-content {{b.hor_align}}-align">
+	                                                            {% if b.title-image != blank %}
+	                                                                <img class="title-image" src="{{b.title-image|img_url:'master'}}" alt="{{b.title-image.alt|default:b.title}}">
+	                                                            {% endif %}
+	                                                            {% if b.title != blank and b.title-image == blank %}
+	                                                                <h2 class="animate">{{b.title}}</h2>
+	                                                            {% endif %}
+	                                                            {% if b.subtitle != blank %}
+	                                                                <h4 class="animate">{{b.subtitle}}</h4>
+	                                                            {% endif %}
+
+	                                                            {% if v != blank %}
+	                                                                <span data-open="video_{{ forloop.index }}" class="btn secondary open-modal">
+	                                                                    <span>Watch Video</span>
+	                                                                    {% include 'play-btn' %}
+	                                                                </span>
+	                                                            {% endif %}
+
+	                                                            {% if b.btn_url != blank and b.btn_txt != blank %}
+	                                                                <a class="btn" href="{{b.btn_url}}">{{b.btn_txt}}</a>
+	                                                            {% endif %}
+	                                                        </div>
+	                                                    {% endif %}
+	                                                </div>
+	                                            </div>
+	                                            {% if v != blank %}
+	                                                <div class="modal" id="video_{{ forloop.index }}">
+	                                                    <div class="overlay-close close-modal" data-close="video_{{ forloop.index }}"></div>
+	                                                    <div class="modal-inner">
+	                                                        <div class="video-ratio">
+	                                                            <span data-close="video_{{ forloop.index }}" class="close-modal">
+	                                                                <span class="visually-hidden">Close</span>
+	                                                                {% comment %}{% include 'icon-close' %}{% endcomment %}
+	                                                            </span>
+
+	                                                            {{video}}
+
+	                                                        </div>
+	                                                    </div>
+	                                                </div>
+
+	                                            {% endif %}
+
+	                                            <script type="text/javascript">
+	                                                $(document).ready(function() {
+	                                                    // on Load
+	                                                    setTimeout(function(){
+	                                                        changeOnResize{{block.id}}();
+	                                                    }, 500);
+
+	                                                    // On Window Resize Event
+	                                                    $(window).resize(function() {
+	                                                        changeOnResize{{block.id}}();
+	                                                    });
+	                                                });
+	                                                function changeOnResize{{block.id}}(){
+	                                                    content{{block.id}} = '.{{blockClass}} .center-content';
+	                                                    container{{block.id}} = '.{{blockClass}} .bg_image';
+	                                                    plus{{block.id}} = 100;
+	                                                    $contentHeight{{block.id}} = $(content{{block.id}}).outerHeight() + plus{{block.id}};
+	                                                    $containerHeight{{block.id}} = $(container{{block.id}}).outerHeight();
+	                                                    if ($contentHeight{{block.id}} >= $containerHeight{{block.id}}) {
+	                                                        $(container{{block.id}}).css('min-height', $contentHeight{{block.id}});
+	                                                    }
+	                                                }
+	                                            </script>
+
+
+
+	                                            {% assign bgImg = b.image %}
+	                                            {% assign bgImgMob = bgImg %}
+	                                            {% if b.image_mob != blank %}
+	                                                {% assign bgImgMob = b.image_mob %}
+	                                            {% endif %}
+	                                            <style type="text/css">
+	                                                {{cssClass}} h2,
+	                                                {{cssClass}} h4 {
+	                                                    color: {{b.txt_color}};
+	                                                }
+	                                                {{cssClass}} .bg_image::after {
+	                                                    background: {{b.bg_color}};
+	                                                    opacity: {{ b.opacity | times: 0.01 }};
+	                                                }
+	                                                {{cssClass}} .bg_image {
+	                                                    background-image: url({{bgImg | img_url: 'master' }});
+	                                                    height: {{b.height}}px;
+	                                                }
+	                                                @media screen and (max-width:767px) {
+	                                                {{cssClass}} .bg_image {
+	                                                    background-image: url({{bgImgMob | img_url: 'grande' }});
+	                                                }
+	                                                }
+
+	                                                {% assign custom = b.custom_html | raw %}
+	                                                {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                                {{cssLoop}}
+	                                            </style>
+	                                        {% else %}
+	                                            {% assign mob_image = false %}
+	                                            {% if b.image_mob != blank %}{% assign mob_image = true %}{% endif %}
+	                                            <img class="{% if mob_image == true %}small--hide{% endif %}" src="{{b.image | img_url: 'master' }}" alt="{{ b.image.alt | default: 'Hero Image' }}">
+	                                            {% if mob_image == true %}
+	                                                <img class="medium-up--hide" src="{{b.image_mob | img_url: 'grande' }}" alt="{{ b.image_mob.alt | default: 'Hero Image' }}">
+	                                            {% endif %}
+
+	                                        {% endif %}
+	                                    </div>
+
+	                                {% when 'product' %}
+	                                    {% assign product_count = product_count | plus: 1 %}
+	                                    <div class="inner-container {{block.type}}-block {{product_count|modulo:2|plus:1|pluralize:'reverse-section',''}}">
+	                                        {% assign product = all_products[b.product] %}
+	                                        {% assign mainImg = product.featured_image %}
+	                                        {% assign ttl = product.title %}
+	                                        {% assign desc = product.description %}
+	                                        {% assign price = product.price %}
+	                                        {% assign is_refill = b.is_refill %}
+
+	                                        {% assign refillProd = false %}
+	                                        {% if ttl contains 'Refill' or is_refill == true %}
+	                                            {% assign refillProd = true %}
+	                                        {% endif %}
+
+
+	                                        {% if b.main_image != blank %}
+	                                            {% assign mainImg = b.main_image %}
+	                                        {% endif %}
+	                                        {% comment %}{% assign mainImgTop = b.main_image_behind_top %}{% endcomment %}
+	                                        {% comment %}{% assign mainImgBot = b.main_image_behind_bottom %}{% endcomment %}
+	                                        {% if b.title != blank %}
+	                                            {% assign ttl = b.title %}
+	                                        {% endif %}
+	                                        {% if b.desc != blank %}
+	                                            {% assign desc = b.desc %}
+	                                        {% endif %}
+
+
+	                                        {% assign main_variant_id = product.variants[0].id %}
+	                                        {% assign scent = product.variants[0].title %}
+
+	                                        {% if refillProd == true %}
+	                                            {% assign loop_select = 1 %}
+	                                            {% assign img_select = 0 %}
+
+	                                            {% comment %}
+
+	                                                Please leave this code in case the setup is reverted again. - Austin
+
+	                                            {% endcomment %}
+	                                            {% comment %}{% case collection.handle %}
+	                                                {% when 'lagoon' %}
+	                                                    {% assign main_variant_id = product.variants[0].id %}
+	                                                    {% assign scent = product.variants[0].title %}
+	                                                    {% assign loop_select = 1 %}
+	                                                    {% assign img_select = 0 %}
+	                                                {% when 'plum' %}
+	                                                    {% assign main_variant_id = product.variants[1].id %}
+	                                                    {% assign scent = product.variants[1].title %}
+	                                                    {% assign loop_select = 1 %}
+	                                                    {% assign img_select = 0 %}
+	                                                {% when 'tangerine' %}
+	                                                    {% assign main_variant_id = product.variants[2].id %}
+	                                                    {% assign scent = product.variants[2].title %}
+	                                                    {% assign loop_select = 1 %}
+	                                                    {% assign img_select = 0 %}
+	                                            {% endcase %}{% endcomment %}
+	                                        {% else %}
+	                                            {% comment %}{% assign main_variant_id = product.variants[0].id %}{% endcomment %}
+	                                            {% comment %}{% assign scent = product.variants[0].title %}{% endcomment %}
+	                                            {% assign loop_select = 1 %}
+	                                            {% assign img_select = 1 %}
+	                                        {% endif %}
+
+
+	                                        {% comment %}{% assign loop_select = 1 %}{% endcomment %}
+	                                        {% comment %}{% assign img_select = 1 %}{% endcomment %}
+
+	                                        {% assign offset = 0 %} {% comment %} set to 0 to show Featured Image again {% endcomment %}
+	                                        {% assign limit =  4 %}
+	                                        {% if refillProd == true %}
+	                                            {% assign offset = img_select %} {% comment %} This offets to the correct image for the Refill Product {% endcomment %}
+	                                            {% assign limit = 2 %}
+	                                        {% endif %}
+
+
+
+	                                        <div class="max-width">
+	                                            <div class="box">
+	                                                <form action="/cart/add" data-productid="{{ product.id}}"  method="post" class="" >
+
+	                                                    <div class="bottom-carousel carousel images">
+	                                                        {% for image in product.images offset: offset limit: limit %}
+	                                                            {% unless forloop.index == 2 and refillProd != true %}
+	                                                                <div class="carousel-cell">
+	                                                                    <div class="bg_image main-image" style="background-image: url({{ image | img_url: 'grande' }});"></div>
+	                                                                </div>
+	                                                            {% endunless %}
+	                                                        {% endfor %}
+
+	                                                    </div>
+
+	                                                    <div class="low-form">
+	                                                        <h2>{{ttl}}</h2>
+	                                                        <h4>
+	                                                            <span
+	                                                                class="scent-description "
+	                                                                {% if scent == 'Default Title' %} style="opacity: 0;" {% endif %}>
+	                                                                {{scent}}
+	                                                            </span>
+	                                                        </h4>
+
+
+	                                                        <div class="rte">
+	                                                            {{desc}}
+	                                                        </div>
+
+	                                                        {{stars_open}}
+
+	                                                        <span class="price-block privy-price">
+	                                                            <label>price:</label>
+	                                                            <span class="price">{{price|money}}</span>
+	                                                        </span>
+
+	                                                        <div class="scent-select ">
+	                                                            {% for variant in product.variants %}
+	                                                                <span
+	                                                                    {% if product.variants.size < 2 or refillProd == true %} style="opacity: 0; pointer-events: none;" {% endif %}
+	                                                                    data-id="{{ main_variant_id }}"
+	                                                                    data-variant="{{variant.id}}"
+	                                                                    data-description="{{variant.title}}"
+	                                                                    class="scent-selector {% if forloop.index == loop_select %}selected{% endif %}">
+	                                                                    <div class="bg_image main-image" style="background-image: url({{variant.image|img_url:'large'}});"></div>
+	                                                                    <span class="visually-hidden hide">{{variant.title}}</span>
+	                                                                </span>
+	                                                            {% endfor %}
+	                                                        </div>
+
+	                                                        <input id="hiddenInput" type="hidden" value="{{ main_variant_id }}" name="id" data-productid="{{product.id}}"/>
+
+	                                                        <div class="quantity buttons_added" data-multiplier="1" >
+	                                                            <input type="button" value="-" class="minus">
+	                                                            <input type="number" min="1" name="quantity" value="1" class="input-text qty" size="4">
+	                                                            <input type="button" value="+" class="plus">
+	                                                        </div>
+
+	                                                        <div></div>
+	                                                        <button type="submit" disabled class="btn button form-submit {% unless mProduct.id == product.id %}starter-submit{% endunless %}">OUT OF STOCK</button>
+	                                                    </div>
+	                                                    {% unless product == empty %}
+	                                                        <script class="CollectionProductJson" type="application/json" id="ProductJson-{{ product.id }}">
+	                                                            {{ product | json }}
+	                                                        </script>
+	                                                    {% endunless %}
+	                                                </form>
+	                                            </div>
+	                                        </div>
+	                                        <style type="text/css">
+	                                            .{{blockClass}} .main-image {
+	                                                background-image: url({{mainImg|img_url:'master'}});
+	                                            }
+	                                            .{{blockClass}} .top-image {
+	                                                background-image: url({{mainImgTop|img_url:'master'}});
+	                                            }
+	                                            .{{blockClass}} .bot-image {
+	                                                background-image: url({{mainImgBot|img_url:'master'}});
+	                                            }
+	                                            @media screen and (max-width:767px) {
+	                                                .{{blockClass}} .main-image {
+	                                                    background-image: url({{mainImg|img_url:'grande'}});
+	                                                }
+	                                                .{{blockClass}} .top-image {
+	                                                    background-image: url({{mainImgTop|img_url:'grande'}});
+	                                                }
+	                                                .{{blockClass}} .bot-image {
+	                                                    background-image: url({{mainImgBot|img_url:'grande'}});
+	                                                }
+	                                            }
+
+
+	                                            {% assign custom = b.custom_html | raw %}
+	                                            {% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+
+	                                            {{cssLoop}}
+
+	                                        </style>
+
+	                                    </div>
+
+	                                {% when 'spacer' %}
+	                                    <div class="{{block.type}}-block ">
+	                                        <style type="text/css">
+	                                            {{cssClass}} .{{block.type}}-block {
+	                                                height: {{b.height}}px;
+	                                            }
+	                                        </style>
+	                                    </div>
+
+	                            {% endcase %}
+	                        </div>
+	                    {% endif %}     {% comment %} End of group checker{% endcomment %}
+	                    {% endfor %}    {% comment %} End of block {% endcomment %}
+	                </div>              {% comment %} End of grid group {% endcomment %}
+	            </div>                  {% comment %} End of page width selector {% endcomment %}
+	        </div>						{% comment %} End of group container {% endcomment %}
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+{% comment %}
+    Modal Trigger
+{% endcomment %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        var section = '.{{masterClass}}',
+            open = '.open-modal',
+            close = '.close-modal',
+            content = '.modal',
+            cont_active = 'active';
+        $(section+' '+open).click(function(){
+            var tab = $(this),
+                tab_id = tab.attr('data-open'),
+                cont = $("#"+tab_id),
+                video = cont.find('.iframe-video');
+            if (typeof video.attr('src') === 'undefined' || video.attr('src') === ''){
+                video.attr('src',video.data('src'));
+            }
+            cont.addClass(cont_active);
+        })
+        $(close).click(function(){
+            var tab = $(this),
+                tab_id = tab.attr('data-close'),
+                cont = $("#"+tab_id),
+                video = cont.find('.iframe-video');
+
+            video.data('src',video.attr('src'));
+            video.attr('src','');
+            cont.removeClass(cont_active);
+            // Resets the videos so they aren't playing the background
+            $(".iframe-video, .html-video").each(function() {
+                var src = $(this).attr('src');
+                $(this).attr('src', src);
+            });
+        })
+    })
+</script>

@@ -1,58 +1,111 @@
-<div class="page-width">
-  <div class="grid">
-    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
-      <div class="section-header text-center">
-        <h1>{{ page.title }}</h1>
-      </div>
+<div class="page-width contact-page--container">
+	<div class="grid">
+		<div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+			<div class="big-header text-center">
+				<h1>{{ page.title }}</h1>
+			</div>
 
-      {% if page.content.size > 0 %}
-        <div class="rte">
-          {{ page.content }}
-        </div>
-      {% endif %}
+			{% if page.content != blank %}
+				<div class="rte">
+					{{ page.content }}
+				</div>
+			{% endif %}
 
-      <div class="contact-form form-vertical">
-        {%- assign formId = 'ContactForm' -%}
-        {% form 'contact', id: formId %}
-          {% include 'form-status', form_id: formId %}
+			<div class="contact-form-container form-vertical">
+				{%- assign formId = 'ContactForm' -%}
+				{% form 'contact', id: formId %}
+					{% include 'form-status', form_id: formId %}
+				
+					<div class="grid vert-top">
+				        {% capture inputs %}
+				            medium-up--one-half,First_Name,text,First Name *||
+				            medium-up--one-half,Last_Name,text,Last Name *||
+				            medium-up--one-half,Email,email,Email *||
+				            medium-up--one-half,Phone,text,Phone Number *||
+				            medium-up--one-half,Reason_for_Contact,select~*What's your question about?NOSELECT:Branding:Corporate Events:Advertising:Weddings:Something Else!,What's your question about? *||
+				            one-whole,Message,textarea,Message
+				        {% endcapture %}
+				        {% assign inputs = inputs | split: '||' %}
+				        {% assign show_labels = false %}
+				        {% for i in inputs %}
+				            {% assign itm       = i | split: ',' %}
+				            {%- assign grid     = itm[0] | strip -%}
+				            {% assign id        = itm[1] | prepend: '-' | prepend: formId %}
+				            {% assign type      = itm[2] %}
+				            {% assign label     = itm[3] %}
+				            {%- capture name_label -%}{{-label|downcase|replace:' *',''|trim-}}{%- endcapture -%}
+				            {% if type == 'hr' %}
+				                {% capture item %}<hr />{% endcapture %}
+				            {% elsif type == 'text' %}
+				                {% capture item %}
+				                    <input type="text" name="contact[{{-name_label-}}]" id="{{id}}"  {% if show_labels == false %}placeholder="{{label}}"{% endif %} {% if label contains '*' %}required="required"{% endif %} />
+				                {% endcapture %}
+				            {% elsif type == 'email' %}
+				                {% capture item %}
+				                    <input
+										type="email"
+										id="{{id}}"
+										name="contact[{{-name_label-}}]"
+										autocorrect="off"
+										autocapitalize="off"
+										{% if show_labels == false %}placeholder="{{label}}"{% endif %}
+										value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+										aria-required="true"
+										{%- if form.errors contains 'email' -%}
+											class="input--error"
+											aria-invalid="true"
+											aria-describedby="{{id}}-error"
+										{%- endif -%}
+										>
+									{%- if form.errors contains 'email' -%}
+										<span id="{{ formId}}-email-error" class="input-error-message">{% include 'icon-error' %} {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+									{%- endif -%}
+				                {% endcapture %}
+				            {% elsif type == 'textarea' %}
+				                {% capture item %}
+				                    <textarea cols="24" rows="10" type="text" name="contact[{{-name_label-}}]" id="{{id}}" {% if show_labels == false %}placeholder="{{label}}"{% endif %} {% if label contains '*' %}required="required"{% endif %} /></textarea>
+				                {% endcapture %}
+				            {% elsif type contains 'select' %}
+				                {% assign itms = type | split: '~' | last %}
+				                {% assign itms = itms | split: ':' %}
+				                {% capture item %}
+				                    <select name="contact[{{-name_label-}}]" id="{{-id-}}" {% if label contains '*' %}required="required"{% endif %}>
+				                        {% for i in itms %}
+				                            {% assign val = i | replace: '*','' | replace: 'NOSELECT','' %}
 
-          <div class="grid grid--half-gutters">
-            <div class="grid__item medium-up--one-half">
-              <label for="{{ formId }}-name">{{ 'contact.form.name' | t }}</label>
-              <input type="text" id="{{ formId }}-name" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
-            </div>
-            <div class="grid__item medium-up--one-half">
-              <label for="{{ formId }}-email">{{ 'contact.form.email' | t }} <span aria-hidden="true">*</span></label>
-              <input
-                type="email"
-                id="{{ formId }}-email"
-                name="contact[email]"
-                autocorrect="off"
-                autocapitalize="off"
-                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-                aria-required="true"
-                {%- if form.errors contains 'email' -%}
-                  class="input--error"
-                  aria-invalid="true"
-                  aria-describedby="{{ formId }}-email-error"
-                {%- endif -%}
-                >
-              {%- if form.errors contains 'email' -%}
-                <span id="{{ formId}}-email-error" class="input-error-message">{% include 'icon-error' %} {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
-              {%- endif -%}
-            </div>
-          </div>
+				                            <option {% if i contains '*' %}selected="selected"{% endif %} {% if i contains 'NOSELECT' %}disabled{% else %}value="{{val}}"{% endif %}>{{val}}</option>
+				                        {% endfor %}
+				                    </select>
+				                {% endcapture %}
+				            {% else %}
+				                {% capture item %}
+				                    <input type="{{type}}" name="contact[{{-name_label-}}]" id="{{id}}" {% if show_labels == false %}placeholder="{{label}}"{% endif %} {% if label contains '*' %}required="required"{% endif %} />
+				                {% endcapture %}
+				            {% endif %}
+				            <div class="grid__item {{grid}}">
+				                {% if label != '' %}
+				                    <label class="{% if show_labels == false %}visually-hidden{% endif %}" for="{{-id-}}">{{label}}</label>
+				                {% endif %}
+				                {{item}}
+				            </div>
+				        {% endfor %}
+				        <div class="grid__item text-right">
+				    		<input type="submit" class="btn" value="{{ 'contact.form.submit' | t }}">
+				        </div>
+				    </div>
+				     <script type="text/javascript">
+                    	$("#{{formId}}").submit(function(event){
+						    var valDDL = $('select').val();
+						    console.log(valDDL)
+						    if ( valDDL == '' || valDDL == null ) {
+					            event.preventDefault();
+					            alert("select dropdown option");
+						   	} 
+						});
+                    </script>
+				{% endform %}
+			</div>
 
-          <label for="{{ formId }}-phone">{{ 'contact.form.phone' | t }}</label>
-          <input type="tel" id="{{ formId }}-phone" name="contact[phone]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
-
-          <label for="{{ formId }}-message">{{ 'contact.form.message' | t }}</label>
-          <textarea rows="10" id="{{ formId }}-message" name="contact[body]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
-
-          <input type="submit" class="btn" value="{{ 'contact.form.submit' | t }}">
-
-        {% endform %}
-      </div>
-    </div>
-  </div>
+		</div>
+	</div>
 </div>

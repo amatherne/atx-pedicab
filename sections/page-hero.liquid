@@ -1,0 +1,544 @@
+<!-- sections/page-hero -->
+
+{%- assign current_url = '' -%}
+
+{%- assign hide = true -%}
+{% assign show_on_all = false %}
+{% assign show_anyway = false %}
+{% assign page_found = false %}
+
+{% comment %} When Page {% endcomment %}
+{% if template.name contains 'page' %}
+    {%- assign current_url = page.url -%}
+    {% assign page_title = page.title %}
+    {% assign desc = page.content %}
+{% endif %}
+
+{% comment %} When Collection {% endcomment %}
+{% if template.name contains 'collection' %}
+    {%- assign current_url = collection.url -%}
+    {% assign tag = '' %}
+    {% if current_tags %}
+        {% for tag in current_tags %}
+            {% assign page_title = tag | capitalize %}
+        {% endfor %}
+    {% else %}
+        {% assign page_title = collection.title %}
+    {% endif %}
+    {% assign desc = collection.description %}
+{% endif %}
+
+{% comment %} When Blog {% endcomment %}
+{% if template.name contains 'blog' %}
+    {%- assign current_url = blog.url -%}
+    {% assign show_on_all = true %}
+    {% if current_tags %}
+        {% for tag in current_tags %}
+            {% assign page_title = tag | capitalize %}
+        {% endfor %}
+    {% else %}
+        {% comment %}{% assign page_title = blog.title %}{% endcomment %}
+        {% assign page_title = '' %} {% comment %} This is on purpose to prevent duplicate titles on Articles {% endcomment %}
+    {% endif %}
+{% endif %}
+
+{% comment %} When Article {% endcomment %}
+{% if template.name contains 'article' %}
+    {%- assign current_url = article.url -%}
+    {% assign show_on_all = true %}
+    {% if current_tags %}
+        {% for tag in current_tags %}
+            {% assign page_title = tag | capitalize %}
+        {% endfor %}
+    {% else %}
+        {% assign page_title = '' %} {% comment %} This is on purpose to prevent duplicate titles on Articles {% endcomment %}
+    {% endif %}
+{% endif %}
+
+
+
+{% for block in section.blocks %}
+
+    {% assign b = block.settings %}
+    {%- assign page_url = b.page_url -%}
+
+    <!-- Block #{{forloop.index}}: {{page_url}} / {{current_url}} -->
+
+    {%- assign block_id_num = block.id -%}
+    {%- assign block_id = 'section-' | append: block_id_num -%}
+
+    {% if show_on_all == true and current_url != page_url and forloop.last and page_found == false %}
+        {% assign show_anyway = true %}
+        {% assign b = '' %}
+    {% endif %}
+    {%- if current_url == page_url or show_anyway == true -%}
+        {% assign page_found = true %}
+        {% assign pageCSS = '' %}
+        {%- assign hide = false -%}
+        {%- assign image_main = b.image -%}
+
+        {% if image_main == blank %}
+            {% if collection.image != blank %}
+                {%- assign image_main = collection.image -%}
+            {% elsif blog.featured_image != blank %}
+                {%- assign image_main = blog.featured_image -%}
+            {% elsif collection.products.first != blank %}
+                {%- assign image_main = collection.products.first.featured_image -%}
+            {% elsif article.image != blank %}
+                {%- assign image_main = article.image -%}
+            {% elsif blog.articles.first.image != blank %}
+                {%- assign image_main = blog.articles.first.image -%}
+            {% endif %}
+            {% if image_main == '' or image_main == blank %}
+                {% assign hide = true %}
+            {% endif %}
+        {% endif %}
+
+        {%- assign image_mob = image_main -%}
+        {%- if b.image_mob != blank -%}
+            {%- assign image_mob = b.image_mob -%}
+        {%- endif -%}
+
+        {%- assign hex = b.bg_color | default: settings.color_body_text -%}
+        {%- assign op = b.opacity | default: 40 | times: 0.01  -%}
+        {% capture captured_color %}{{ hex | color_modify: 'alpha', op }}{% endcapture %}
+
+        {% assign bg_size = b.bg_size %}
+        {% if bg_size == 'custom' %}
+            {% assign bg_size = b.custom_size %}
+        {% endif %}
+
+        {% assign bg_size_mob = b.bg_size_mob %}
+        {% if bg_size_mob == 'custom' %}
+            {% assign bg_size_mob = b.custom_size_mob %}
+        {% endif %}
+        {%- if b.override_title != blank -%}
+            {%- assign page_title = b.override_title -%}
+        {%- endif -%}
+        {%- if b.override_text != blank -%}
+            {%- assign desc = b.override_text -%}
+        {%- endif -%}
+        {%- if b.below_title != blank -%}
+            {%- assign bel_ttl = b.below_title -%}
+        {%- endif -%}
+        {%- assign hide_ttl = b.hide_title -%}
+        {%- assign hide_text = b.hide_content -%}
+        {%- assign show_below = b.show_below -%}
+        {%- capture block_class -%}{{ block_id }}{%- endcapture -%}
+        {%- capture pageCSS -%}
+            /* Start of CSS for {{page_title}} */
+            .{{ block_class }}:not(.page-hero__text-below) {
+                min-height: {{ b.section_height | default: 500 }}px;
+            }
+            .{{ block_class }} .bg_image {
+                background-image:linear-gradient(180deg, {{ captured_color }} , {{ captured_color }} ), url('{{ image_main | img_url: 'master' }}');
+                padding:0;
+                background-position:{{ b.align_bg }};
+                background-repeat: no-repeat;
+                background-size: {{bg_size}};
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .{{ block_class }} h2,
+            .{{ block_class }}:not(.page-hero__text-below) .rte * {
+                color: {{ b.txt_color | default: settings.color_body_bg }};
+            }
+            @media screen and (max-width: 749px) {
+                .{{ block_class }} .bg_image {
+                    background-image:linear-gradient(180deg, {{ captured_color }} , {{ captured_color }} ), url('{{ image_mob | img_url: 'grande' }}');
+                    background-position:{{ b.align_bg_mob }};
+                    background-size: {{bg_size_mob}};
+                    height: {{ b.section_height }}px;
+                }
+            }
+            {% assign custom = b.custom_css | raw %}
+            {% if custom != blank %}
+            {% assign rplc = '==' %}
+            {% capture cssClass %}.{{block_class}}{% endcapture %}
+            {% assign cssLoop = custom | replace: rplc, cssClass | replace: ';', ' !important;' %}
+            /* Custom CSS */
+            {{cssLoop}}
+            /* End Custom CSS */
+            {% endif %}
+
+            {%- if template.name contains 'blog' -%}
+                {% comment %}.section-header .section-title {
+                    display: none;
+                }{% endcomment %}
+            {%- endif -%}
+            {%- if template.name contains 'page' -%}
+                .template-page h1 {
+                    display: none;
+                }
+                .inner-header {
+                    color: white;
+                }
+            {%- endif -%}
+            {%- if template.name contains 'collection' -%}
+                .template-collection .collection-main-hero {
+                    display: none;
+                }
+            {%- endif -%}
+        {%- endcapture -%}
+    {%- endif -%}
+{% endfor %}
+
+
+
+<style type="text/css">
+    .center-content   {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+        max-width: 800px;
+        width: 90%;
+    }
+
+    .page-hero {
+        min-height: 200px;
+        position: relative;
+        /* margin-top: -55px; */
+    }
+    {% if desc != blank and hide_txt == false and show_below == false %}
+    @media screen and (max-width: 749px) {
+        .{{ block_class }} h2,
+        .{{ block_class }}:not(.page-hero__text-below) .rte * {
+            color: {{ settings.color_text }};   
+        }
+        .center-content {
+            position: relative;
+            top: initial;
+            left:  initial;
+            transform: none;
+            margin: 1em auto;
+        }
+    }
+    {% endif %}
+    /* Custom CSS */
+    {{pageCSS}}
+</style>
+
+
+
+
+{% if hide == false %}
+    <div class="page-hero section-{{ section.id }} {{ block_class }}">
+        <div class="bg_image"></div>
+        <div class="center-content  ">
+            {% unless hide_ttl == true %}
+                <h2 class="h1 inner-header">{{ page_title }}</h2>
+            {% endunless %}
+            {% if desc != blank and hide_txt == false and show_below == false %}
+                <div class="rte">{{desc}}</div>
+            {% endif %}
+        </div>
+        <script type="text/javascript">
+			centerContentResizer({
+				par: '.{{ block_class }}',
+				chld: '.{{ block_class }} .center-content'
+			});
+        </script>
+    </div>
+    {% if desc != blank and hide_text == false and show_below == true %}
+    	<div class="page-hero__text-below {{ block_class }}">
+            <div class="page-width">
+                {% if bel_ttl != blank %}
+                    <header class="section-title">
+                        <h2>{{ bel_ttl }}</h2>
+                    </header>
+                {% endif %}
+                <div class="rte">{{desc}}</div>	
+            </div>
+    	</div>
+    {% endif %}
+{% endif %}
+
+{% schema %}
+    {
+        "name": "Page Hero",
+		"class": "index-section index-page-hero index-section--flush",
+        "settings": [
+            {
+                "type": "paragraph",
+                "content": "Hero for 'All Collections' must be last."
+            }            
+        ],
+        "blocks": [
+            {
+                "name": "Hero",
+                "type": "hero",
+                "settings": [
+                    {
+                        "type":"header",
+                        "content": "Set Page"
+                    },
+                        {
+                            "type": "text",
+                            "id": "title",
+                            "label": "Tab Title",
+                            "info": "This is only for giving a title in Theme Editor"
+                        },
+                        {
+                            "type": "url",
+                            "id": "page_url",
+                            "label": "Select Page",
+                            "info": "Select the page you want the Hero to appear on."
+                        },
+                    {
+                        "type":"header",
+                        "content": "Image Rules"
+                    },
+                        {
+                            "type": "image_picker",
+                            "id": "image",
+                            "label": "Hero Image"
+                        },
+                        {
+                            "type": "select",
+                            "id": "align_bg",
+                            "label": "Background Alignment",
+                            "options": [
+                                {
+                                    "value": "center",
+                                    "label": "Center"
+                                },
+                                {
+                                    "value": "left center",
+                                    "label": "Left Center"
+                                },
+                                {
+                                    "value": "center right",
+                                    "label": "Right Center"
+                                },
+                                {
+                                    "value": "top center",
+                                    "label": "Center Top"
+                                },
+                                {
+                                    "value": "top left",
+                                    "label": "Left Top"
+                                },
+                                {
+                                    "value": "top right",
+                                    "label": "Right Top"
+                                },
+                                {
+                                    "value": "bottom center",
+                                    "label": "Center Bottom"
+                                },
+                                {
+                                    "value": "bottom left",
+                                    "label": "Left Bottom"
+                                },
+                                {
+                                    "value": "bottom right",
+                                    "label": "Right Bottom"
+                                }
+                            ],
+                            "default": "center"
+                        },
+                        {
+                            "type": "select",
+                            "id": "bg_size",
+                            "label": "Background Size",
+                            "options": [
+                                {
+                                    "value": "cover",
+                                    "label": "Cover"
+                                },
+                                {
+                                    "value": "contain",
+                                    "label": "Contain"
+                                },
+                                {
+                                    "value": "custom",
+                                    "label": "Custom"
+                                }
+                                
+                            ],
+                            "default": "cover"
+                        },
+                        {
+                            "type": "text",
+                            "id": "custom_size",
+                            "label": "Custom Background Size",
+                            "info": "Background Size must be set to Custom to use this. Can be by pixel or percentage."
+                        },
+                        {
+                            "type": "image_picker",
+                            "id": "image_mob",
+                            "label": "Mobile Hero Image (optional)"
+                        },
+                        {
+                            "type": "select",
+                            "id": "align_bg_mob",
+                            "label": "Mobile Background Alignment",
+                            "options": [
+                                {
+                                    "value": "center",
+                                    "label": "Center"
+                                },
+                                {
+                                    "value": "left center",
+                                    "label": "Left Center"
+                                },
+                                {
+                                    "value": "center right",
+                                    "label": "Right Center"
+                                },
+                                {
+                                    "value": "top center",
+                                    "label": "Center Top"
+                                },
+                                {
+                                    "value": "top left",
+                                    "label": "Left Top"
+                                },
+                                {
+                                    "value": "top right",
+                                    "label": "Right Top"
+                                },
+                                {
+                                    "value": "bottom center",
+                                    "label": "Center Bottom"
+                                },
+                                {
+                                    "value": "bottom left",
+                                    "label": "Left Bottom"
+                                },
+                                {
+                                    "value": "bottom right",
+                                    "label": "Right Bottom"
+                                }
+                            ],
+                            "default": "center"
+                        },
+                        {
+                            "type": "select",
+                            "id": "bg_size_mob",
+                            "label": "Mobile Background Size",
+                            "options": [
+                                {
+                                    "value": "cover",
+                                    "label": "Cover"
+                                },
+                                {
+                                    "value": "contain",
+                                    "label": "Contain"
+                                },
+                                {
+                                    "value": "custom",
+                                    "label": "Custom"
+                                }
+                                
+                            ],
+                            "default": "cover"
+                        },
+                        {
+                            "type": "text",
+                            "id": "custom_size_mob",
+                            "label": "Mobile Custom Background Size",
+                            "info": "Background Size must be set to Custom to use this. Can be by pixel or percentage."
+                        },
+                        {
+                            "type":      "range",
+                            "id":        "section_height",
+                            "min":       100,
+                            "max":       900,
+                            "step":      10,
+                            "label":     "Slider Height",
+                            "default":   500
+                        },
+                    {
+                        "type":"header",
+                        "content": "Color Rules"
+                    },
+                        {
+                            "type": "color",
+                            "id": "txt_color",
+                            "label": "Text Color",
+                            "default": "#ffffff"
+                        },
+                        {
+                            "type": "color",
+                            "id": "bg_color",
+                            "label": "Overlay Color",
+                            "default": "#272322"
+                        },
+                        {
+                            "type":      "range",
+                            "id":        "opacity",
+                            "min":       0,
+                            "max":        99,
+                            "step":       1,
+                            "label":     "Opacity",
+                            "default":   25
+                        },
+
+
+                    {
+                        "type":"header",
+                        "content": "Text Override Rules"
+                    },
+                        {
+                            "type": "text",
+                            "id": "override_title",
+                            "label": "Override Title"
+                        },
+                        {
+                            "type": "checkbox",
+                            "id": "hide_title",
+                            "label": "Hide Title"
+                        },
+                        {
+                            "type": "richtext",
+                            "id": "override_text",
+                            "label": "Override Text"
+                        },
+                        {
+                            "type": "checkbox",
+                            "id": "hide_content",
+                            "label": "Hide Content"
+                        },
+                        {
+                            "type": "checkbox",
+                            "id": "show_below",
+                            "label": "Show Content below Hero"
+                        },
+                        {
+                            "type": "richtext",
+                            "id": "below_title",
+                            "label": "Below Section Title",
+                            "info": "Only shows when Content is set below."
+                        },
+                    {
+                        "type":"header",
+                        "content": "Custom CSS Rules"
+                    },
+                        {
+                            "type":"paragraph",
+                            "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+                        },
+                        {
+                            "type":"paragraph",
+                            "content": "The example below applies font size to only the h2 element in the current block's container."
+                        },
+                        {
+                            "type":"paragraph",
+                            "content": "'== h2 { font-size: 20px; } '"
+                        },
+                        {
+                            "type": "html",
+                            "id": "custom_css",
+                            "label": "Custom CSS"
+                        }
+                ]
+            }
+        ]
+    }
+{% endschema %}

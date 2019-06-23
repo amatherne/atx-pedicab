@@ -221,6 +221,20 @@
       },
       {
         "type": "header",
+        "content": "Other"
+      },
+      {
+        "type": "color",
+        "id": "color_highlight",
+        "label": "Highlight Color",
+        "default": "#BF634B"
+      },
+
+
+
+
+      {
+        "type": "header",
         "content": {
           "de": "Text auf Fotos",
           "en": "Image overlays",

@@ -1,0 +1,328 @@
+<!-- snippets/custom-page -->
+
+{% assign masterClass = 'custom-page-blocks' %}
+
+{% assign grps 		= '' %}
+{% assign grpItm 	= '' %}
+{% assign innrItm 	= '' %}
+
+{% for block in section.blocks %}
+	{% assign b = block %}
+	{% assign b_id = b.id %}
+	{% assign bs = b.settings %}
+	
+	{% if b.type == 'group' %}
+		{% capture grpItm %}
+			{% assign loop = forloop.index %}
+			{% assign gridHandle = bs.title | handleize %}
+			{% capture contClass %}container-{{gridHandle}}{% endcapture %}
+			{% if bs.match_height == true %}
+				{% capture mh %}mh-{{gridHandle}}{% endcapture %}
+			{% endif %}
+			<!-- Start of group container  -->
+			<div class=" {{contClass}}" id="" {{b.shopify_attributes}}>		
+				<!-- Start of page width selector  -->
+				{% if bs.page_width == true %}	
+				<div class="page-width">
+				{% elsif bs.page_width_max != blank %}
+				<div class="page-width" style="max-width: {{ bs.page_width_max }}px">
+				{% else %}
+				<div>
+				{% endif %}
+					{% if bs.custom_html != blank %}
+						<style type="text/css">
+							{% assign custom = bs.custom_html | raw %}
+							{% assign contClassCSS = contClass | prepend: '.' %}
+							{% assign cssLoop = custom | replace: '==', contClassCSS | replace: '&gt;', '>' | replace: ';', ' !important;' %}
+							{{cssLoop}}
+						</style>
+					{% endif %}
+					<!-- Start of grid group  -->
+					<div class="grid {% if bs.no_gutter == true %}grid_no_gutter{% endif %}">
+						<!--replace_{{gridHandle}}-->
+						{% if mh != blank %}
+							<script type="text/javascript">
+								$(document).ready(function () {
+									matchHeight( $('[{{mh}}]') )
+								})
+							</script>
+						{% endif %}
+					</div>
+				</div>
+				<!-- End of page width selector  -->
+
+			</div>
+			<!-- End of group container  -->
+		{% endcapture %}
+		{% assign grps = grps | append: grpItm %}
+	{% endif %}
+
+	{% assign b = block %}
+	{% assign b_id = b.id %}
+	{% assign bs = b.settings %}
+	{% if 
+		b.type == 'hero' or 
+		b.type == 'quote' or 
+		b.type == 'header' or 
+		b.type == 'content' or 
+		b.type == 'text' or 
+		b.type == 'image' or 
+		b.type == 'spacer' or 
+		b.type == 'mini-slider'
+	%}
+		{% assign groupAssignment = bs.grid_handle | handleize %}
+		{% if groupAssignment != blank %}
+			{% 	
+				include 'width-creator',
+				hide_mob: bs.hide_mob,
+				hide_tab: bs.hide_tab,
+				hide_desk: bs.hide_desk,
+				width_small: bs.width_small,
+				width_medium: bs.width_medium,
+				width_large: bs.width_large
+			%}
+			{% capture rplcThs %}<!--replace_{{groupAssignment}}-->{% endcapture %}
+			{% capture innrItm %}
+				{% capture blockClass %}block{{b_id}}{% endcapture %}
+				{% capture contClass %}container-{{groupAssignment}}{% endcapture %}
+				{% capture cssClass %}.{{contClass}} .block{{b_id}}{% endcapture %}
+				{% capture mh %}mh-{{groupAssignment}}{% endcapture %}
+				<!-- Start of Item  -->
+				<div 
+					class="grid__item {{-grid_widths-}} {{blockClass}} sm-start{{b_id}} {{b.type}}-block-container" 
+					{% unless bs.opt_out_match_height == true %}{{mh}}{% endunless %}
+					{{b.shopify_attributes}}> 
+					
+					{% if b.type == 'hero' %}
+						<div class=" {{b.type}}-block">
+							{% if bs.use_bg == true %}
+								<div class="bg_image animate" title="{{ bs.image.alt | default: bs.title }}">
+									<div class=" max-width">
+										{% if bs.title != blank or bs.subtitle != blank %}
+											<div class="{% if bs.diamond == false %}center-content {{bs.hor_align}}-align{% else %}diamond{% endif %}">
+												<h2>{{bs.title}}</h2>
+												<h4>{{bs.top_title}}</h4>
+
+												{% if bs.btn_url != blank and bs.btn_txt != blank %}
+													<a class="btn" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+												{% endif %}
+											</div>
+										{% endif %}
+									</div>
+								</div>
+
+
+					            <script type="text/javascript">
+									$(document).ready(function() {
+								        // on Load
+								        setTimeout(function(){
+								            changeOnResize{{b_id}}();
+								        }, 500);
+
+								        // On Window Resize Event
+								        $(window).resize(function() {
+								            changeOnResize{{b_id}}();
+								        });
+									});
+									function changeOnResize{{b_id}}(){
+									    content{{b_id}} = '.{{blockClass}} .diamond';
+								        container{{b_id}} = '.{{blockClass}} .bg_image';
+								        plus{{b_id}} = 100;
+								        $contentHeight{{b_id}} = $(content{{b_id}}).outerHeight() + plus{{b_id}};
+								        $containerHeight{{b_id}} = $(container{{b_id}}).outerHeight();
+									    if ($contentHeight{{b_id}} >= $containerHeight{{b_id}}) {
+										    $(container{{b_id}}).css('min-height', $contentHeight{{b_id}});
+										}
+									}
+								</script>
+
+
+
+								{% assign bgImg = bs.image %}
+								{% assign bgImgMob = bgImg %}
+								{% if bs.image_mob != blank %}
+									{% assign bgImgMob = bs.image_mob %}
+								{% endif %}
+								<style type="text/css">
+									{{cssClass}} h2,
+									{{cssClass}} h4 {
+										color: {{bs.txt_color}};
+									}
+									{{cssClass}} .bg_image::after {
+										background: {{bs.bg_color}};
+										opacity: {{ bs.opacity | times: 0.01 }};
+									}
+									{{cssClass}} .bg_image {
+										background-image: url({{bgImg | img_url: 'master' }});
+										height: {{bs.height}}px;
+									}
+									@media screen and (max-width:767px) {
+									{{cssClass}} .bg_image {
+										background-image: url({{bgImgMob | img_url: 'grande' }});
+									}
+									}
+									{% assign custom = bs.custom_html | raw %}
+									{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+									{{cssLoop}}
+								</style>
+							{% else %}
+								{% assign mob_image = false %}
+								{% if bs.image_mob != blank %}{% assign mob_image = true %}{% endif %}
+								<img class="{% if mob_image == true %}small--hide{% endif %}" src="{{bs.image | img_url: 'master' }}" alt="{{ bs.image.alt | default: 'Hero Image' }}">
+								{% if mob_image == true %}
+									<img class="medium-up--hide" src="{{bs.image_mob | img_url: 'grande' }}" alt="{{ bs.image_mobs.alt | default: 'Hero Image' }}">
+								{% endif %}
+
+							{% endif %}
+						</div>
+					{% endif %}
+
+					{% if b.type == 'header' %}
+						<div class="{{b.type}}-block {% if bs.align_center == true %}medium-up--text-center{% endif %}">
+							{% if bs.top_title != blank  %}
+								<h3 class="animate">{{bs.top_title}}</h3>
+							{% endif %}
+							{% if bs.title != blank  %}
+								<header class="section-title">
+									<h2>{{bs.title}}</h2>
+								</header>
+							{% endif %}
+							<style type="text/css">
+								@media screen and (min-width:750px) {
+									{{cssClass}} .header-block h2 {
+										font-size: {{bs.title_size}}px;
+									}
+									{{cssClass}} .header-block h3 {
+										font-size: {{bs.top_title_size}}px;
+									}
+								}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'content' %}
+
+					{% endif %}
+
+					{% if b.type == 'quote' %}
+						<div class="inner-container {{b.type}}-block ">
+							{% if bs.title != blank  %}
+								<header class="section-title">
+									<h2>{{bs.title}}</h2>
+								</header>
+							{% endif %}
+							{% if bs.text != blank %}
+								<div class="rte">
+									{% include 'icon-quote' %}
+									{{bs.text}}
+								</div>
+							{% endif %}
+							{% if bs.btn_txt != blank and bs.btn_url != blank %}
+								<a class="btn " href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+							{% endif %}
+							<style type="text/css">
+								@media screen and (min-width:750px) {
+									{{cssClass}} .quote-block h2 {
+										font-size: {{bs.text_size}}px !important;
+									}
+								}
+								{% assign custom = bs.custom_html | raw %}
+								{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+								{{cssLoop}}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'text' %}
+						<div class="inner-container {{b.type}}-block ">
+							{% if bs.title != blank  %}
+								<header class="section-title">
+									<h2>{{bs.title}}</h2>
+								</header>
+							{% endif %}
+							{% if bs.text != blank %}
+								<div class="rte">{{bs.text}}</div>
+							{% endif %}
+							{% if bs.btn_txt != blank and bs.btn_url != blank %}
+								<a class="btn " href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+							{% endif %}
+							<style type="text/css">
+								@media screen and (min-width:750px) {
+									{{cssClass}} .text-block h2 {
+										font-size: {{bs.text_size}}px !important;
+									}
+									{% if bs.rte_text_size %}
+									{{cssClass}} .text-block .rte {
+										font-size: {{bs.rte_text_size}}px !important;
+									}
+									{% endif %}
+								}
+								{% assign custom = bs.custom_html | raw %}
+								{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+								{{cssLoop}}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'image' %}
+						<div class="inner-container {{b.type}}-block">
+							{% assign bg_image = bs.top_image %}
+							{% assign gif_image = bs.bottom_image %}
+							<div class="bg_image main-image lazyload animate js"
+								 style="background-image: url('{{ bg_image | img_url: 'master' }});">
+							</div>
+							{% if gif_image != blank %}
+							<div class="bg_image underlay-image lazyload animate js"
+								 style="background-image: url('{{ gif_image | img_url: 'master' }});">
+							</div>
+							{% endif %}
+							<style type="text/css">
+								{{cssClass}} .inner-container {
+									/* height: {{bs.height}}px !important; */
+								}
+								{{cssClass}} .inner-container .bg_image {
+									padding-top: {{bs.height}}px !important;
+								}
+								{% assign custom = bs.custom_html | raw %}
+								{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+								{{cssLoop}}
+							</style>
+							<script type="text/javascript">
+								$(document).ready(function () {
+									imageHeightMatcher({
+										par: '{{cssClass}}'
+									})
+								})
+							</script>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'spacer' %}
+						<div class="{{b.type}}-block ">
+							<style type="text/css">
+								{{cssClass}} .{{b.type}}-block {
+									height: {{bs.height}}px;
+								}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'mini-slider' %}
+
+					{% endif %}
+
+					
+				</div>
+				<!-- End of Item  -->
+				{{rplcThs}}
+			{% endcapture %}
+			{% assign grps = grps | replace: rplcThs, innrItm %}
+		{% endif %}
+	{% endif %}	
+{% endfor %}
+
+<div class="{{masterClass}} {{class}}">
+
+	{{ grps }}
+
+</div>

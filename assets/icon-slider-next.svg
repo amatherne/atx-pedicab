@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="17px" viewBox="0 0 10 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>chevron-small-right</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="T1_HOME" transform="translate(-1311.000000, -1975.000000)" fill="#000000">
+            <g id="chevron-small-right" transform="translate(1311.000000, 1975.000000)">
+                <path d="M6.42568737,8.50023032 L0.386464142,2.18118072 C-0.128821381,1.68230838 -0.128821381,0.874874265 0.386464142,0.374154253 C0.901749664,-0.124718084 1.73428187,-0.124718084 2.24956739,0.374154253 L9.61353586,7.59486941 C10.1288214,8.09558942 10.1288214,8.90487122 9.61353586,9.40374355 L2.24956739,16.6244587 C1.73620458,17.1270264 0.901749664,17.123331 0.386464142,16.6244587 C-0.128821381,16.1274341 -0.128821381,15.3181523 0.386464142,14.8174322 L6.42568737,8.50023032 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,153 @@
+{% assign s 						= section.settings %}
+{% capture class %}{{section.id}}{% endcapture %}
+<!-- sections/{{class}} -->
+
+{% include 'custom-blog' %}
+
+{% schema %}
+    {
+        "name": "Branding Blog",
+		"class": "index-section index-section--custom-blog index-section--flush",
+        "settings": [
+	        {
+				"type": "text",
+				"id": "title",
+				"label": "Top Title",
+				"default": "Featured",
+				"info": "Only for featured row."
+			},
+			{
+			    "type":   	"range",
+			    "id":     	"featured_row_item_limit",
+			    "min":       1,
+			    "max":       5,
+			    "step":		 1,
+			    "label":     "Featured Items per Row",
+			    "default":   3
+			},
+			{
+			    "type":   	"range",
+			    "id":     	"featured_row_limit",
+			    "min":       1,
+			    "max":       8,
+			    "step":		 1,
+			    "label":     "Featured Total Rows",
+			    "default":   1
+			},
+			{
+				"type": "text",
+				"id": "btn_txt",
+				"label": "Button Text",
+				"default": "Learn More"
+			},
+			{
+                "type": "select",
+                "id": "btn_type",
+                "label": "Button Type",
+                "options": [
+                    {
+                        "value": "button",
+                        "label": "Button"
+                    },
+                    {
+                        "value": "link",
+                        "label": "Link"
+                    }
+                    
+                ],
+                "default": "button"
+            },
+            {
+                "type":"header",
+                "content": "Custom CSS Rules"
+            },
+            {
+                "type":"paragraph",
+                "content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+            },
+            {
+                "type":"paragraph",
+                "content": "The example below applies font size to only the h2 element in the current block's container."
+            },
+            {
+                "type":"paragraph",
+                "content": "'== h2 { font-size: 20px; } '"
+            },
+            {
+                "type": "html",
+                "id": "custom_css",
+                "label": "Custom CSS"
+            }
+        ],
+        "blocks": [
+			{
+				"name": "Article",
+				"type": "article",
+				"settings": [
+					{
+						"type": "article",
+						"id": "article",
+						"label": "Article"
+					}
+				]
+			},
+			{
+				"name": "Row",
+				"type": "row",
+				"settings": [
+					{
+						"type": "blog",
+						"id": "blog",
+						"label": "Blog"
+					},
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Title"
+					},
+					{
+					    "type":   	"range",
+					    "id":     	"row_item_limit",
+					    "min":       1,
+					    "max":       5,
+					    "step":		 1,
+					    "label":     "Featured Items per Row",
+					    "default":   3
+					},
+					{
+					    "type":   	"range",
+					    "id":     	"row_limit",
+					    "min":       1,
+					    "max":       8,
+					    "step":		 1,
+					    "label":     "Featured Total Rows",
+					    "default":   1
+					},
+					{
+						"type": "text",
+						"id": "btn_txt",
+						"label": "Button Text",
+						"default": "Learn More"
+					},
+					{
+		                "type": "select",
+		                "id": "btn_type",
+		                "label": "Button Type",
+		                "options": [
+		                    {
+		                        "value": "button",
+		                        "label": "Button"
+		                    },
+		                    {
+		                        "value": "link",
+		                        "label": "Link"
+		                    }
+		                    
+		                ],
+		                "default": "button"
+		            }
+				]
+			}
+		]
+    }
+{% endschema %}

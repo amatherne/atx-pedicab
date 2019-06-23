@@ -1,0 +1,5 @@
+{%- assign go_home = '' -%}
+{%- if item contains '#' and template != 'index' -%}
+  {%- assign go_home = '/' -%}
+{%- endif -%}
+{{-go_home-}}

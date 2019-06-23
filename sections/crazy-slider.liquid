@@ -1,0 +1,857 @@
+<!-- sections/slider -->
+{% assign s_id = section.id %}
+{% capture class %}section-{{ s_id }}{% endcapture %}
+{% capture cssSection %}.{{class}}{% endcapture %}
+{% assign s = section.settings %}
+
+{% assign bg_style = s.set_height %}
+
+<section class="crazy-slider {{class}} {% if s.mob_rel == true %}mobile-relative{% endif %}">
+	{% assign count = 0 %}
+	{% for block in section.blocks %}
+		{% assign b = block.settings %}
+		{% assign btn_url = b.btn_url %}
+		{% assign btn_txt = b.btn_txt %}
+		{% assign header = b.header %}
+		{% assign sub_header = b.sub_header %}
+		{% assign use_btn = false %}
+		{% if btn_url != blank and btn_txt != blank %}
+			{% assign use_btn = true %}
+		{% endif %}
+		{% assign imgMain = b.image|img_url:'master'%}
+		{% assign imgMob = b.image|img_url:'grande'%}
+		{% if b.image_mob != blank %}
+			{% assign imgMob = b.image_mob|img_url:'grande'%}
+		{% endif %}
+
+		{% assign video = '' %}
+		{% assign v = b.video_url %}
+		{% assign v_type = v.type%}
+		{% assign v_hosted = false %}
+		{% if b.video_hosted != blank %}
+			{% assign v = b.video_hosted %}
+			{% assign v_hosted = true %}
+			{% assign v_type = 'video' %}
+		{% endif %}
+
+		{% if v != blank %}
+			{% capture video %}
+				{% capture video_chk %}
+					{% if v.type == "youtube" %}
+						<div class="wrapper">
+					        <iframe
+					        	class="iframe-video full-width"
+					        	src="https://www.youtube.com/embed/{{ v.id }}?&autoplay=1&mute=1&controls=0&loop=1&vq=hd720&playlist={{ v.id }}"
+					        	width="800"
+					        	height="480"
+					        	allow="autoplay"
+					        	frameborder="0"
+					        	allowfullscreen></iframe>
+						</div>
+				    {% endif %}
+				    {% if v.type == "vimeo" %}
+						<div class="wrapper">
+					        <iframe
+					        	class="iframe-video full-width"
+					        	id="vid{{block.id}}"
+					        	src="//player.vimeo.com/video/{{ v.id }}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+					        	width="800"
+					        	height="480"
+	           					frameborder="0"
+	           					webkitallowfullscreen
+	           					mozallowfullscreen
+	           					allowfullscreen></iframe>
+           				</div>
+				    {% endif %}
+				    {% if v_hosted == true %}
+				    	<video class="html-video full-width" width="800" height="480" id="video{{block.id}}" autoplay muted loop src="{{b.video_hosted}}"></video>
+				    {% endif %}
+				{% endcapture %}
+				{% if bg_style == true %}
+					<div class="video-ratio small--hide">
+						{{video_chk}}
+					</div>
+				{% else %}
+					<div>
+						<div class="video-inline small--hide">
+							{{video_chk}}
+						</div>
+					</div>
+				{% endif %}
+			{% endcapture %}
+		{% endif %}
+
+		{% capture img %}
+			{% if bg_style == false or s.mob_rel == true %}
+				{% if s.mob_rel == false %}
+					<img src="{{imgMain}}" class="small--hide {% if video != blank %}hide{% endif %}">
+				{% endif %}
+				<img src="{{imgMob}}" class="medium-up--hide">
+			{% endif %}
+		{% endcapture %}
+
+		{% assign v_modal = b.video_modal %}
+		{% if v_modal != blank %}
+			{% capture modal %}
+	            <div class="video-modal" id="video_{{ forloop.index }}">
+	                <div data-close="video_{{ forloop.index }}" class="bg_close"></div>
+
+	                <div class="modal-inner">
+	                    <div class="video-ratio for-modal">
+	                        <span data-close="video_{{ forloop.index }}" class="close-modal">
+	                            <span class="visually-hidden">Close</span>
+	                            {% include 'icon-close' %}
+	                        </span>
+	                        {% if v_modal.type == "youtube" %}
+	                            <iframe class="modal_video" src="https://www.youtube.com/embed/{{ v_modal.id }}?rel=0&showinfo=0&vq=720" width="800" height="480" frameborder="0" allowfullscreen></iframe>
+	                        {% endif %}
+	                        {% if v_modal.type == "vimeo" %}
+	                            <iframe class="modal_video" src="//player.vimeo.com/video/{{ v_modal.id }}?byline=0&portrait=0&badge=0" width="800" height="480" frameborder="0" allowfullscreen></iframe>
+	                        {% endif %}
+	                    </div>
+	                </div>
+	            </div>
+            {% endcapture %}
+        {% endif %}
+
+		{% if b.show_image == true %}
+			{% assign count = count | plus: 1 %}
+			<div class=" background-image {% if v_type != blank %}{{v_type}}{% endif %} image-{{block.id}}" title="{{ header }}">
+
+				{{video}}
+
+				{{img}}
+
+				{% if use_btn == false and btn_url != blank %}
+					<a class="overlay-link" href="{{btn_url}}">
+						<span class="visually-hidden">{{header}}</span>
+					</a>
+				{% endif %}
+
+				<div class="page-width">
+					{% if use_btn == true or header != blank or sub_heading != blank %}
+						<div class="center-content {{ b.align_hor }}">
+							<h2>{{ header }}</h2>
+							<h3 class="sec_h_font">{{ sub_header }}</h3>
+							{% if use_btn == true %}
+								<a class="btn" href="{{ btn_url }}">{{ btn_txt }}</a>
+							{% endif %}
+							{% if v_modal != blank %}
+								<a class="btn secondary open-modal" data-open="video_{{ forloop.index }}" href="#">Watch Video</a>
+							{% endif %}
+						</div>
+					{% endif %}
+				</div>
+
+				{{modal}}
+
+			</div>
+		{% endif %}
+	{% endfor %}
+</section>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$('.{{class}}').slick({
+			// fade:true,
+		  	infinite: true,
+		  	autoplay: {{s.auto_slide}},
+		  	autoplaySpeed: {{s.pause}},
+		  	lazyLoad:"progressive",
+		  	arrows: true,
+			{% if bg_style == false %}
+			apaptiveHeight: true,
+			{% endif %}
+		  	dots: true
+		});
+	})
+    $(function(){
+
+        var section = '.{{class}}',
+            open = '.open-modal',
+            close = '.close-modal, .bg_close',
+            content = '.video-modal',
+            cont_active = 'active';
+        $(section+' '+open).click(function(){
+            var tab = $(this),
+                tab_id = tab.attr('data-open'),
+                cont = $("#"+tab_id);
+              cont.addClass(cont_active);
+        });
+        $(close).click(function(){
+            var tab = $(this),
+                tab_id = tab.attr('data-close'),
+                cont = $("#"+tab_id);
+              cont.removeClass(cont_active);
+
+            $(".modal_video").each(function() {
+                var src = $(this).attr('src');
+                $(this).attr('src', src);
+            });
+        });
+    });
+</script>
+
+<style>
+	{% if bg_style == true %}
+	.{{class}} {
+		height:{{ s.image_height }}px !important;
+		min-height:300px;
+	}
+
+	{% if s.image_height_mob != 0 %}
+	@media screen and (max-width: 749px) {
+	.{{class}} {
+		/* height:85vh !important; */
+		height:{{ s.image_height_mob }}px !important;
+		min-height:{{ s.image_height_mob }}px !important;
+	}
+	}
+	{% endif %}
+	{% if s.mob_rel == true %}
+	@media screen and (max-width: 749px) {
+	.{{class}} {
+		/* height:85vh !important; */
+		height: auto !important;
+		min-height: 100% !important;
+	}
+	}
+	{% endif %}
+	{% else %}
+	.{{class}} img {
+		width: 100%;
+	}
+	.{{class}} .page-width {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    width: 100%;
+	    transform: translate(-50%,-50%);
+	}
+	{% endif %}
+	{% assign custom = s.custom_css | raw %}
+	{% assign rplc = '==' %}
+    {% assign cssLoop = custom | replace: rplc, cssSection | replace: ';', ' !important;' %}
+    {{cssLoop}}
+</style>
+
+{% for block in section.blocks %}
+	{% assign b = block.settings %}
+
+	{% comment %} Desktop Color / Opacity {% endcomment %}
+	{% assign bgColor = b.bg_color %}{% assign op = b.opacity | times: 0.01 %}{% assign bgColor = bgColor | color_modify: 'alpha', op %}{% assign bgColorMob = bgColor %}
+
+	{% comment %} Mobile Color / Opacity {% endcomment %}
+	{% if b.opacity_mob != '0' %}{% assign bgColorMob = b.bg_color_mob %}{% assign opMob = b.opacity_mob | times: 0.01 %}{% assign bgColorMob = bgColorMob | color_modify: 'alpha', opMob %}{% endif %}
+
+	{% comment %} Image Settings {% endcomment %}
+	{% assign bgImage = b.image %}
+	{% assign bgImageMob = b.image %}
+	{% capture position %}background-position: {{b.align_bg}} !important;{% endcapture %}
+	{% assign mobPosition = '' %}
+	{% if b.image_mob != blank %}{% assign bgImageMob = b.image_mob %}{% capture mobPosition %}background-position: {{b.align_bg_mob}} !important;{% endcapture %}{% endif %}
+
+	{% comment %} Positioning {% endcomment %}
+	{% assign vert = b.vert_align %}{% assign hor = b.hor_align %}
+	{% capture alignment %}{% if b.align_hor == 'center' %}left:{{hor}}%;transform: translate(-{{hor}}%,-{{ vert }}%);top:{{vert}}%;{% elsif b.align_hor == 'left' %}left:{{ hor  }}%;transform: translate(-{{hor}}%,-{{ vert }}%);top:{{vert}}%;{% elsif b.align_hor == 'right' %}left:initial;right:{{ hor  }}%;transform: translate({{hor}}%,-{{ vert }}%);top:{{vert}}%;{% endif %}{% endcapture %}
+
+
+	<style type="text/css">
+		{% if bg_style == true %}
+		.image-{{block.id}} {
+			position: relative;
+			background: linear-gradient( {{bgColor}}, {{bgColor}} ), url({{ bgImage | img_url: 'master' }});
+			background-size: cover !important;
+			background-repeat: no-repeat !important;
+			height:{{ s.image_height }}px;
+			min-height:300px;
+			{{position}}
+		}
+		{% if s.image_height_mob != 0 %}
+		@media screen and (max-width: 749px) {
+		.image-{{block.id}}  {
+			/* height:85vh !important; */
+			height:{{ s.image_height_mob }}px !important;
+			min-height:{{ s.image_height_mob }}px !important;
+		}
+		}
+		{% endif %}
+		{% if s.mob_rel == true %}
+		@media screen and (max-width: 749px) {
+		.image-{{block.id}}  {
+			/* height:85vh !important; */
+			height: auto !important;
+			min-height: 100% !important;
+		}
+		}
+		{% endif %}
+		{% else %}
+		.image-{{block.id}}::before {
+			background: {{bgColor}};
+			content: '';
+			position: absolute;
+			top:0;
+			left:0;
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+		}
+		{% endif %}
+		.image-{{block.id}} .video-ratio::before {
+			background: {{bgColor}};
+		}
+		.image-{{block.id}} .center-content {
+			position: absolute;
+			text-align: {{b.align_text}};
+			max-width: {{ b.width }}px;
+			margin: 0 auto;
+			width:95%;
+			{{alignment}}
+		}
+		{% if s.mob_rel == true %}
+		@media screen and (min-width: 749px) {
+		{% endif %}
+		.image-{{block.id}} h2,
+		.image-{{block.id}} h3 {
+			color: {{ b.txt_color }};
+		}
+		{% if s.mob_rel == true %}
+		}
+		{% endif %}
+
+		{% if bg_style == true %}
+		{% if b.show_mobile_overlay_sooner %}
+		@media screen and (max-width: 990px) {
+			.image-{{block.id}} {
+				background: linear-gradient( {{bgColorMob}}, {{bgColorMob}} ), url({{ bgImage | img_url: 'master' }});
+				{{mobPosition}}
+			}
+		}
+		{% endif %}
+		@media screen and (max-width: 749px) {
+			.image-{{block.id}} {
+				background: linear-gradient( {{bgColorMob}}, {{bgColorMob}} ), url({{ bgImageMob | img_url: 'grande' }});
+				{{mobPosition}}
+			}
+		}
+		{% else %}
+		{% if b.show_mobile_overlay_sooner %}
+		@media screen and (max-width: 990px) {
+			.image-{{block.id}}::before {
+				background: {{bgColorMob}};
+			}
+		}
+		{% endif %}
+		@media screen and (max-width: 749px) {
+			.image-{{block.id}}::before {
+				background: {{bgColorMob}};
+			}
+		}
+		{% endif %}
+		@media screen and (min-width: 750px) {
+			.image-{{block.id}} h2 {
+				margin-bottom: 0.15em;
+				font-size: {{ b.font_size_1 }}px;
+			}
+			.image-{{block.id}} h3 {
+				font-size: {{ b.font_size_2 }}px;
+			}
+		}
+		@media screen and (max-width: 990px) {
+		.image-{{block.id}} .center-content {
+			width: 90%;
+			left: 50%;
+			top: 50%;
+			right: initial;
+			transform: translate(-50%,-50%);
+		}
+		}
+
+		{% if s.mob_rel == true %}
+		@media screen and (max-width: 749px) {
+			.image-{{block.id}} {
+				background: transparent;
+			}
+		}
+		{% endif %}
+
+		{% capture b_class %}.section-{{ section.id }} .image-{{block.id}}{% endcapture %}
+
+		{% assign custom = b.custom_html | raw %}
+		{% assign classCSS = b_class %}
+		{% assign cssLoop = custom | replace: '==', classCSS | replace: ';', ' !important;' %}
+
+		/* Custom CSS */
+		{{cssLoop}}
+	</style>
+{% endfor %}
+
+
+{% comment %}{% include 'slick-video-setup', class: class %}{% endcomment %}
+
+{% schema %}
+	{
+		"name": "Slider Supreme",
+  		"class": "index-section index-section--flush index-section--slideshow",
+		"settings": [
+			{
+				"type":"header",
+				"content": "Height Rules"
+			},
+			{
+				"type": "checkbox",
+				"id": "set_height",
+				"label": "Set Specific Height",
+				"default": true,
+				"info": "Unchecking this will make all images and videos inline instead of background."
+			},
+			{
+				"type": "checkbox",
+				"id": "mob_rel",
+				"label": "Separate content from background on mobile",
+				"default": false,
+				"info": "Check this if your text content is getting cutoff on mobile. It will place the content below the image/video."
+			},
+			{
+			    "type":   	"range",
+			    "id":     	"image_height",
+			    "min":       200,
+			    "max":       1000,
+			    "step":		 10,
+			    "label":     "Image Height",
+			    "default":   500
+			},
+			{
+			    "type":   	"range",
+			    "id":     	"image_height_mob",
+			    "min":       0,
+			    "max":       800,
+			    "step":		 10,
+			    "label":     "Image Height on Mobile",
+			    "default":   0,
+			    "info": "Leave at zero to ignore."
+			},
+			{
+				"type":"header",
+				"content": "Slide Timing Rules"
+			},
+			{
+				"type": "checkbox",
+				"id": "auto_slide",
+				"label": "Auto Slide",
+				"default": true
+			},
+			{
+				"type": "select",
+				"id": "pause",
+				"label": "Time between slides",
+				"options": [
+					{
+						"value": "3000",
+						"label": "3 Seconds"
+					},
+					{
+						"value": "4000",
+						"label": "4 Seconds"
+					},
+					{
+						"value": "5000",
+						"label": "5 Seconds"
+					},
+					{
+						"value": "6000",
+						"label": "6 Seconds"
+					},
+					{
+						"value": "7000",
+						"label": "7 Seconds"
+					},
+					{
+						"value": "8000",
+						"label": "8 Seconds"
+					}
+				],
+				"default": "5000"
+			},
+			{
+				"type":"header",
+				"content": "Custom CSS Rules"
+			},
+			{
+				"type":"paragraph",
+				"content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+			},
+			{
+				"type":"paragraph",
+				"content": "The example below applies font size to only the h2 element in the current block's container."
+			},
+			{
+				"type":"paragraph",
+				"content": "'== h2 { font-size: 20px; } '"
+			},
+			{
+				"type": "html",
+				"id": "custom_css",
+				"label": "Custom CSS"
+			}
+		],
+		"blocks": [
+			{
+				"type": "slider",
+				"name": "Slide",
+				"settings": [
+					{
+						"type": "header",
+						"content": "Image Settings"
+					},
+						{
+							"type": "checkbox",
+							"id": "show_image",
+							"label": "Use Slide",
+							"default": true
+						},
+						{
+							"type": "image_picker",
+							"id": "image",
+							"label": "Image"
+						},
+						{
+							"type": "select",
+							"id": "align_bg",
+							"label": "Background Alignment",
+							"options": [
+								{
+									"value": "center",
+									"label": "Center"
+								},
+								{
+									"value": "left center",
+									"label": "Left Center"
+								},
+								{
+									"value": "center right",
+									"label": "Right Center"
+								},
+								{
+									"value": "top center",
+									"label": "Center Top"
+								},
+								{
+									"value": "top left",
+									"label": "Left Top"
+								},
+								{
+									"value": "top right",
+									"label": "Right Top"
+								},
+								{
+									"value": "bottom center",
+									"label": "Center Bottom"
+								},
+								{
+									"value": "bottom left",
+									"label": "Left Bottom"
+								},
+								{
+									"value": "bottom right",
+									"label": "Right Bottom"
+								}
+
+							],
+							"default": "center"
+						},
+						{
+					        "type": "color",
+					        "id": "bg_color",
+					        "label": "Overlay Color",
+					        "default": "#1C2B39"
+					    },
+					    {
+					        "type":      "range",
+					        "id":        "opacity",
+					        "min":       0,
+					        "max":        100,
+					        "step":       1,
+					        "label":     "Opacity",
+					        "default":   35
+					    },
+					{
+						"type": "paragraph",
+						"content": "--------------------------------"
+					},
+				    {
+						"type": "header",
+						"content": "Mobile Image Settings"
+					},
+						{
+							"type": "image_picker",
+							"id": "image_mob",
+							"label": "Image"
+						},
+						{
+							"type": "select",
+							"id": "align_bg_mob",
+							"label": "Background Alignment",
+							"options": [
+								{
+									"value": "center",
+									"label": "Center"
+								},
+								{
+									"value": "left center",
+									"label": "Left Center"
+								},
+								{
+									"value": "center right",
+									"label": "Right Center"
+								},
+								{
+									"value": "top center",
+									"label": "Center Top"
+								},
+								{
+									"value": "top left",
+									"label": "Left Top"
+								},
+								{
+									"value": "top right",
+									"label": "Right Top"
+								},
+								{
+									"value": "bottom center",
+									"label": "Center Bottom"
+								},
+								{
+									"value": "bottom left",
+									"label": "Left Bottom"
+								},
+								{
+									"value": "bottom right",
+									"label": "Right Bottom"
+								}
+
+							],
+							"default": "center"
+						},
+					    {
+					        "type": "color",
+					        "id": "bg_color_mob",
+					        "label": "Mobile Overlay Color",
+					        "default": "#1C2B39"
+					    },
+					    {
+					        "type":      "range",
+					        "id":        "opacity_mob",
+					        "min":       0,
+					        "max":        100,
+					        "step":       1,
+					        "label":     "Mobile Opacity",
+					        "default":   0
+					    },
+					    {
+							"type": "checkbox",
+							"id": "show_mobile_overlay_sooner",
+							"label": "Show Mobile overlay at Tablet size.",
+							"default": false
+						},
+					{
+						"type": "paragraph",
+						"content": "--------------------------------"
+					},
+					{
+						"type": "header",
+						"content": "Video Settings"
+					},
+						{
+							"type": "video_url",
+							"id": "video_url",
+							"label": "Video url",
+							"accept": [
+								"youtube",
+								"vimeo"
+							]
+						},
+						{
+							"type": "text",
+							"id": "video_hosted",
+							"label": "Video url if hosted"
+						},
+						{
+							"type": "video_url",
+							"id": "video_modal",
+							"label": "Video url for Modal (optional)",
+							"accept": [
+								"youtube",
+								"vimeo"
+							]
+						},
+					{
+						"type": "paragraph",
+						"content": "--------------------------------"
+					},
+					{
+						"type": "header",
+						"content": "Text Settings"
+					},
+						{
+							"type": "select",
+							"id": "align_text",
+							"label": "Text Alignment",
+							"options": [
+								{
+									"value": "center",
+									"label": "Center"
+								},
+								{
+									"value": "left",
+									"label": "Left"
+								},
+								{
+									"value": "right",
+									"label": "Right"
+								}
+							],
+							"default": "center"
+						},
+						{
+							"type": "textarea",
+							"id": "header",
+							"label": "Heading",
+							"default": "Headline Goes Here"
+						},
+						{
+					        "type":      "range",
+					        "id":        "font_size_1",
+					        "min":       14,
+					        "max":        150,
+					        "step":       2,
+					        "label":     "Heading Size",
+					        "default":   46
+					    },
+						{
+							"type": "textarea",
+							"id": "sub_header",
+							"label": "Subheading",
+							"default": "Sub-headline goes here"
+						},
+						{
+					        "type":      "range",
+					        "id":        "font_size_2",
+					        "min":       14,
+					        "max":        150,
+					        "step":       2,
+					        "label":     "Subheading Size",
+					        "default":   20
+					    },
+						{
+					        "type": "color",
+					        "id": "txt_color",
+					        "label": "Text Color",
+					        "default": "#ffffff"
+					    },
+						{
+							"type": "text",
+							"id": "btn_txt",
+							"label": "Button Text",
+							"default": "Shop Now"
+						},
+						{
+							"type": "url",
+							"id": "btn_url",
+							"label": "Button Url",
+							"info": "If url is added but Button Text is blank then the whole slide becomes a link."
+						},
+					{
+						"type": "paragraph",
+						"content": "--------------------------------"
+					},
+					{
+						"type": "header",
+						"content": "Alignment Settings"
+					},
+						{
+							"type": "select",
+							"id": "align_hor",
+							"label": "Horizontal Content Alignment",
+							"options": [
+								{
+									"value": "center",
+									"label": "Center"
+								},
+								{
+									"value": "left",
+									"label": "Left"
+								},
+								{
+									"value": "right",
+									"label": "Right"
+								}
+							],
+							"default": "center"
+						},
+						{
+					        "type":      "range",
+					        "id":        "vert_align",
+					        "min":       0,
+					        "max":        100,
+					        "step":       1,
+					        "label":     "Vertical Align (optional)",
+					        "default":   50,
+					        "info": "50 is centered"
+					    },
+						{
+					        "type":      "range",
+					        "id":        "hor_align",
+					        "min":       0,
+					        "max":        100,
+					        "step":       1,
+					        "label":     "Horizontal Align (optional)",
+					        "default":   50,
+					        "info": "50 is centered"
+					    },
+						{
+					        "type":      "range",
+					        "id":        "width",
+					        "min":       200,
+					        "max":        1200,
+					        "step":       10,
+					        "label":     "Content Width",
+					        "default":   450
+					    },
+					{
+						"type": "paragraph",
+						"content": "--------------------------------"
+					},
+					{
+						"type":"header",
+						"content": "Custom CSS Rules"
+					},
+						{
+							"type":"paragraph",
+							"content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+						},
+						{
+							"type":"paragraph",
+							"content": "The example below applies font size to only the h2 element in the current block's container."
+						},
+						{
+							"type":"paragraph",
+							"content": "'== h2 { font-size: 20px; } '"
+						},
+						{
+							"type": "html",
+							"id": "custom_html",
+							"label": "Custom HTML"
+						}
+				]
+			}
+		],
+		"presets": [
+			{
+				"name": "Slider Supreme",
+				"category": "Image"
+			}
+		]
+	}
+{% endschema %}

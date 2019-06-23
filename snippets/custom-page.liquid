@@ -56,7 +56,8 @@
 		{% endcapture %}
 		{% assign grps = grps | append: grpItm %}
 	{% endif %}
-
+{% endfor %}
+{% for block in section.blocks %}
 	{% assign b = block %}
 	{% assign b_id = b.id %}
 	{% assign bs = b.settings %}

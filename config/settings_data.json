@@ -1,435 +1,1220 @@
 {
   "current": {
-    "color_text": "#3d4246",
-    "color_body_text": "#69727b",
-    "color_sale_text": "#557B97",
-    "color_button": "#557B97",
+    "color_text": "#333333",
+    "color_body_text": "#333333",
+    "color_sale_text": "#43aa54",
+    "color_button": "#43aa54",
     "color_button_text": "#fff",
-    "color_small_button_text_border": "#3d4246",
-    "color_text_field_text": "#000",
-    "color_text_field_border": "#949494",
-    "color_text_field": "#fff",
+    "color_small_button_text_border": "#333333",
+    "color_text_field_text": "#333333",
+    "color_text_field_border": "#999999",
+    "color_text_field": "#ffffff",
+    "color_highlight": "#bf634b",
     "color_image_overlay_text": "#fff",
-    "color_image_overlay": "#3d4246",
+    "color_image_overlay": "#333333",
     "image_overlay_opacity": 40,
-    "color_borders": "#e8e9eb",
-    "color_body_bg": "#fff",
-    "type_header_font": "work_sans_n6",
+    "color_borders": "#cccccc",
+    "color_body_bg": "#f3f3f3",
+    "type_header_font": "oswald_n4",
     "type_header_base_size": 26,
-    "type_base_font": "work_sans_n4",
-    "type_base_size": 16,
+    "type_base_font": "avenir_next_n4",
+    "type_base_size": 14,
     "type_bold_product_titles": false,
+    "share_image": "",
     "share_facebook": true,
     "share_twitter": true,
     "share_pinterest": true,
+    "social_twitter_link": "https:\/\/twitter.com",
+    "social_facebook_link": "https:\/\/facebook.com",
+    "social_pinterest_link": "",
+    "social_instagram_link": "https:\/\/instagram.com",
+    "social_tumblr_link": "",
+    "social_snapchat_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "favicon": "",
+    "checkout_header_image": "",
+    "checkout_logo_image": "",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_accent_color": "#197bbd",
+    "checkout_button_color": "#197bbd",
+    "checkout_error_color": "#e32c2b",
     "sections": {
       "header": {
         "type": "header",
-        "settings": {}
-      },
-      "hero": {
-        "type": "hero",
         "settings": {
-          "text_size": "large"
+          "align_logo": "left",
+          "logo": "shopify:\/\/shop_images\/AUSTIN_PEDICAB_logo.png",
+          "logo_max_width": 150,
+          "main_linklist": "main-menu",
+          "message": false,
+          "home_page_only": true,
+          "message_text": "Announce something here",
+          "message_link": "",
+          "color_bg": "#7796a8",
+          "color_text": "#fff"
         }
-      },
-      "slideshow": {
-        "type": "slideshow",
-        "blocks": {
-          "slideshow-0": {
-            "type": "image",
-            "settings": {}
-          },
-          "slideshow-1": {
-            "type": "image",
-            "settings": {}
-          }
-        },
-        "block_order": [
-          "slideshow-0",
-          "slideshow-1"
-        ],
-        "settings": {}
-      },
-      "featured-collections": {
-        "type": "collection",
-        "settings": {
-          "collection": "frontpage"
-        }
-      },
-      "feature-row": {
-        "type": "feature-row",
-        "settings": {}
       },
       "footer": {
         "type": "footer",
         "blocks": {
-          "link_list": {
-            "type": "link_list",
-            "settings": {}
+          "1558913916254": {
+            "type": "logo",
+            "settings": {
+              "logo": "shopify:\/\/shop_images\/logo-footer.png",
+              "logo_svg": "",
+              "logo_max_width": 250,
+              "show_social": false,
+              "hide_desk": false,
+              "width_large": "25%",
+              "hide_tab": false,
+              "width_medium": "100%",
+              "hide_mob": false,
+              "width_small": "100%"
+            }
           },
-          "text": {
-            "type": "text",
-            "settings": {}
-          },
-          "newsletter": {
-            "type": "newsletter",
-            "settings": {}
+          "1558914103737": {
+            "type": "social",
+            "settings": {
+              "title": "",
+              "extra_image": "",
+              "extra_image_svg": "",
+              "extra_url": "",
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "100%",
+              "hide_mob": false,
+              "width_small": "100%"
+            }
           }
         },
         "block_order": [
-          "link_list",
-          "text",
-          "newsletter"
+          "1558913916254",
+          "1558914103737"
+        ],
+        "settings": {
+          "txt_color": "#eaeaea",
+          "color_footer_bg": "#2e2c2b",
+          "footer_linklist": "footer",
+          "show_payment_icons": false,
+          "custom_html": "== .grid {\ntext-align: left;\n}\n\n\n@media screen and (min-width: 990px) {\n== .grid__item:first-of-type {\ntext-align: left;\n}\n== .grid__item:nth-of-type(2) {\ntext-align: center;\n}\n== .feature-row__image-wrapper {\nmargin: 0;\ntext-align: left;\n}\n}\n@media screen and (max-width: 989px) {\n== .grid {\ntext-align: center;\ndisplay: flex;\nflex-direction: column-reverse;\n}\n== .social-section {\ntext-align: center;\n}\n}"
+        }
+      },
+      "1557011069524": {
+        "type": "crazy-slider",
+        "blocks": {
+          "1557011120360": {
+            "type": "slider",
+            "settings": {
+              "show_image": true,
+              "image": "shopify:\/\/shop_images\/HP-hero.jpg",
+              "align_bg": "center",
+              "bg_color": "#272322",
+              "opacity": 65,
+              "image_mob": "",
+              "align_bg_mob": "center",
+              "bg_color_mob": "#272322",
+              "opacity_mob": 55,
+              "show_mobile_overlay_sooner": false,
+              "video_url": "",
+              "video_hosted": "",
+              "video_modal": "",
+              "align_text": "center",
+              "header": "AUSTIN PEDICAB",
+              "font_size_1": 110,
+              "sub_header": "DON’T WALK, BOOK YOUR ADVENTURE",
+              "font_size_2": 40,
+              "txt_color": "#ffffff",
+              "btn_txt": "Book Now",
+              "btn_url": "#",
+              "align_hor": "center",
+              "vert_align": 50,
+              "hor_align": 50,
+              "width": 860,
+              "custom_html": "== h2 {\nmargin-bottom: 70px;\nposition: relative;\n}\n\n== h2::after {\ncontent: '';\nposition: absolute;\nbottom:-25%;\nleft:50%;\ntransform: translate(-50%, 50%);\nwidth: 90%;\nmax-width: 350px;\nheight: 15px;\nborder: 2px solid #B5DCDB;\nborder-left: none;\nborder-right: none;\n}\n\n== .btn {\nbackground-color: #BF634B;\n}\n\n@media screen and (max-width: 749px) {\n== h2 {\nfont-size: 55px;\nmargin-bottom: 1em;\n}\n== h2::after {\ntop: 120%;\nheight: 10px;\n}\n== h3 {\nfont-size: 23px;\nmargin-bottom: 1em;\n}\n}"
+            }
+          }
+        },
+        "block_order": [
+          "1557011120360"
+        ],
+        "settings": {
+          "set_height": true,
+          "mob_rel": false,
+          "image_height": 780,
+          "image_height_mob": 310,
+          "auto_slide": true,
+          "pause": "5000",
+          "custom_css": ""
+        }
+      },
+      "1557033389386": {
+        "type": "custom-section",
+        "blocks": {
+          "1557033396819": {
+            "type": "group",
+            "settings": {
+              "title": "sign up",
+              "page_width": false,
+              "page_width_max": "",
+              "custom_html": "== {\nbackground: #B5DCDB;\npadding:3em 1em;\nbox-shadow: 0px 2px 4px 0px rgba(0,0,0,.50);\n}"
+            }
+          },
+          "1557033429161": {
+            "type": "text",
+            "settings": {
+              "group_num": "sign up",
+              "hide_mob": false,
+              "hide_desk": false,
+              "title": "NEED A RIDE NOW?",
+              "text": "<p>Book a cab online and one of our riders will call you right away to arrange a pick up.<\/p>",
+              "btn_txt": "Book a Cab Now",
+              "btn_url": "#",
+              "text_size": 40,
+              "width_large": "100%",
+              "width_medium": "100%",
+              "width_small": "100%",
+              "custom_html": "== {\ntext-align: center;\n}\n\n== h2 {\nmargin-bottom: .2em;\nmargin-bottom: 8px;\n}\n== .rte {\nmargin: 0 auto 0.7em;\nmargin: 0 auto 17px;\nfont-size: 24px;\nline-height: 1.2;\n}\n\n\n@media screen and (max-width: 749px) {\n== h2 {\nfont-size: 25px;\n}\n== .rte {\nfont-size: 18px;\n}\n}"
+            }
+          }
+        },
+        "block_order": [
+          "1557033396819",
+          "1557033429161"
+        ],
+        "settings": {}
+      },
+      "1558822932982": {
+        "type": "featured-blocks",
+        "blocks": {
+          "1558823183422": {
+            "type": "block",
+            "settings": {
+              "title": "Advertising",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": "#",
+              "image": "shopify:\/\/shop_images\/spontuneous9cut_2.jpg"
+            }
+          },
+          "1558823191464": {
+            "type": "block",
+            "settings": {
+              "title": "Corporate Events",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": "#",
+              "image": "shopify:\/\/shop_images\/HP-hero_4d7565dc-4b0d-48d0-bb05-1b54ef534838.jpg"
+            }
+          },
+          "1558823192754": {
+            "type": "block",
+            "settings": {
+              "title": "Weddings",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": "#",
+              "image": "shopify:\/\/shop_images\/weddings.jpg"
+            }
+          },
+          "1558823194875": {
+            "type": "block",
+            "settings": {
+              "title": "Tours",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": "#",
+              "image": "shopify:\/\/shop_images\/tour2.jpg"
+            }
+          }
+        },
+        "block_order": [
+          "1558823183422",
+          "1558823191464",
+          "1558823192754",
+          "1558823194875"
+        ],
+        "settings": {
+          "title": "Services & Campaigns",
+          "max-width": true,
+          "txt_color": "#ffffff",
+          "bg_color": "#bf634b",
+          "txt_hov_color": "#ffffff",
+          "bg_hov_color": "#333333",
+          "custom_html": ""
+        }
+      },
+      "1558827923623": {
+        "type": "featured-cta-grid",
+        "blocks": {
+          "1558828174421": {
+            "type": "text",
+            "settings": {
+              "title": "Some Title",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": "",
+              "txt_color": "#ffffff",
+              "bg_color": "#517887",
+              "hide_desk": false,
+              "width_large": "33%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558828247756": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/bravo15.jpg",
+              "image_2": "",
+              "url": "",
+              "hide_desk": false,
+              "width_large": "16%",
+              "hide_tab": true,
+              "width_medium": "25%",
+              "hide_mob": true,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558828280399": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/bravo50.jpg",
+              "image_2": "",
+              "url": "",
+              "hide_desk": false,
+              "width_large": "30%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558828475855": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/matt1.jpg",
+              "image_2": "shopify:\/\/shop_images\/home-hero.jpg",
+              "url": "",
+              "hide_desk": false,
+              "width_large": "20%",
+              "hide_tab": true,
+              "width_medium": "100%",
+              "hide_mob": true,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          }
+        },
+        "block_order": [
+          "1558828174421",
+          "1558828247756",
+          "1558828280399",
+          "1558828475855"
+        ],
+        "settings": {
+          "title": "",
+          "max-width": true,
+          "min_height_desktop": 500,
+          "min_height_mobile": 300,
+          "min_height_padding": 150,
+          "custom_html": ""
+        }
+      },
+      "1558835324722": {
+        "type": "testimonials",
+        "blocks": {
+          "1558835331521": {
+            "type": "text",
+            "settings": {
+              "title": "Jacob Wells",
+              "text": "<p><i>My driver knew all the right spots for food and drink. Whatever your passion: architecture, barbeque, microbrews, history, music &hellip; or anything else Austin Pedicab Company either has the tour you want or will design it for you.<\/i><\/p>",
+              "url": ""
+            }
+          },
+          "1558835360237": {
+            "type": "text",
+            "settings": {
+              "title": "Charlie Pace",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": ""
+            }
+          },
+          "1558835372068": {
+            "type": "text",
+            "settings": {
+              "title": "John Lyman",
+              "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "url": ""
+            }
+          }
+        },
+        "block_order": [
+          "1558835331521",
+          "1558835360237",
+          "1558835372068"
+        ],
+        "settings": {
+          "title": "",
+          "max-width": true,
+          "auto_slide": true,
+          "pause": "5000",
+          "custom_html": ""
+        }
+      },
+      "1558896804489": {
+        "type": "featured-cta-grid",
+        "blocks": {
+          "1558896813925": {
+            "type": "text",
+            "settings": {
+              "title": "OUR MISSION",
+              "text": "<p>We offer a new and unique approach to enjoying the cities of Austin, Texas and Chicago, Illinois. Our ultimate goal is to provide the best service and experience to every customer using our team of dedicated and enthusiastic drivers, and to utilize modern technology and innovation to enhance advertising campaigns, corporate events, wedding and tours.<\/p>",
+              "url": "",
+              "txt_color": "#ffffff",
+              "bg_color": "#517887",
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558896983936": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/cindi2.jpg",
+              "image_2": "",
+              "url": "",
+              "hide_desk": false,
+              "width_large": "25%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558897031344": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/instagram43.jpg",
+              "image_2": "",
+              "url": "",
+              "hide_desk": false,
+              "width_large": "25%",
+              "hide_tab": true,
+              "width_medium": "100%",
+              "hide_mob": true,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558897067210": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/matt1_86313cbc-a6fa-4e78-8fa2-9ac377982364.jpg",
+              "image_2": "",
+              "url": "",
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1558897122702": {
+            "type": "text",
+            "settings": {
+              "title": "",
+              "text": "<p>A PROMO OR ANNOUNCEMENT GOES HERE!<\/p>",
+              "url": "",
+              "txt_color": "#000000",
+              "bg_color": "#ffffff",
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": "== .center-content {\nwidth:95%;\n}\n\n== p {\nfont-size: 4.5vw;\nline-height: 1.1;\nfont-weight: 400;\n}\n@media screen and (max-width: 749px) {\n== p {\nfont-size: 8vmin;\n}\n}\n@media screen and (min-width: 1200px) {\n== p {\nfont-size: 55px;\n}\n}"
+            }
+          }
+        },
+        "block_order": [
+          "1558896813925",
+          "1558896983936",
+          "1558897031344",
+          "1558897067210",
+          "1558897122702"
+        ],
+        "settings": {
+          "title": "",
+          "max-width": true,
+          "min_height_desktop": 650,
+          "min_height_mobile": 300,
+          "min_height_padding": 150,
+          "custom_html": ""
+        }
+      },
+      "1558902645490": {
+        "type": "featured-blog",
+        "settings": {
+          "title": "Latest News",
+          "blog": "news",
+          "post_limit": 3,
+          "blog_show_author": false,
+          "blog_show_date": false,
+          "show_view_all": false
+        }
+      },
+      "instagram": {
+        "type": "instagram",
+        "settings": {
+          "title": "#ATXPEDICAB",
+          "max-width": false,
+          "tag-name": "",
+          "accessToken": "",
+          "clientId": "",
+          "sort-by": "most-recent",
+          "show_by": "tag_name",
+          "limit": 4,
+          "custom_html": ""
+        }
+      },
+      "newsletter": {
+        "type": "newsletter",
+        "settings": {
+          "section_title": "SIGN UP TO LEARN ABOUT OUR LATEST NEWS, PROMOTIONS, & EVENTS",
+          "subheading": "",
+          "show_background": true
+        }
+      },
+      "page-hero": {
+        "type": "page-hero",
+        "blocks": {
+          "1558918882085": {
+            "type": "hero",
+            "settings": {
+              "title": "Campaigns",
+              "page_url": "shopify:\/\/pages\/campaigns",
+              "image": "shopify:\/\/shop_images\/bravo50_40f99535-53ea-4d23-bb11-b3d33e973a4b.jpg",
+              "align_bg": "center",
+              "bg_size": "cover",
+              "custom_size": "",
+              "image_mob": "",
+              "align_bg_mob": "center",
+              "bg_size_mob": "cover",
+              "custom_size_mob": "",
+              "section_height": 500,
+              "txt_color": "#ffffff",
+              "bg_color": "#272322",
+              "opacity": 25,
+              "override_title": "",
+              "hide_title": false,
+              "override_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<\/p>",
+              "hide_content": false,
+              "show_below": true,
+              "below_title": "",
+              "custom_css": "@media screen and (min-width: 750px) {\n== .page-width {\nmax-width: 1100px;\n}\n== .rte {\nmax-width: 100%;\nfont-size: 24px;\n}\n}"
+            }
+          },
+          "1558939609963": {
+            "type": "hero",
+            "settings": {
+              "title": "Tours",
+              "page_url": "shopify:\/\/blogs\/tours",
+              "image": "shopify:\/\/shop_images\/Screen_Shot_2019-02-17_at_10.24.52_AM.jpg",
+              "align_bg": "center",
+              "bg_size": "cover",
+              "custom_size": "",
+              "image_mob": "",
+              "align_bg_mob": "center",
+              "bg_size_mob": "cover",
+              "custom_size_mob": "",
+              "section_height": 500,
+              "txt_color": "#ffffff",
+              "bg_color": "#272322",
+              "opacity": 45,
+              "override_title": "",
+              "hide_title": false,
+              "override_text": "<p>What do you wanna do? What would you like to see? Join us for a tour on a pedicab!! Each one of our drivers are well trained ambassadors to the city. Have them chauffeur you and your family, friends, clients and colleges around the downtown area and discover the ins and outs, secret and not so secret parts that make this town tick!<\/p>",
+              "hide_content": false,
+              "show_below": true,
+              "below_title": "<p>JOIN US FOR A TOUR ON A PEDICAB<\/p>",
+              "custom_css": "@media screen and (min-width: 750px) {\n== .page-width {\nmax-width: 1100px;\n}\n== .rte {\nmax-width: 100%;\nfont-size: 24px;\n}\n}"
+            }
+          },
+          "1558943154949": {
+            "type": "hero",
+            "settings": {
+              "title": "Texas Wine & Dine",
+              "page_url": "shopify:\/\/blogs\/tours\/texas-wine-dine",
+              "image": "shopify:\/\/shop_images\/instagram43.jpg",
+              "align_bg": "center",
+              "bg_size": "cover",
+              "custom_size": "",
+              "image_mob": "",
+              "align_bg_mob": "center",
+              "bg_size_mob": "cover",
+              "custom_size_mob": "",
+              "section_height": 500,
+              "txt_color": "#ffffff",
+              "bg_color": "#272322",
+              "opacity": 25,
+              "override_title": "",
+              "hide_title": false,
+              "override_text": "",
+              "hide_content": false,
+              "show_below": false,
+              "below_title": "",
+              "custom_css": ""
+            }
+          },
+          "1559003986238": {
+            "type": "hero",
+            "settings": {
+              "title": "Blog",
+              "page_url": "shopify:\/\/blogs\/news",
+              "image": "shopify:\/\/shop_images\/austin-1022943_1920.jpg",
+              "align_bg": "center",
+              "bg_size": "cover",
+              "custom_size": "",
+              "image_mob": "",
+              "align_bg_mob": "center",
+              "bg_size_mob": "cover",
+              "custom_size_mob": "",
+              "section_height": 500,
+              "txt_color": "#ffffff",
+              "bg_color": "#272322",
+              "opacity": 25,
+              "override_title": "Blog",
+              "hide_title": false,
+              "override_text": "",
+              "hide_content": false,
+              "show_below": false,
+              "below_title": "",
+              "custom_css": ""
+            }
+          },
+          "1559012590344": {
+            "type": "hero",
+            "settings": {
+              "title": "About",
+              "page_url": "shopify:\/\/pages\/about",
+              "image": "shopify:\/\/shop_images\/austin-1022943_1920.jpg",
+              "align_bg": "center",
+              "bg_size": "cover",
+              "custom_size": "",
+              "image_mob": "",
+              "align_bg_mob": "center",
+              "bg_size_mob": "cover",
+              "custom_size_mob": "",
+              "section_height": 500,
+              "txt_color": "#ffffff",
+              "bg_color": "#272322",
+              "opacity": 35,
+              "override_title": "About Us",
+              "hide_title": false,
+              "override_text": "",
+              "hide_content": false,
+              "show_below": false,
+              "below_title": "",
+              "custom_css": "== .center-content {\nmax-width: 98%;\n}"
+            }
+          }
+        },
+        "block_order": [
+          "1558918882085",
+          "1558939609963",
+          "1558943154949",
+          "1559003986238",
+          "1559012590344"
+        ],
+        "settings": {}
+      },
+      "blog-custom-1": {
+        "type": "blog-custom-1",
+        "blocks": {
+          "1558930110934": {
+            "type": "article",
+            "settings": {
+              "article": "branding\/spontuneous"
+            }
+          },
+          "1558930552710": {
+            "type": "article",
+            "settings": {
+              "article": "news\/i-have-to-push-the-pram-a-lot-its-only-a-model"
+            }
+          },
+          "1558930937106": {
+            "type": "article",
+            "settings": {
+              "article": "news\/bloody-peasant-whered-you-get-the-coconuts"
+            }
+          },
+          "1558932102405": {
+            "type": "row",
+            "settings": {
+              "blog": "branding",
+              "title": "",
+              "row_item_limit": 2,
+              "row_limit": 2,
+              "btn_txt": "Learn More",
+              "btn_type": "link"
+            }
+          },
+          "1558946305513": {
+            "type": "row",
+            "settings": {
+              "blog": "corporate-events",
+              "title": "",
+              "row_item_limit": 2,
+              "row_limit": 2,
+              "btn_txt": "Learn More",
+              "btn_type": "button"
+            }
+          }
+        },
+        "block_order": [
+          "1558930110934",
+          "1558930552710",
+          "1558930937106",
+          "1558932102405",
+          "1558946305513"
+        ],
+        "settings": {
+          "title": "Featured",
+          "featured_row_item_limit": 3,
+          "featured_row_limit": 1,
+          "btn_txt": "Learn More",
+          "btn_type": "link",
+          "custom_css": "== .page-width {\nmax-width: 1200px;\n}"
+        }
+      },
+      "blog-template": {
+        "type": "blog-template",
+        "settings": {
+          "layout": "grid",
+          "blog_show_author": true,
+          "blog_show_date": true
+        }
+      },
+      "blog-tours": {
+        "type": "blog-tours",
+        "blocks": {
+          "1558939732304": {
+            "type": "row",
+            "settings": {
+              "blog": "tours",
+              "title": "&nbsp;",
+              "row_item_limit": 2,
+              "row_limit": 8,
+              "btn_txt": "Learn More",
+              "btn_type": "button"
+            }
+          }
+        },
+        "block_order": [
+          "1558939732304"
+        ],
+        "settings": {
+          "title": "Featured",
+          "featured_row_item_limit": 3,
+          "featured_row_limit": 1,
+          "btn_txt": "Learn More",
+          "btn_type": "button",
+          "custom_css": "== .page-width {\nmax-width: 1200px;\n}"
+        }
+      },
+      "article-template": {
+        "type": "article-template",
+        "settings": {
+          "blog_show_author": false,
+          "blog_show_date": true,
+          "show_share_buttons": false
+        }
+      },
+      "blog-branding": {
+        "type": "blog-branding",
+        "blocks": {
+          "1559001559133": {
+            "type": "row",
+            "settings": {
+              "blog": "branding",
+              "title": "",
+              "row_item_limit": 2,
+              "row_limit": 4,
+              "btn_txt": "Learn More",
+              "btn_type": "link"
+            }
+          }
+        },
+        "block_order": [
+          "1559001559133"
+        ],
+        "settings": {
+          "title": "Featured",
+          "featured_row_item_limit": 3,
+          "featured_row_limit": 1,
+          "btn_txt": "Learn More",
+          "btn_type": "button",
+          "custom_css": ""
+        }
+      },
+      "blog-corporate": {
+        "type": "blog-corporate",
+        "blocks": {
+          "1559002190535": {
+            "type": "row",
+            "settings": {
+              "blog": "corporate-events",
+              "title": "",
+              "row_item_limit": 2,
+              "row_limit": 1,
+              "btn_txt": "Learn More",
+              "btn_type": "link"
+            }
+          }
+        },
+        "block_order": [
+          "1559002190535"
+        ],
+        "settings": {
+          "title": "Featured",
+          "featured_row_item_limit": 3,
+          "featured_row_limit": 1,
+          "btn_txt": "Learn More",
+          "btn_type": "button",
+          "custom_css": "== .page-width {\nmax-width: 1200px;\n}"
+        }
+      },
+      "blog-news": {
+        "type": "blog-news",
+        "blocks": {
+          "1559003955604": {
+            "type": "row",
+            "settings": {
+              "blog": "news",
+              "title": "&nbsp;",
+              "row_item_limit": 1,
+              "row_limit": 8,
+              "btn_txt": "Read More",
+              "btn_type": "link"
+            }
+          }
+        },
+        "block_order": [
+          "1559003955604"
+        ],
+        "settings": {
+          "title": "Featured",
+          "featured_row_item_limit": 3,
+          "featured_row_limit": 1,
+          "btn_txt": "Learn More",
+          "btn_type": "button",
+          "custom_css": "== .page-width {\nmax-width: 1200px;\n}"
+        }
+      },
+      "custom-page-1": {
+        "type": "custom-page-1",
+        "blocks": {
+          "1559013518231": {
+            "type": "group",
+            "settings": {
+              "title": "Green",
+              "page_width": true,
+              "no_gutter": true,
+              "page_width_max": "",
+              "match_height": true,
+              "custom_html": "== .page-width {\nbackground:#B5DCDB;\npadding:0;\n}\n\n== .grid .grid__item {\nvertical-align: middle;\n}"
+            }
+          },
+          "1559015170878": {
+            "type": "group",
+            "settings": {
+              "title": "Green 2",
+              "page_width": true,
+              "no_gutter": true,
+              "page_width_max": "",
+              "match_height": true,
+              "custom_html": "== .page-width {\nbackground:#B5DCDB;\npadding:0;\n}\n\n== .grid .grid__item {\nvertical-align: middle;\n}"
+            }
+          },
+          "1559013542293": {
+            "type": "text",
+            "settings": {
+              "grid_handle": "Green",
+              "title": "The Beginning",
+              "text": "<p>After South by Southwest in Austin, Texas in April of 2015, the owners and founders Adam Finton and Matt Maschek created a small pedicab company, aptly named Austin Pedicab Company. A year later, Austin Pedicab Company purchased the majority of Heart of Texas Pedicabs from Stevie Smjastrla.<\/p>\n<p><\/p>\n<p>Heart of Texas Pedicabs is the remnants of the original pedicab company in Austin, and Stevie Smjastrla, for the last decade, has been one of the most important figures in growing the pedicab industry in Austin and perhaps influencing the growth throughout the rest of the country.<\/p>\n<p><\/p>\n<p>In the summer of 2016, Austin Pedicab Company purchased part of another pedicab company, and opened up shop in Chicago, Illinois. Today, we operate 35 pedicabs in Austin, Texas and 33 pedicabs in Chicago, Illinois. Austin Pedicab Company is proud to be part of the history of pedicabbing and strives to be a driving force for the future.<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "use_news": false,
+              "text_size": 46,
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1559014045120": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Green",
+              "top_image": "shopify:\/\/shop_images\/home-hero.jpg",
+              "bottom_image": "shopify:\/\/shop_images\/matt8.jpg",
+              "height": 400,
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": "@media screen and (max-width: 989px) {\n== .bg_image:last-of-type {\ndisplay: none;\n}\n}"
+            }
+          },
+          "1559014969883": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Green 2",
+              "top_image": "shopify:\/\/shop_images\/austin-1022943_1920.jpg",
+              "bottom_image": "",
+              "height": 400,
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1559016060435": {
+            "type": "text",
+            "settings": {
+              "grid_handle": "Green 2",
+              "title": "Our Mission",
+              "text": "<p>To offer a new and unique approach to enjoying the cities of Austin, Texas and Chicago, Illinois. Our ultimate goal is to provide the best service and experience to every customer using our team of dedicated and enthusiastic drivers, and to utilize modern technology and innovation to enhance advertising campaigns, corporate events, wedding and tours.<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "use_news": false,
+              "text_size": 46,
+              "hide_desk": false,
+              "width_large": "50%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          }
+        },
+        "block_order": [
+          "1559013518231",
+          "1559015170878",
+          "1559013542293",
+          "1559014045120",
+          "1559014969883",
+          "1559016060435"
+        ],
+        "settings": {}
+      },
+      "rider-1": {
+        "type": "rider-1",
+        "blocks": {
+          "1560051820787": {
+            "type": "group",
+            "settings": {
+              "title": "Group",
+              "page_width": true,
+              "no_gutter": false,
+              "page_width_max": "",
+              "match_height": false,
+              "custom_html": ""
+            }
+          },
+          "1560052656314": {
+            "type": "quote",
+            "settings": {
+              "grid_handle": "Group",
+              "title": "Matt Maschek",
+              "text": "<p>After being a pedicab driver in Austin and New Orleans, I decided to open up my own company. I've worked for a lot awful people. My goal is to not be one of those people.\"<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "text_size": 110,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "hide_tab": false,
+              "hide_mob": false,
+              "custom_html": ""
+            }
+          },
+          "1560054358942": {
+            "type": "group",
+            "settings": {
+              "title": "Green",
+              "page_width": true,
+              "no_gutter": true,
+              "page_width_max": "",
+              "match_height": true,
+              "custom_html": "== .page-width {\nbackground:#B5DCDB;\npadding:0;\n}\n\n== .grid .grid__item {\nvertical-align: middle;\n}"
+            }
+          },
+          "1560054579128": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Green",
+              "top_image": "shopify:\/\/shop_images\/crew12.png",
+              "bottom_image": "",
+              "height": 400,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "66%",
+              "hide_tab": false,
+              "width_medium": "60%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1560054445308": {
+            "type": "text",
+            "settings": {
+              "grid_handle": "Green",
+              "title": "My Experience",
+              "text": "<p>Pedicab Driver since November 2011<\/p>\n<p><\/p>\n<p>Pedicab Shop Manager<\/p>\n<p><\/p>\n<p>Owner of Austin Pedicab Company since 2015<\/p>\n<p><\/p>\n<p>Bravo Ambassador (username: Mattmaschek)<\/p>\n<p><\/p>\n<p>BA in Broadcast Journalism<\/p>\n<p><\/p>\n<p>Opera Singer<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "use_news": false,
+              "text_size": 35,
+              "rte_text_size": 24,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "33%",
+              "hide_tab": false,
+              "width_medium": "40%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1560059332771": {
+            "type": "text",
+            "settings": {
+              "grid_handle": "Green",
+              "title": "Where I've Pedicabbed",
+              "text": "<p>Austin, TX &mdash; Alrington, TX &mdash; Waco, TX &mdash; New Orleans, LA &mdash; Des Moines, IA<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "use_news": false,
+              "text_size": 35,
+              "rte_text_size": 24,
+              "opt_out_match_height": true,
+              "hide_desk": false,
+              "width_large": "100%",
+              "hide_tab": false,
+              "width_medium": "100%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": "== {\nbackground: #BF634B;\n}\n\n== * {\ncolor: white;\n}\n\n== h2::after {\nbackground:white;\n}"
+            }
+          }
+        },
+        "block_order": [
+          "1560051820787",
+          "1560052656314",
+          "1560054358942",
+          "1560054579128",
+          "1560054445308",
+          "1560059332771"
+        ],
+        "settings": {}
+      },
+      "rider-2": {
+        "type": "rider-2",
+        "blocks": {
+          "1560826734007": {
+            "type": "group",
+            "settings": {
+              "title": "Group",
+              "page_width": true,
+              "no_gutter": false,
+              "page_width_max": "",
+              "match_height": false,
+              "custom_html": ""
+            }
+          },
+          "1560827141910": {
+            "type": "group",
+            "settings": {
+              "title": "Green",
+              "page_width": true,
+              "no_gutter": true,
+              "page_width_max": "",
+              "match_height": true,
+              "custom_html": "== .page-width {\nbackground:#B5DCDB;\npadding:0;\n}\n\n== .grid .grid__item {\nvertical-align: middle;\n}"
+            }
+          },
+          "1561319085778": {
+            "type": "group",
+            "settings": {
+              "title": "Gallery",
+              "page_width": false,
+              "no_gutter": true,
+              "page_width_max": "",
+              "match_height": false,
+              "custom_html": ""
+            }
+          },
+          "1560826895913": {
+            "type": "quote",
+            "settings": {
+              "grid_handle": "Group",
+              "title": "Jaconah \"Coco Pedals\" Whites",
+              "text": "<p>I absolutely love this city! I'll be playing guitar and skateboarding here until I physically can't.\"<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "text_size": 110,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "hide_tab": false,
+              "hide_mob": false,
+              "custom_html": ""
+            }
+          },
+          "1560827243615": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Green",
+              "top_image": "shopify:\/\/shop_images\/jaconah2.jpg",
+              "bottom_image": "",
+              "height": 400,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "66%",
+              "hide_tab": false,
+              "width_medium": "60%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1560827352409": {
+            "type": "text",
+            "settings": {
+              "grid_handle": "Green",
+              "title": "My Experience",
+              "text": "<p>Pedicab Driver since February 2016<\/p>\n<p>Bravo Ambassador (username: Coco Pedals)<\/p>\n<p>Pedicab Mechanic<\/p>\n<p>Austin local from birth (that's getting rarer!)<\/p>\n<p><\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "use_news": false,
+              "text_size": 35,
+              "rte_text_size": 24,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "33%",
+              "hide_tab": false,
+              "width_medium": "40%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1560827956863": {
+            "type": "text",
+            "settings": {
+              "grid_handle": "Green",
+              "title": "Where I've Pedicabbed",
+              "text": "<p>Austin, TX<\/p>",
+              "btn_txt": "",
+              "btn_url": "",
+              "use_news": false,
+              "text_size": 35,
+              "rte_text_size": 24,
+              "opt_out_match_height": true,
+              "hide_desk": false,
+              "width_large": "100%",
+              "hide_tab": false,
+              "width_medium": "100%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": "== {\nbackground: #BF634B;\n}\n\n== * {\ncolor: white;\n\n}\n\n== h2::after {\nbackground:white;\n}\n\n== .rte {\ntext-align: center;\n}"
+            }
+          },
+          "1561323490880": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Gallery",
+              "top_image": "shopify:\/\/shop_images\/atxshi-credit-morgan-spenseley3_1.png",
+              "bottom_image": "",
+              "height": 400,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "60%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1561323713867": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "",
+              "top_image": "",
+              "bottom_image": "",
+              "height": 400,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "100%",
+              "hide_tab": false,
+              "width_medium": "100%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          }
+        },
+        "block_order": [
+          "1560826734007",
+          "1560827141910",
+          "1561319085778",
+          "1560826895913",
+          "1560827243615",
+          "1560827352409",
+          "1560827956863",
+          "1561323490880",
+          "1561323713867"
         ],
         "settings": {}
       }
     },
     "content_for_index": [
-      "hero",
-      "featured-collections",
-      "feature-row",
-      "slideshow"
+      "1557011069524",
+      "1557033389386",
+      "1558822932982",
+      "1558827923623",
+      "1558835324722",
+      "1558896804489",
+      "1558902645490"
     ]
-  },
-  "presets": {
-    "Default": {
-      "color_text": "#3d4246",
-      "color_body_text": "#69727b",
-      "color_sale_text": "#557B97",
-      "color_borders": "#e8e9eb",
-      "color_button": "#557B97",
-      "color_button_text": "#fff",
-      "color_small_button_text_border": "#3d4246",
-      "color_text_field": "#fff",
-      "color_text_field_text": "#000",
-      "color_text_field_border": "#949494",
-      "color_image_overlay_text": "#fff",
-      "color_image_overlay": "#3d4246",
-      "image_overlay_opacity": 40,
-      "color_body_bg": "#fff",
-      "type_header_font": "work_sans_n6",
-      "type_header_base_size": 26,
-      "type_base_font": "work_sans_n4",
-      "type_base_size": 16,
-      "type_bold_product_titles": false,
-      "share_facebook": true,
-      "share_twitter": true,
-      "share_pinterest": true,
-      "sections": {
-        "header": {
-          "type": "header",
-          "settings": {}
-        },
-        "hero": {
-          "type": "hero",
-          "settings": {
-            "text_size": "large"
-          }
-        },
-        "slideshow": {
-          "type": "slideshow",
-          "blocks": {
-            "slideshow-0": {
-              "type": "image",
-              "settings": {}
-            },
-            "slideshow-1": {
-              "type": "image",
-              "settings": {}
-            }
-          },
-          "block_order": [
-            "slideshow-0",
-            "slideshow-1"
-          ],
-          "settings": {}
-        },
-        "featured-collections": {
-          "type": "collection",
-          "settings": {
-            "collection": "frontpage"
-          }
-        },
-        "feature-row": {
-          "type": "feature-row",
-          "settings": {}
-        },
-        "footer": {
-          "type": "footer",
-          "blocks": {
-            "link_list": {
-              "type": "link_list",
-              "settings": {}
-            },
-            "text": {
-              "type": "text",
-              "settings": {}
-            },
-            "newsletter": {
-              "type": "newsletter",
-              "settings": {}
-            }
-          },
-          "block_order": [
-            "link_list",
-            "text",
-            "newsletter"
-          ],
-          "settings": {}
-        }
-      },
-      "content_for_index": [
-        "hero",
-        "featured-collections",
-        "feature-row",
-        "slideshow"
-      ]
-    },
-    "Light": {
-      "color_text": "#162950",
-      "color_body_text": "#6d6d6d",
-      "color_sale_text": "#DA2F0C",
-      "color_borders": "#e4e4e4",
-      "color_button": "#DA2F0C",
-      "color_button_text": "#ffffff",
-      "color_small_button_text_border": "#162950",
-      "color_text_field": "#ffffff",
-      "color_text_field_text": "#162950",
-      "color_text_field_border": "#909090",
-      "color_image_overlay_text": "#ffffff",
-      "color_image_overlay": "#3d3d3d",
-      "image_overlay_opacity": 40,
-      "color_body_bg": "#f8f8f8",
-      "type_header_font": "muli_n6",
-      "type_header_base_size": 26,
-      "type_base_font": "muli_n4",
-      "type_base_size": 18,
-      "type_bold_product_titles": true,
-      "share_facebook": true,
-      "share_twitter": true,
-      "share_pinterest": true,
-      "social_twitter_link": "",
-      "social_facebook_link": "",
-      "social_pinterest_link": "",
-      "social_instagram_link": "",
-      "social_tumblr_link": "",
-      "social_snapchat_link": "",
-      "social_youtube_link": "",
-      "social_vimeo_link": "",
-      "favicon": "",
-      "checkout_header_image": "",
-      "checkout_logo_image": "",
-      "checkout_logo_position": "left",
-      "checkout_logo_size": "small",
-      "checkout_body_background_image": "",
-      "checkout_body_background_color": "#ffffff",
-      "checkout_input_background_color_mode": "white",
-      "checkout_sidebar_background_image": "",
-      "checkout_sidebar_background_color": "#e8f3f6",
-      "checkout_heading_font": "Roboto",
-      "checkout_body_font": "Source Sans Pro",
-      "checkout_accent_color": "#1990c6",
-      "checkout_button_color": "#23314e",
-      "checkout_error_color": "#ff6d6d",
-      "sections": {
-        "header": {
-          "type": "header",
-          "settings": {
-            "align_logo": "left",
-            "logo": "",
-            "logo_max_width": 135,
-            "main_linklist": "main-menu",
-            "message": true,
-            "color_bg": "#162950",
-            "color_text": "#ffffff"
-          }
-        },
-        "hero": {
-          "type": "hero",
-          "settings": {
-            "alignment": "center",
-            "hero_size": "x-large",
-            "text_size": "large"
-          }
-        },
-        "slideshow": {
-          "type": "slideshow",
-          "blocks": {
-            "slideshow-0": {
-              "type": "image",
-              "settings": {
-                "image": "",
-                "alignment": "center center"
-              }
-            },
-            "1492095993817": {
-              "type": "image",
-              "settings": {
-                "image": "",
-                "alignment": "center"
-              }
-            }
-          },
-          "block_order": [
-            "slideshow-0",
-            "1492095993817"
-          ],
-          "settings": {
-            "slideshow_height": "medium",
-            "text_size": "medium",
-            "autorotate": false,
-            "autorotate_speed": 5
-          }
-        },
-        "featured-collections": {
-          "type": "collection",
-          "settings": {
-            "grid": 3,
-            "rows": 1,
-            "show_vendor": true,
-            "show_view_all": true
-          }
-        },
-        "product-template": {
-          "type": "product-template",
-          "settings": {
-            "image_size": "medium",
-            "show_quantity_selector": false,
-            "show_variant_labels": true,
-            "show_vendor": false,
-            "enable_zoom": true,
-            "show_share_buttons": true
-          }
-        },
-        "collection-template": {
-          "type": "collection-template",
-          "settings": {
-            "layout": "grid",
-            "grid": 2,
-            "rows": 2,
-            "show_collection_image": true,
-            "show_vendor": false,
-            "sort_enable": true,
-            "tags_enable": true
-          }
-        },
-        "1492033809691": {
-          "type": "map",
-          "settings": {}
-        },
-        "1492033877875": {
-          "type": "quotes",
-          "blocks": {
-            "1492033877875-0": {
-              "type": "quote",
-              "settings": {}
-            }
-          },
-          "block_order": [
-            "1492033877875-0"
-          ],
-          "settings": {}
-        },
-        "1492033924902": {
-          "type": "custom-content",
-          "blocks": {
-            "1492033924902-0": {
-              "type": "text",
-              "settings": {
-                "width": "100%",
-                "alignment": "center",
-                "align_text": "center"
-              }
-            }
-          },
-          "block_order": [
-            "1492033924902-0"
-          ],
-          "settings": {
-            "title": ""
-          }
-        },
-        "1492096252560": {
-          "type": "collection-list",
-          "blocks": {
-            "1492096252560-0": {
-              "type": "featured_collection",
-              "settings": {}
-            },
-            "1492096252560-1": {
-              "type": "featured_collection",
-              "settings": {}
-            },
-            "1492096252560-2": {
-              "type": "featured_collection",
-              "settings": {}
-            }
-          },
-          "block_order": [
-            "1492096252560-0",
-            "1492096252560-1",
-            "1492096252560-2"
-          ],
-          "settings": {
-            "grid": 3
-          }
-        },
-        "blog-template": {
-          "type": "blog-template",
-          "settings": {
-            "layout": "grid",
-            "blog_show_author": true,
-            "blog_show_date": false
-          }
-        },
-        "article-template": {
-          "type": "article-template",
-          "settings": {
-            "blog_show_author": true,
-            "blog_show_date": true,
-            "show_share_buttons": true
-          }
-        },
-        "cart-template": {
-          "type": "cart-template",
-          "settings": {
-            "cart_notes_enable": false
-          }
-        },
-        "footer": {
-          "type": "footer",
-          "blocks": {
-            "link_list": {
-              "type": "link_list",
-              "settings": {}
-            },
-            "text": {
-              "type": "text",
-              "settings": {}
-            },
-            "newsletter": {
-              "type": "newsletter",
-              "settings": {}
-            }
-          },
-          "block_order": [
-            "link_list",
-            "text",
-            "newsletter"
-          ],
-          "settings": {}
-        }
-      },
-      "content_for_index": [
-        "hero",
-        "featured-collections",
-        "slideshow",
-        "1492033924902",
-        "1492096252560",
-        "1492033877875",
-        "1492033809691"
-      ]
-    }
   }
 }

@@ -29,7 +29,7 @@
 				<h2>{{s.title}}</h2>
 			</div>
 		{% endif %}
-		<div class="grid grid_no_gutter text-center" id="instafeed">
+		<div class="grid_no_gutter text-center" id="instafeed">
 			{% if section.settings.accessToken == blank %}
 				{% for i in (1..limit) %}
 					<div class="grid__item small--one-half {{ width }}">

@@ -1076,11 +1076,11 @@
             "type": "group",
             "settings": {
               "title": "Gallery",
-              "page_width": false,
+              "page_width": true,
               "no_gutter": true,
               "page_width_max": "",
               "match_height": false,
-              "custom_html": ""
+              "custom_html": "== .bg_image {\nbackground-size: cover;\n}\n\n== .page-width {\npadding: 0;\n}"
             }
           },
           "1560826895913": {
@@ -1164,7 +1164,7 @@
               "grid_handle": "Gallery",
               "top_image": "shopify:\/\/shop_images\/atxshi-credit-morgan-spenseley3_1.png",
               "bottom_image": "",
-              "height": 400,
+              "height": 600,
               "opt_out_match_height": false,
               "hide_desk": false,
               "width_large": "60%",
@@ -1175,18 +1175,52 @@
               "custom_html": ""
             }
           },
+          "1561324637387": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Gallery",
+              "top_image": "shopify:\/\/shop_images\/atx_jaconah1.jpg",
+              "bottom_image": "",
+              "height": 600,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "40%",
+              "hide_tab": false,
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
           "1561323713867": {
             "type": "image",
             "settings": {
-              "grid_handle": "",
-              "top_image": "",
+              "grid_handle": "Gallery",
+              "top_image": "shopify:\/\/shop_images\/atx_jaconah3.jpg",
               "bottom_image": "",
-              "height": 400,
+              "height": 600,
               "opt_out_match_height": false,
               "hide_desk": false,
-              "width_large": "100%",
+              "width_large": "60%",
               "hide_tab": false,
-              "width_medium": "100%",
+              "width_medium": "50%",
+              "hide_mob": false,
+              "width_small": "100%",
+              "custom_html": ""
+            }
+          },
+          "1561324683035": {
+            "type": "image",
+            "settings": {
+              "grid_handle": "Gallery",
+              "top_image": "shopify:\/\/shop_images\/atx_jaconah4.jpg",
+              "bottom_image": "",
+              "height": 600,
+              "opt_out_match_height": false,
+              "hide_desk": false,
+              "width_large": "40%",
+              "hide_tab": false,
+              "width_medium": "50%",
               "hide_mob": false,
               "width_small": "100%",
               "custom_html": ""
@@ -1202,7 +1236,9 @@
           "1560827352409",
           "1560827956863",
           "1561323490880",
-          "1561323713867"
+          "1561324637387",
+          "1561323713867",
+          "1561324683035"
         ],
         "settings": {}
       }

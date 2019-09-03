@@ -19,9 +19,8 @@
 			{% if bs.match_height == true %}
 				{% capture mh %}mh-{{gridHandle}}{% endcapture %}
 			{% endif %}
-			<!-- Start of group container  -->
+			<!-- Start of Group: {{bs.title}}  -->
 			<div class=" {{contClass}}" id="" {{b.shopify_attributes}}>		
-				<!-- Start of page width selector  -->
 				{% if bs.page_width == true %}	
 				<div class="page-width">
 				{% elsif bs.page_width_max != blank %}
@@ -37,7 +36,6 @@
 							{{cssLoop}}
 						</style>
 					{% endif %}
-					<!-- Start of grid group  -->
 					<div class="grid {% if bs.no_gutter == true %}grid_no_gutter{% endif %}">
 						<!--replace_{{gridHandle}}-->
 						{% if mh != blank %}
@@ -49,18 +47,18 @@
 						{% endif %}
 					</div>
 				</div>
-				<!-- End of page width selector  -->
-
 			</div>
-			<!-- End of group container  -->
+			<!-- End of Group: {{bs.title}}  -->
 		{% endcapture %}
 		{% assign grps = grps | append: grpItm %}
 	{% endif %}
 {% endfor %}
+
 {% for block in section.blocks %}
 	{% assign b = block %}
 	{% assign b_id = b.id %}
 	{% assign bs = b.settings %}
+
 	{% if 
 		b.type == 'hero' or 
 		b.type == 'quote' or 
@@ -88,10 +86,11 @@
 				{% capture contClass %}container-{{groupAssignment}}{% endcapture %}
 				{% capture cssClass %}.{{contClass}} .block{{b_id}}{% endcapture %}
 				{% capture mh %}mh-{{groupAssignment}}{% endcapture %}
-				<!-- Start of Item  -->
+				<!-- Start of Item: {{bs.grid_handle}}  -->
 				<div 
 					class="grid__item {{-grid_widths-}} {{blockClass}} sm-start{{b_id}} {{b.type}}-block-container" 
-					{% unless bs.opt_out_match_height == true %}{{mh}}{% endunless %}
+					{% unless bs.opt_out_match_height == true or b.type == 'spacer' %}{{mh}}{% endunless %}
+					{% comment %}{% unless bs.opt_out_match_height == true or b.type == 'image' or b.type == 'spacer' %}{{mh}}{% endunless %}{% endcomment %}
 					{{b.shopify_attributes}}> 
 					
 					{% if b.type == 'hero' %}
@@ -105,14 +104,12 @@
 												<h4>{{bs.top_title}}</h4>
 
 												{% if bs.btn_url != blank and bs.btn_txt != blank %}
-													<a class="btn" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+													<a class="btn btn--{{bs.btn_type}}" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
 												{% endif %}
 											</div>
 										{% endif %}
 									</div>
 								</div>
-
-
 					            <script type="text/javascript">
 									$(document).ready(function() {
 								        // on Load
@@ -219,7 +216,7 @@
 								</div>
 							{% endif %}
 							{% if bs.btn_txt != blank and bs.btn_url != blank %}
-								<a class="btn " href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+								<a class="btn btn--{{bs.btn_type}}" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
 							{% endif %}
 							<style type="text/css">
 								@media screen and (min-width:750px) {
@@ -245,7 +242,7 @@
 								<div class="rte">{{bs.text}}</div>
 							{% endif %}
 							{% if bs.btn_txt != blank and bs.btn_url != blank %}
-								<a class="btn " href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+								<a class="btn btn--{{bs.btn_type}}" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
 							{% endif %}
 							<style type="text/css">
 								@media screen and (min-width:750px) {
@@ -270,11 +267,12 @@
 							{% assign bg_image = bs.top_image %}
 							{% assign gif_image = bs.bottom_image %}
 							<div class="bg_image main-image lazyload animate js"
-								 style="background-image: url('{{ bg_image | img_url: 'master' }});">
+								{% unless bs.opt_out_match_height == true and gif_image != blank %}{{mh}}{% endunless %}
+								style="background-image: url('{{ bg_image | img_url: 'master' }});">
 							</div>
 							{% if gif_image != blank %}
 							<div class="bg_image underlay-image lazyload animate js"
-								 style="background-image: url('{{ gif_image | img_url: 'master' }});">
+								style="background-image: url('{{ gif_image | img_url: 'master' }});">
 							</div>
 							{% endif %}
 							<style type="text/css">
@@ -291,7 +289,7 @@
 							<script type="text/javascript">
 								$(document).ready(function () {
 									imageHeightMatcher({
-										par: '{{cssClass}}'
+										par: '.{{blockClass}}'
 									})
 								})
 							</script>
@@ -311,19 +309,16 @@
 					{% if b.type == 'mini-slider' %}
 
 					{% endif %}
-
-					
 				</div>
-				<!-- End of Item  -->
+				<!-- End of Item: {{bs.grid_handle}}  -->
 				{{rplcThs}}
 			{% endcapture %}
 			{% assign grps = grps | replace: rplcThs, innrItm %}
 		{% endif %}
 	{% endif %}	
 {% endfor %}
-
-<div class="{{masterClass}} {{class}}">
-
-	{{ grps }}
-
-</div>
+{% if grps != blank %}
+	<div class="{{masterClass}} {{class}}">
+		{{ grps }}
+	</div>
+{% endif %}

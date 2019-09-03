@@ -4057,36 +4057,40 @@ function centerContentResizer(arr){
 	}
 }
 
-function imageHeightMatcher(arr){
-	container 	= arr.par;
-	img 		= arr.chld || '.bg_image';
-	type 		= arr.type || 'min-height';
-	jqEl 		= $(container);
-	jEl 		= jqEl[0];
-	prevHght 	= jEl.offsetHeight;
-	initCheck();
-	checkForChanges();
-	$(window).resize(function() {
-		initCheck();
-	});
-	function checkForChanges() {
-		contHght 	= jEl.offsetHeight;
-	    if (contHght != prevHght) {
-	       	initCheck();
-	        prevHght = contHght; 
-	    } 
-	    setInterval(checkForChanges, 300);
-	}
-	function initCheck() {
-		contHght 	= jEl.offsetHeight;
-		imgNum 		= jqEl.find(img).length;
-		count 		= 1;
-		$(container).find(img).each(function () {
-			eachImgHght = contHght / imgNum;
-			$(this).css(type,eachImgHght);
-		})
-	}
-}
+// function imageHeightMatcher(arr){
+// 	container 	= arr.par;
+// 	img 		= arr.chld || '.bg_image';
+// 	type 		= arr.type || 'min-height';
+// 	jqEl 		= $(container);
+// 	jEl 		= jqEl[0];
+// 	prevHght 	= jEl.offsetHeight;
+// 	initCheck();
+// 	checkForChanges();
+// 	setTimeout(function () {
+// 		initCheck();
+// 	},500)
+// 	$(window).resize(function() {
+// 		initCheck();
+// 	});
+// 	function checkForChanges() {
+// 		contHght 	= jEl.offsetHeight;
+// 	    if (contHght != prevHght) {
+// 	       	initCheck();
+// 	        prevHght = contHght; 
+// 	    } 
+// 	    setInterval(checkForChanges, 300);
+// 	}
+// 	function initCheck() {
+// 		contHght 	= jEl.offsetHeight;
+// 		imgNum 		= jqEl.find(img).length;
+// 		count 		= 1;
+// 		$(container).find(img).each(function () {
+// 			eachImgHght = contHght / imgNum;
+// 			$(this).css(type,eachImgHght+'px');
+// 			// console.log(imgNum,eachImgHght,count++)
+// 		})
+// 	}
+// }
 
 function resizeWithPadding(arr){
 	resThis 		= arr.res;
@@ -4265,6 +4269,53 @@ function rteImageGrid(arr) {
 }
 
 
+function Modal(el) {
+    el = el;
+    initMdl(el)
+    function initMdl(el) {
+    	winWidth    = $(window).width();
+	    thisEl      = el;
+	    type        = getDataName($(thisEl)).length ? getDataName($(thisEl)) : 'modal';
+	    thisMdl     = getDataName($(thisEl)).length ? $('[data-modal="'+$(thisEl).data(type)+'"]') : $(thisEl);
+	    if ( type == 'open' || type == 'modal' ) {
+	        if ( !thisMdl.is('.active') ) {
+	            showModal(thisMdl);
+	        } else {
+	            hideModal(thisMdl);
+	        }
+	    }
+	    if ( type == 'close' ) {
+	        hideModal(thisMdl);
+	    }
+    }
+    function showModal (el) {
+    	el = $(el);
+        el.addClass('active');
+        el.find(':focusable').first().focus();
+    }
+    function hideModal(el) {
+    	el = $(el);
+        el.removeClass('active');
+    }
+    function getDataName(node) {
+        var d = {},
+            key ='',
+            re_dataAttr = /^data\-(.+)$/;
+        $.each(node.get(0).attributes, function(index, attr) {
+            if (re_dataAttr.test(attr.nodeName)) {
+                key = attr.nodeName.match(re_dataAttr)[1];
+            }
+        });
+        return key;
+    }
+}
+$(document).ready(function () {
+	$('.modal-action').on('click touch', function () {
+	    Modal($(this));
+	    
+	    console.log($(this))
+	})
+})
 
 
 

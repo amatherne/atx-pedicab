@@ -1,10 +1,7 @@
 {% assign s = section.settings %}
 {% capture class %}{{section.id}}{% endcapture %}
 <!-- sections/{{class}} -->
-
 {% include 'custom-page' %}
-{% comment %}{% include 'custom-page_loop-test' %}{% endcomment %}
-
 
 {% schema %}
 {
@@ -97,6 +94,23 @@
 					"id": "btn_url",
 					"label": "Button URL"
 				},
+				{
+	                "type": "select",
+	                "id": "btn_type",
+	                "label": "Button Type",
+	                "options": [
+	                    {
+	                        "value": "button",
+	                        "label": "Button"
+	                    },
+	                    {
+	                        "value": "link",
+	                        "label": "Link"
+	                    }
+	                    
+	                ],
+	                "default": "button"
+	            },
 				{
 				    "type":   "range",
 				    "id":     "text_size",
@@ -243,6 +257,23 @@
 					"id": "btn_url",
 					"label": "Button Url"
 				},
+				{
+	                "type": "select",
+	                "id": "btn_type",
+	                "label": "Button Type",
+	                "options": [
+	                    {
+	                        "value": "button",
+	                        "label": "Button"
+	                    },
+	                    {
+	                        "value": "link",
+	                        "label": "Link"
+	                    }
+	                    
+	                ],
+	                "default": "button"
+	            },
 				{
 					"type": "color",
 					"id": "bg_color",
@@ -1279,6 +1310,23 @@
 					"id": "btn_url",
 					"label": "Button URL"
 				},
+				{
+	                "type": "select",
+	                "id": "btn_type",
+	                "label": "Button Type",
+	                "options": [
+	                    {
+	                        "value": "button",
+	                        "label": "Button"
+	                    },
+	                    {
+	                        "value": "link",
+	                        "label": "Link"
+	                    }
+	                    
+	                ],
+	                "default": "button"
+	            },
 				{
 					"type": "checkbox",
 					"id": "use_news",

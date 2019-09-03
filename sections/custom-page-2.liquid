@@ -1,7 +1,327 @@
-<!-- sections/{{section.id}} -->
+{% assign s = section.settings %}
+{% capture class %}{{section.id}}{% endcapture %}
+<!-- sections/{{class}} -->
+{% comment %}{% include 'custom-page' %}{% endcomment %}
+{% comment %}<!-- snippets/custom-page -->{% endcomment %}
 
-{% include 'custom-page' %}
+{% assign masterClass = 'custom-page-blocks' %}
 
+{% assign grps 		= '' %}
+{% assign grpItm 	= '' %}
+{% assign innrItm 	= '' %}
+
+{% for block in section.blocks %}
+	{% assign b = block %}
+	{% assign b_id = b.id %}
+	{% assign bs = b.settings %}
+	
+	{% if b.type == 'group' %}
+		{% capture grpItm %}
+			{% assign loop = forloop.index %}
+			{% assign gridHandle = bs.title | handleize %}
+			{% capture contClass %}container-{{gridHandle}}{% endcapture %}
+			{% if bs.match_height == true %}
+				{% capture mh %}mh-{{gridHandle}}{% endcapture %}
+			{% endif %}
+			<!-- Start of Group: {{bs.title}}  -->
+			<div class=" {{contClass}}" id="" {{b.shopify_attributes}}>		
+				{% if bs.page_width == true %}	
+				<div class="page-width">
+				{% elsif bs.page_width_max != blank %}
+				<div class="page-width" style="max-width: {{ bs.page_width_max }}px">
+				{% else %}
+				<div>
+				{% endif %}
+					<div class="grid {% if bs.no_gutter == true %}grid_no_gutter{% endif %}">
+						<!--replace_{{gridHandle}}-->
+						{% if mh != blank %}
+							<script type="text/javascript">
+								$(document).ready(function () {
+									matchHeight( $('[{{mh}}]') )
+								})
+							</script>
+						{% endif %}
+					</div>
+					{% if bs.custom_html != blank %}
+						<style type="text/css">
+							{% assign custom = bs.custom_html | raw %}
+							{% assign contClassCSS = contClass | prepend: '.' %}
+							{% assign cssLoop = custom | replace: '==', contClassCSS | replace: '&gt;', '>' | replace: ';', ' !important;' %}
+							{{cssLoop}}
+						</style>
+					{% endif %}
+				</div>
+			</div>
+			<!-- End of Group: {{bs.title}}  -->
+		{% endcapture %}
+		{% assign grps = grps | append: grpItm %}
+	{% endif %}
+
+
+	{% if 
+		b.type == 'hero' or 
+		b.type == 'quote' or 
+		b.type == 'header' or 
+		b.type == 'content' or 
+		b.type == 'text' or 
+		b.type == 'image' or 
+		b.type == 'spacer' or 
+		b.type == 'mini-slider'
+	%}
+		{% assign groupAssignment = bs.grid_handle | handleize %}
+		{% if groupAssignment != blank %}
+			{% 	
+				include 'width-creator',
+				hide_mob: bs.hide_mob,
+				hide_tab: bs.hide_tab,
+				hide_desk: bs.hide_desk,
+				width_small: bs.width_small,
+				width_medium: bs.width_medium,
+				width_large: bs.width_large
+			%}
+
+			{% capture rplcThs %}<!--replace_{{groupAssignment}}-->{% endcapture %}
+			{% capture innrItm %}
+				{% capture blockClass %}block{{b_id}}{% endcapture %}
+				{% capture contClass %}container-{{groupAssignment}}{% endcapture %}
+				{% capture cssClass %}.{{contClass}} .block{{b_id}}{% endcapture %}
+				{% capture mh %}mh-{{groupAssignment}}{% endcapture %}
+				<!-- Start of Item: {{bs.grid_handle}}  -->
+				<div 
+					class="grid__item {{-grid_widths-}} {{blockClass}} sm-start{{b_id}} {{b.type}}-block-container" 
+					{% unless bs.opt_out_match_height == true or b.type == 'spacer' %}{{mh}}{% endunless %}
+					{% comment %}{% unless bs.opt_out_match_height == true or b.type == 'image' or b.type == 'spacer' %}{{mh}}{% endunless %}{% endcomment %}
+					{{b.shopify_attributes}}> 
+					
+					{% if b.type == 'hero' %}
+						<div class=" {{b.type}}-block">
+							{% if bs.use_bg == true %}
+								<div class="bg_image animate" title="{{ bs.image.alt | default: bs.title }}">
+									<div class=" max-width">
+										{% if bs.title != blank or bs.subtitle != blank %}
+											<div class="{% if bs.diamond == false %}center-content {{bs.hor_align}}-align{% else %}diamond{% endif %}">
+												<h2>{{bs.title}}</h2>
+												<h4>{{bs.top_title}}</h4>
+
+												{% if bs.btn_url != blank and bs.btn_txt != blank %}
+													<a class="btn btn--{{bs.btn_type}}" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+												{% endif %}
+											</div>
+										{% endif %}
+									</div>
+								</div>
+					            <script type="text/javascript">
+									$(document).ready(function() {
+								        // on Load
+								        setTimeout(function(){
+								            changeOnResize{{b_id}}();
+								        }, 500);
+
+								        // On Window Resize Event
+								        $(window).resize(function() {
+								            changeOnResize{{b_id}}();
+								        });
+									});
+									function changeOnResize{{b_id}}(){
+									    content{{b_id}} = '.{{blockClass}} .diamond';
+								        container{{b_id}} = '.{{blockClass}} .bg_image';
+								        plus{{b_id}} = 100;
+								        $contentHeight{{b_id}} = $(content{{b_id}}).outerHeight() + plus{{b_id}};
+								        $containerHeight{{b_id}} = $(container{{b_id}}).outerHeight();
+									    if ($contentHeight{{b_id}} >= $containerHeight{{b_id}}) {
+										    $(container{{b_id}}).css('min-height', $contentHeight{{b_id}});
+										}
+									}
+								</script>
+
+
+
+								{% assign bgImg = bs.image %}
+								{% assign bgImgMob = bgImg %}
+								{% if bs.image_mob != blank %}
+									{% assign bgImgMob = bs.image_mob %}
+								{% endif %}
+								<style type="text/css">
+									{{cssClass}} h2,
+									{{cssClass}} h4 {
+										color: {{bs.txt_color}};
+									}
+									{{cssClass}} .bg_image::after {
+										background: {{bs.bg_color}};
+										opacity: {{ bs.opacity | times: 0.01 }};
+									}
+									{{cssClass}} .bg_image {
+										background-image: url({{bgImg | img_url: 'master' }});
+										height: {{bs.height}}px;
+									}
+									@media screen and (max-width:767px) {
+									{{cssClass}} .bg_image {
+										background-image: url({{bgImgMob | img_url: 'grande' }});
+									}
+									}
+									{% assign custom = bs.custom_html | raw %}
+									{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+									{{cssLoop}}
+								</style>
+							{% else %}
+								{% assign mob_image = false %}
+								{% if bs.image_mob != blank %}{% assign mob_image = true %}{% endif %}
+								<img class="{% if mob_image == true %}small--hide{% endif %}" src="{{bs.image | img_url: 'master' }}" alt="{{ bs.image.alt | default: 'Hero Image' }}">
+								{% if mob_image == true %}
+									<img class="medium-up--hide" src="{{bs.image_mob | img_url: 'grande' }}" alt="{{ bs.image_mobs.alt | default: 'Hero Image' }}">
+								{% endif %}
+
+							{% endif %}
+						</div>
+					{% endif %}
+
+					{% if b.type == 'header' %}
+						<div class="{{b.type}}-block {% if bs.align_center == true %}medium-up--text-center{% endif %}">
+							{% if bs.top_title != blank  %}
+								<h3 class="animate">{{bs.top_title}}</h3>
+							{% endif %}
+							{% if bs.title != blank  %}
+								<header class="section-title">
+									<h2>{{bs.title}}</h2>
+								</header>
+							{% endif %}
+							<style type="text/css">
+								@media screen and (min-width:750px) {
+									{{cssClass}} .header-block h2 {
+										font-size: {{bs.title_size}}px;
+									}
+									{{cssClass}} .header-block h3 {
+										font-size: {{bs.top_title_size}}px;
+									}
+								}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'content' %}
+
+					{% endif %}
+
+					{% if b.type == 'quote' %}
+						<div class="inner-container {{b.type}}-block ">
+							{% if bs.title != blank  %}
+								<header class="section-title">
+									<h2>{{bs.title}}</h2>
+								</header>
+							{% endif %}
+							{% if bs.text != blank %}
+								<div class="rte">
+									{% include 'icon-quote' %}
+									{{bs.text}}
+								</div>
+							{% endif %}
+							{% if bs.btn_txt != blank and bs.btn_url != blank %}
+								<a class="btn btn--{{bs.btn_type}}" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+							{% endif %}
+							<style type="text/css">
+								@media screen and (min-width:750px) {
+									{{cssClass}} .quote-block h2 {
+										font-size: {{bs.text_size}}px !important;
+									}
+								}
+								{% assign custom = bs.custom_html | raw %}
+								{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+								{{cssLoop}}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'text' %}
+						<div class="inner-container {{b.type}}-block ">
+							{% if bs.title != blank  %}
+								<header class="section-title">
+									<h2>{{bs.title}}</h2>
+								</header>
+							{% endif %}
+							{% if bs.text != blank %}
+								<div class="rte">{{bs.text}}</div>
+							{% endif %}
+							{% if bs.btn_txt != blank and bs.btn_url != blank %}
+								<a class="btn btn--{{bs.btn_type}}" href="{{bs.btn_url}}">{{bs.btn_txt}}</a>
+							{% endif %}
+							<style type="text/css">
+								@media screen and (min-width:750px) {
+									{{cssClass}} .text-block h2 {
+										font-size: {{bs.text_size}}px !important;
+									}
+									{% if bs.rte_text_size %}
+									{{cssClass}} .text-block .rte {
+										font-size: {{bs.rte_text_size}}px !important;
+									}
+									{% endif %}
+								}
+								{% assign custom = bs.custom_html | raw %}
+								{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+								{{cssLoop}}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'image' %}
+						<div class="inner-container {{b.type}}-block">
+							{% assign bg_image = bs.top_image %}
+							{% assign gif_image = bs.bottom_image %}
+							<div class="bg_image main-image lazyload animate js"
+								{% unless bs.opt_out_match_height == true and gif_image != blank %}{{mh}}{% endunless %}
+								style="background-image: url('{{ bg_image | img_url: 'master' }});">
+							</div>
+							{% if gif_image != blank %}
+							<div class="bg_image underlay-image lazyload animate js"
+								style="background-image: url('{{ gif_image | img_url: 'master' }});">
+							</div>
+							{% endif %}
+							<style type="text/css">
+								{{cssClass}} .inner-container {
+									/* height: {{bs.height}}px !important; */
+								}
+								{{cssClass}} .bg_image {
+									padding-top: {{bs.height}}px !important;
+								}
+								{% assign custom = bs.custom_html | raw %}
+								{% assign cssLoop = custom | replace: '==', cssClass | replace: ';', ' !important;' %}
+								{{cssLoop}}
+							</style>
+							<script type="text/javascript">
+								$(document).ready(function () {
+									imageHeightMatcher({
+										par: '.{{blockClass}}'
+									})
+								})
+							</script>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'spacer' %}
+						<div class="{{b.type}}-block ">
+							<style type="text/css">
+								{{cssClass}} .{{b.type}}-block {
+									height: {{bs.height}}px;
+								}
+							</style>
+						</div>
+					{% endif %}
+
+					{% if b.type == 'mini-slider' %}
+
+					{% endif %}
+				</div>
+				<!-- End of Item: {{bs.grid_handle}}  -->
+				{{rplcThs}}
+			{% endcapture %}
+			{% assign grps = grps | replace: rplcThs, innrItm %}
+		{% endif %}
+	{% endif %}	
+{% endfor %}
+{% if grps != blank %}
+	<div class="{{masterClass}} {{class}}">
+		{{ grps }}
+	</div>
+{% endif %}
 
 {% schema %}
 {
@@ -15,9 +335,20 @@
 			"name": "Group",
 			"settings": [
 				{
+					"type": "text",
+					"id": "title",
+					"label": "Grid Handle"
+				},
+				{
 					"type": "checkbox",
 					"id": "page_width",
 					"label": "Set Group at Site Standard width",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "no_gutter",
+					"label": "Grid has no margins",
 					"default": false
 				},
 				{
@@ -54,18 +385,255 @@
 			]
 		},
 		{
+			"type": "quote",
+			"name": "Quote",
+			"settings": [
+				{
+					"type": "text",
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
+				},
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Name"
+				},
+				{
+					"type": "richtext",
+					"id": "text",
+					"label": "Quote"
+				},
+				{
+					"type": "text",
+					"id": "btn_txt",
+					"label": "Button Text"
+				},
+				{
+					"type": "url",
+					"id": "btn_url",
+					"label": "Button URL"
+				},
+				{
+	                "type": "select",
+	                "id": "btn_type",
+	                "label": "Button Type",
+	                "options": [
+	                    {
+	                        "value": "button",
+	                        "label": "Button"
+	                    },
+	                    {
+	                        "value": "link",
+	                        "label": "Link"
+	                    }
+	                    
+	                ],
+	                "default": "button"
+	            },
+				{
+				    "type":   "range",
+				    "id":     "text_size",
+				    "min":       10,
+				    "max":       120,
+				    "step":      2,
+				    "label":     "Title Font Size (on desktop)",
+				    "default":   110
+				},
+				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
+					"type":"header",
+					"content": "Custom CSS Rules"
+				},
+				{
+					"type":"paragraph",
+					"content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+				},
+				{
+					"type":"paragraph",
+					"content": "The example below applies font size to only the h2 element in the current block's container."
+				},
+				{
+					"type":"paragraph",
+					"content": "'== h2 { font-size: 20px; } '"
+				},
+				{
+					"type": "html",
+					"id": "custom_html",
+					"label": "Custom CSS"
+				}
+			]
+		},
+		{
 			"type": "hero",
 			"name": "Hero",
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
+				},
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "image_picker",
+					"id": "image_mob",
+					"label": "Mobile Image (optional)"
+				},
+				{
+					"type": "checkbox",
+					"id": "use_bg",
+					"label": "Use Background Image",
+					"default": false,
+					"info":"Checking this box turns on the options below"
+				},
+				{
+					"type": "header",
+					"content": "When Background Image"
+				},
+				{
+				    "type":   "range",
+				    "id":     "height",
+				    "min":       200,
+				    "max":       1200,
+				    "step":      20,
+				    "label":     "Image height (when Background)",
+				    "default":   400
+				},
+				{
+					"type": "checkbox",
+					"id": "diamond",
+					"label": "Use Diamond shape (must be false to use alignment and text color)",
+					"default": true
 				},
 				{
 				    "type": "select",
+				    "id": "hor_align",
+				    "label": "Content Alignment",
+				    "default": "left",
+				    "options": [
+				        {
+				            "value": "cente",
+				            "label": "Center"
+				        },
+				        {
+				            "value": "left",
+				            "label": "Left"
+				        },
+				        {
+				            "value": "right",
+				            "label": "Right"
+				        }
+				    ]
+				},
+				{
+					"type": "textarea",
+					"id": "title",
+					"label": "Title"
+				},
+				{
+					"type": "textarea",
+					"id": "top_title",
+					"label": "Top Title"
+				},
+				{
+					"type": "text",
+					"id": "btn_txt",
+					"label": "Button Text",
+					"default": "Explore Collections"
+				},
+				{
+					"type": "url",
+					"id": "btn_url",
+					"label": "Button Url"
+				},
+				{
+	                "type": "select",
+	                "id": "btn_type",
+	                "label": "Button Type",
+	                "options": [
+	                    {
+	                        "value": "button",
+	                        "label": "Button"
+	                    },
+	                    {
+	                        "value": "link",
+	                        "label": "Link"
+	                    }
+	                    
+	                ],
+	                "default": "button"
+	            },
+				{
+					"type": "color",
+					"id": "bg_color",
+					"label": "Background Color",
+					"default":"#000000"
+				},
+				{
+					"type": "color",
+					"id": "txt_color",
+					"label": "Text Color",
+					"default":"#ffffff"
+				},
+				{
+				    "type":   "range",
+				    "id":     "opacity",
+				    "min":       0,
+				    "max":       100,
+				    "step":      1,
+				    "label":     "Background Opacity",
+				    "default":   40
+				},
+				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
+				    "type": "select",
 				    "id": "width_large",
-				    "label": "Large Width",
+				    "label": "Desktop Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -149,99 +717,17 @@
 				            "label": "100%"
 				        }
 				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
 				},
 				{
 				    "type": "select",
 				    "id": "width_medium",
-				    "label": "Medium Width",
-				    "default": "100%",
-				    "options": [
-				        {
-				            "value": "8%",
-				            "label": "8% (1/12)"
-				        },
-				        {
-				            "value": "10%",
-				            "label": "10% (1/10)"
-				        },
-				        {
-				            "value": "16%",
-				            "label": "16% (2/12)"
-				        },
-				        {
-				            "value": "20%",
-				            "label": "20% (2/10)"
-				        },
-				        {
-				            "value": "25%",
-				            "label": "25% (3/12)"
-				        },
-				        {
-				            "value": "30%",
-				            "label": "30% (3/10)"
-				        },
-				        {
-				            "value": "33%",
-				            "label": "33% (4/12)"
-				        },
-				        {
-				            "value": "40%",
-				            "label": "40% (4/10)"
-				        },
-				        {
-				            "value": "41%",
-				            "label": "41% (5/12)"
-				        },
-				        {
-				            "value": "50%",
-				            "label": "50% (6/12)"
-				        },
-				        {
-				            "value": "58%",
-				            "label": "58% (7/12)"
-				        },
-				        {
-				            "value": "60%",
-				            "label": "60% (6/10)"
-				        },
-				        {
-				            "value": "66%",
-				            "label": "66% (8/12)"
-				        },
-				        {
-				            "value": "70%",
-				            "label": "70% (7/10)"
-				        },
-				        {
-				            "value": "75%",
-				            "label": "75% (9/12)"
-				        },
-				        {
-				            "value": "80%",
-				            "label": "80% (8/10)"
-				        },
-				        {
-				            "value": "83%",
-				            "label": "83% (10/12)"
-				        },
-				        {
-				            "value": "90%",
-				            "label": "90% (9/10)"
-				        },
-				        {
-				            "value": "91%",
-				            "label": "91% (11/12)"
-				        },
-				        {
-				            "value": "100%",
-				            "label": "100%"
-				        }
-				    ]
-				},
-				{
-				    "type": "select",
-				    "id": "width_small",
-				    "label": "Small Width",
+				    "label": "Tablet Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -333,108 +819,92 @@
 					"default": false
 				},
 				{
-					"type": "checkbox",
-					"id": "hide_desk",
-					"label": "Hide Desktop",
-					"default": false
-				},
-				{
-					"type": "image_picker",
-					"id": "image",
-					"label": "Image"
-				},
-				{
-					"type": "image_picker",
-					"id": "image_mob",
-					"label": "Mobile Image (optional)"
-				},
-				{
-					"type": "checkbox",
-					"id": "use_bg",
-					"label": "Use Background Image",
-					"default": false,
-					"info":"Checking this box turns on the options below"
-				},
-				{
-					"type": "header",
-					"content": "When Background Image"
-				},
-				{
-				    "type":   "range",
-				    "id":     "height",
-				    "min":       200,
-				    "max":       1200,
-				    "step":      20,
-				    "label":     "Image height (when Background)",
-				    "default":   400
-				},
-				{
-					"type": "checkbox",
-					"id": "diamond",
-					"label": "Use Diamond shape (must be false to use alignment and text color)",
-					"default": true
-				},
-				{
 				    "type": "select",
-				    "id": "hor_align",
-				    "label": "Content Alignment",
-				    "default": "left",
+				    "id": "width_small",
+				    "label": "Mobile Width",
+				    "default": "100%",
 				    "options": [
 				        {
-				            "value": "cente",
-				            "label": "Center"
+				            "value": "8%",
+				            "label": "8% (1/12)"
 				        },
 				        {
-				            "value": "left",
-				            "label": "Left"
+				            "value": "10%",
+				            "label": "10% (1/10)"
 				        },
 				        {
-				            "value": "right",
-				            "label": "Right"
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
 				        }
 				    ]
-				},
-				{
-					"type": "textarea",
-					"id": "title",
-					"label": "Title"
-				},
-				{
-					"type": "textarea",
-					"id": "top_title",
-					"label": "Top Title"
-				},
-				{
-					"type": "text",
-					"id": "btn_txt",
-					"label": "Button Text",
-					"default": "Explore Collections"
-				},
-				{
-					"type": "url",
-					"id": "btn_url",
-					"label": "Button Url"
-				},
-				{
-					"type": "color",
-					"id": "bg_color",
-					"label": "Background Color",
-					"default":"#000000"
-				},
-				{
-					"type": "color",
-					"id": "txt_color",
-					"label": "Text Color",
-					"default":"#ffffff"
-				},
-				{
-				    "type":   "range",
-				    "id":     "opacity",
-				    "min":       0,
-				    "max":       100,
-				    "step":      1,
-				    "label":     "Background Opacity",
-				    "default":   40
 				},
 				{
 					"type":"header",
@@ -466,8 +936,9 @@
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
 				},
 				{
 				    "type":   "range",
@@ -479,9 +950,24 @@
 				    "default":   400
 				},
 				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
 				    "type": "select",
 				    "id": "width_large",
-				    "label": "Large Width",
+				    "label": "Desktop Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -565,11 +1051,17 @@
 				            "label": "100%"
 				        }
 				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
 				},
 				{
 				    "type": "select",
 				    "id": "width_medium",
-				    "label": "Medium Width",
+				    "label": "Tablet Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -655,9 +1147,15 @@
 				    ]
 				},
 				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
 				    "type": "select",
 				    "id": "width_small",
-				    "label": "Small Width",
+				    "label": "Mobile Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -771,20 +1269,9 @@
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_mob",
-					"label": "Hide Mobile",
-					"default": false
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_desk",
-					"label": "Hide Desktop",
-					"default": false
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
 				},
 				{
 					"type": "text",
@@ -821,10 +1308,213 @@
 				    "default":   28
 				},
 				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
 				    "type": "select",
-				    "id": "width",
-				    "label": "Container width",
-				    "default": "50%",
+				    "id": "width_large",
+				    "label": "Desktop Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_medium",
+				    "label": "Tablet Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_small",
+				    "label": "Mobile Width",
+				    "default": "100%",
 				    "options": [
 				        {
 				            "value": "8%",
@@ -916,20 +1606,9 @@
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_mob",
-					"label": "Hide Mobile",
-					"default": false
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_desk",
-					"label": "Hide Desktop",
-					"default": false
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
 				},
 				{
 					"type": "text",
@@ -937,7 +1616,7 @@
 					"label": "Title"
 				},
 				{
-					"type": "textarea",
+					"type": "richtext",
 					"id": "text",
 					"label": "Text"
 				},
@@ -952,6 +1631,23 @@
 					"label": "Button URL"
 				},
 				{
+	                "type": "select",
+	                "id": "btn_type",
+	                "label": "Button Type",
+	                "options": [
+	                    {
+	                        "value": "button",
+	                        "label": "Button"
+	                    },
+	                    {
+	                        "value": "link",
+	                        "label": "Link"
+	                    }
+	                    
+	                ],
+	                "default": "button"
+	            },
+				{
 					"type": "checkbox",
 					"id": "use_news",
 					"label": "Use Newsletter",
@@ -964,12 +1660,36 @@
 				    "max":       60,
 				    "step":      1,
 				    "label":     "Title Font Size (on desktop)",
-				    "default":   18
+				    "default":   35
 				},
 				{
+				    "type":   "range",
+				    "id":     "rte_text_size",
+				    "min":       10,
+				    "max":       60,
+				    "step":      1,
+				    "label":     "Text Font Size (on desktop)",
+				    "default":   24
+				},
+				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
 				    "type": "select",
 				    "id": "width_large",
-				    "label": "Large Width",
+				    "label": "Desktop Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1053,11 +1773,17 @@
 				            "label": "100%"
 				        }
 				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
 				},
 				{
 				    "type": "select",
 				    "id": "width_medium",
-				    "label": "Medium Width",
+				    "label": "Tablet Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1143,9 +1869,15 @@
 				    ]
 				},
 				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
 				    "type": "select",
 				    "id": "width_small",
-				    "label": "Small Width",
+				    "label": "Mobile Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1259,20 +1991,9 @@
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_mob",
-					"label": "Hide Mobile",
-					"default": false
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_desk",
-					"label": "Hide Desktop",
-					"default": false
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
 				},
 				{
 					"type": "image_picker",
@@ -1294,9 +2015,24 @@
 				    "default":   400
 				},
 				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
 				    "type": "select",
 				    "id": "width_large",
-				    "label": "Large Width",
+				    "label": "Desktop Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1380,11 +2116,17 @@
 				            "label": "100%"
 				        }
 				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
 				},
 				{
 				    "type": "select",
 				    "id": "width_medium",
-				    "label": "Medium Width",
+				    "label": "Tablet Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1470,9 +2212,15 @@
 				    ]
 				},
 				{
+					"type": "checkbox",
+					"id": "hide_mob",
+					"label": "Hide Mobile",
+					"default": false
+				},
+				{
 				    "type": "select",
 				    "id": "width_small",
-				    "label": "Small Width",
+				    "label": "Mobile Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1586,13 +2334,211 @@
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
 				},
 				{
 					"type": "text",
 					"id": "slider_name",
 					"label": "Slider Name"
+				},
+				{
+                    "type": "header",
+                    "content": "Grid Settings"
+                },
+                {
+					"type": "checkbox",
+					"id": "opt_out_match_height",
+					"label": "Opt out of Match Height of Group Items"
+				},
+                {
+					"type": "checkbox",
+					"id": "hide_desk",
+					"label": "Hide Desktop",
+					"default": false
+				},
+                {
+				    "type": "select",
+				    "id": "width_large",
+				    "label": "Desktop Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
+				},
+				{
+					"type": "checkbox",
+					"id": "hide_tab",
+					"label": "Hide Tablet",
+					"default": false
+				},
+				{
+				    "type": "select",
+				    "id": "width_medium",
+				    "label": "Tablet Width",
+				    "default": "100%",
+				    "options": [
+				        {
+				            "value": "8%",
+				            "label": "8% (1/12)"
+				        },
+				        {
+				            "value": "10%",
+				            "label": "10% (1/10)"
+				        },
+				        {
+				            "value": "16%",
+				            "label": "16% (2/12)"
+				        },
+				        {
+				            "value": "20%",
+				            "label": "20% (2/10)"
+				        },
+				        {
+				            "value": "25%",
+				            "label": "25% (3/12)"
+				        },
+				        {
+				            "value": "30%",
+				            "label": "30% (3/10)"
+				        },
+				        {
+				            "value": "33%",
+				            "label": "33% (4/12)"
+				        },
+				        {
+				            "value": "40%",
+				            "label": "40% (4/10)"
+				        },
+				        {
+				            "value": "41%",
+				            "label": "41% (5/12)"
+				        },
+				        {
+				            "value": "50%",
+				            "label": "50% (6/12)"
+				        },
+				        {
+				            "value": "58%",
+				            "label": "58% (7/12)"
+				        },
+				        {
+				            "value": "60%",
+				            "label": "60% (6/10)"
+				        },
+				        {
+				            "value": "66%",
+				            "label": "66% (8/12)"
+				        },
+				        {
+				            "value": "70%",
+				            "label": "70% (7/10)"
+				        },
+				        {
+				            "value": "75%",
+				            "label": "75% (9/12)"
+				        },
+				        {
+				            "value": "80%",
+				            "label": "80% (8/10)"
+				        },
+				        {
+				            "value": "83%",
+				            "label": "83% (10/12)"
+				        },
+				        {
+				            "value": "90%",
+				            "label": "90% (9/10)"
+				        },
+				        {
+				            "value": "91%",
+				            "label": "91% (11/12)"
+				        },
+				        {
+				            "value": "100%",
+				            "label": "100%"
+				        }
+				    ]
 				},
 				{
 					"type": "checkbox",
@@ -1601,191 +2547,9 @@
 					"default": false
 				},
 				{
-					"type": "checkbox",
-					"id": "hide_desk",
-					"label": "Hide Desktop",
-					"default": false
-				},
-				{
-				    "type": "select",
-				    "id": "width_large",
-				    "label": "Large Width",
-				    "default": "100%",
-				    "options": [
-				        {
-				            "value": "8%",
-				            "label": "8% (1/12)"
-				        },
-				        {
-				            "value": "10%",
-				            "label": "10% (1/10)"
-				        },
-				        {
-				            "value": "16%",
-				            "label": "16% (2/12)"
-				        },
-				        {
-				            "value": "20%",
-				            "label": "20% (2/10)"
-				        },
-				        {
-				            "value": "25%",
-				            "label": "25% (3/12)"
-				        },
-				        {
-				            "value": "30%",
-				            "label": "30% (3/10)"
-				        },
-				        {
-				            "value": "33%",
-				            "label": "33% (4/12)"
-				        },
-				        {
-				            "value": "40%",
-				            "label": "40% (4/10)"
-				        },
-				        {
-				            "value": "41%",
-				            "label": "41% (5/12)"
-				        },
-				        {
-				            "value": "50%",
-				            "label": "50% (6/12)"
-				        },
-				        {
-				            "value": "58%",
-				            "label": "58% (7/12)"
-				        },
-				        {
-				            "value": "60%",
-				            "label": "60% (6/10)"
-				        },
-				        {
-				            "value": "66%",
-				            "label": "66% (8/12)"
-				        },
-				        {
-				            "value": "70%",
-				            "label": "70% (7/10)"
-				        },
-				        {
-				            "value": "75%",
-				            "label": "75% (9/12)"
-				        },
-				        {
-				            "value": "80%",
-				            "label": "80% (8/10)"
-				        },
-				        {
-				            "value": "83%",
-				            "label": "83% (10/12)"
-				        },
-				        {
-				            "value": "90%",
-				            "label": "90% (9/10)"
-				        },
-				        {
-				            "value": "91%",
-				            "label": "91% (11/12)"
-				        },
-				        {
-				            "value": "100%",
-				            "label": "100%"
-				        }
-				    ]
-				},
-				{
-				    "type": "select",
-				    "id": "width_medium",
-				    "label": "Medium Width",
-				    "default": "100%",
-				    "options": [
-				        {
-				            "value": "8%",
-				            "label": "8% (1/12)"
-				        },
-				        {
-				            "value": "10%",
-				            "label": "10% (1/10)"
-				        },
-				        {
-				            "value": "16%",
-				            "label": "16% (2/12)"
-				        },
-				        {
-				            "value": "20%",
-				            "label": "20% (2/10)"
-				        },
-				        {
-				            "value": "25%",
-				            "label": "25% (3/12)"
-				        },
-				        {
-				            "value": "30%",
-				            "label": "30% (3/10)"
-				        },
-				        {
-				            "value": "33%",
-				            "label": "33% (4/12)"
-				        },
-				        {
-				            "value": "40%",
-				            "label": "40% (4/10)"
-				        },
-				        {
-				            "value": "41%",
-				            "label": "41% (5/12)"
-				        },
-				        {
-				            "value": "50%",
-				            "label": "50% (6/12)"
-				        },
-				        {
-				            "value": "58%",
-				            "label": "58% (7/12)"
-				        },
-				        {
-				            "value": "60%",
-				            "label": "60% (6/10)"
-				        },
-				        {
-				            "value": "66%",
-				            "label": "66% (8/12)"
-				        },
-				        {
-				            "value": "70%",
-				            "label": "70% (7/10)"
-				        },
-				        {
-				            "value": "75%",
-				            "label": "75% (9/12)"
-				        },
-				        {
-				            "value": "80%",
-				            "label": "80% (8/10)"
-				        },
-				        {
-				            "value": "83%",
-				            "label": "83% (10/12)"
-				        },
-				        {
-				            "value": "90%",
-				            "label": "90% (9/10)"
-				        },
-				        {
-				            "value": "91%",
-				            "label": "91% (11/12)"
-				        },
-				        {
-				            "value": "100%",
-				            "label": "100%"
-				        }
-				    ]
-				},
-				{
 				    "type": "select",
 				    "id": "width_small",
-				    "label": "Small Width",
+				    "label": "Mobile Width",
 				    "default": "100%",
 				    "options": [
 				        {
@@ -1927,321 +2691,14 @@
 			]
 		},
 		{
-			"type": "raised",
-			"name": "Raised So Far",
-			"settings": [
-				{
-					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_mob",
-					"label": "Hide Mobile",
-					"default": false
-				},
-				{
-					"type": "checkbox",
-					"id": "hide_desk",
-					"label": "Hide Desktop",
-					"default": false
-				},
-				{
-				    "type": "select",
-				    "id": "width_large",
-				    "label": "Large Width",
-				    "default": "100%",
-				    "options": [
-				        {
-				            "value": "8%",
-				            "label": "8% (1/12)"
-				        },
-				        {
-				            "value": "10%",
-				            "label": "10% (1/10)"
-				        },
-				        {
-				            "value": "16%",
-				            "label": "16% (2/12)"
-				        },
-				        {
-				            "value": "20%",
-				            "label": "20% (2/10)"
-				        },
-				        {
-				            "value": "25%",
-				            "label": "25% (3/12)"
-				        },
-				        {
-				            "value": "30%",
-				            "label": "30% (3/10)"
-				        },
-				        {
-				            "value": "33%",
-				            "label": "33% (4/12)"
-				        },
-				        {
-				            "value": "40%",
-				            "label": "40% (4/10)"
-				        },
-				        {
-				            "value": "41%",
-				            "label": "41% (5/12)"
-				        },
-				        {
-				            "value": "50%",
-				            "label": "50% (6/12)"
-				        },
-				        {
-				            "value": "58%",
-				            "label": "58% (7/12)"
-				        },
-				        {
-				            "value": "60%",
-				            "label": "60% (6/10)"
-				        },
-				        {
-				            "value": "66%",
-				            "label": "66% (8/12)"
-				        },
-				        {
-				            "value": "70%",
-				            "label": "70% (7/10)"
-				        },
-				        {
-				            "value": "75%",
-				            "label": "75% (9/12)"
-				        },
-				        {
-				            "value": "80%",
-				            "label": "80% (8/10)"
-				        },
-				        {
-				            "value": "83%",
-				            "label": "83% (10/12)"
-				        },
-				        {
-				            "value": "90%",
-				            "label": "90% (9/10)"
-				        },
-				        {
-				            "value": "91%",
-				            "label": "91% (11/12)"
-				        },
-				        {
-				            "value": "100%",
-				            "label": "100%"
-				        }
-				    ]
-				},
-				{
-				    "type": "select",
-				    "id": "width_medium",
-				    "label": "Medium Width",
-				    "default": "100%",
-				    "options": [
-				        {
-				            "value": "8%",
-				            "label": "8% (1/12)"
-				        },
-				        {
-				            "value": "10%",
-				            "label": "10% (1/10)"
-				        },
-				        {
-				            "value": "16%",
-				            "label": "16% (2/12)"
-				        },
-				        {
-				            "value": "20%",
-				            "label": "20% (2/10)"
-				        },
-				        {
-				            "value": "25%",
-				            "label": "25% (3/12)"
-				        },
-				        {
-				            "value": "30%",
-				            "label": "30% (3/10)"
-				        },
-				        {
-				            "value": "33%",
-				            "label": "33% (4/12)"
-				        },
-				        {
-				            "value": "40%",
-				            "label": "40% (4/10)"
-				        },
-				        {
-				            "value": "41%",
-				            "label": "41% (5/12)"
-				        },
-				        {
-				            "value": "50%",
-				            "label": "50% (6/12)"
-				        },
-				        {
-				            "value": "58%",
-				            "label": "58% (7/12)"
-				        },
-				        {
-				            "value": "60%",
-				            "label": "60% (6/10)"
-				        },
-				        {
-				            "value": "66%",
-				            "label": "66% (8/12)"
-				        },
-				        {
-				            "value": "70%",
-				            "label": "70% (7/10)"
-				        },
-				        {
-				            "value": "75%",
-				            "label": "75% (9/12)"
-				        },
-				        {
-				            "value": "80%",
-				            "label": "80% (8/10)"
-				        },
-				        {
-				            "value": "83%",
-				            "label": "83% (10/12)"
-				        },
-				        {
-				            "value": "90%",
-				            "label": "90% (9/10)"
-				        },
-				        {
-				            "value": "91%",
-				            "label": "91% (11/12)"
-				        },
-				        {
-				            "value": "100%",
-				            "label": "100%"
-				        }
-				    ]
-				},
-				{
-				    "type": "select",
-				    "id": "width_small",
-				    "label": "Small Width",
-				    "default": "100%",
-				    "options": [
-				        {
-				            "value": "8%",
-				            "label": "8% (1/12)"
-				        },
-				        {
-				            "value": "10%",
-				            "label": "10% (1/10)"
-				        },
-				        {
-				            "value": "16%",
-				            "label": "16% (2/12)"
-				        },
-				        {
-				            "value": "20%",
-				            "label": "20% (2/10)"
-				        },
-				        {
-				            "value": "25%",
-				            "label": "25% (3/12)"
-				        },
-				        {
-				            "value": "30%",
-				            "label": "30% (3/10)"
-				        },
-				        {
-				            "value": "33%",
-				            "label": "33% (4/12)"
-				        },
-				        {
-				            "value": "40%",
-				            "label": "40% (4/10)"
-				        },
-				        {
-				            "value": "41%",
-				            "label": "41% (5/12)"
-				        },
-				        {
-				            "value": "50%",
-				            "label": "50% (6/12)"
-				        },
-				        {
-				            "value": "58%",
-				            "label": "58% (7/12)"
-				        },
-				        {
-				            "value": "60%",
-				            "label": "60% (6/10)"
-				        },
-				        {
-				            "value": "66%",
-				            "label": "66% (8/12)"
-				        },
-				        {
-				            "value": "70%",
-				            "label": "70% (7/10)"
-				        },
-				        {
-				            "value": "75%",
-				            "label": "75% (9/12)"
-				        },
-				        {
-				            "value": "80%",
-				            "label": "80% (8/10)"
-				        },
-				        {
-				            "value": "83%",
-				            "label": "83% (10/12)"
-				        },
-				        {
-				            "value": "90%",
-				            "label": "90% (9/10)"
-				        },
-				        {
-				            "value": "91%",
-				            "label": "91% (11/12)"
-				        },
-				        {
-				            "value": "100%",
-				            "label": "100%"
-				        }
-				    ]
-				},
-				{
-					"type":"header",
-					"content": "Custom CSS Rules"
-				},
-				{
-					"type":"paragraph",
-					"content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
-				},
-				{
-					"type":"paragraph",
-					"content": "The example below applies font size to only the h2 element in the current block's container."
-				},
-				{
-					"type":"paragraph",
-					"content": "'== h2 { font-size: 20px; } '"
-				},
-				{
-					"type": "html",
-					"id": "custom_html",
-					"label": "Custom CSS"
-				}
-			]
-		},
-		{
 			"type": "spacer",
 			"name": "Spacer",
 			"settings": [
 				{
 					"type": "text",
-					"id": "group_num",
-					"label": "Group Number"
+					"id": "grid_handle",
+					"label": "Grid Handle",
+					"info": "Type EXACTLY like you did on the Grid Title for the grid you want this to appear in."
 				},
 				{
 					"type": "checkbox",
@@ -2269,3 +2726,4 @@
 	]
 }
 {% endschema %}
+      		{% comment %}"category": "Video",{% endcomment %}

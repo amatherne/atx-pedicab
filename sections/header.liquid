@@ -58,7 +58,7 @@
 
 	<header class="site-header{% if section.settings.align_logo == 'left' %} border-bottom logo--left{% else %} logo--center{% endif %}" role="banner">
 		<div class="page-width no-padding">
-			<div class="grid grid_no_gutter vert-middle site-header__mobile-nav">
+			<div class="grid_no_gutter vert-middle site-header__mobile-nav">
 				<div class="grid__item one-quarter medium-up--hide ">
 					{% unless linklists[section.settings.main_linklist] == blank %}
 						<button type="button" class="btn--link site-header__icon site-header__menu mobile-only mobile-only js-mobile-nav-toggle mobile-nav--open" aria-controls="MobileNav"  aria-expanded="false" aria-label="{{ 'layout.navigation.menu' | t }}">
@@ -123,7 +123,7 @@
 				<div class="grid__item medium-up--hide one-quarter narrow--one-whole narrow--text-center text-right">
 					
 					<div>
-						<a href="#" class="btn thin" data-open="booking-modal">Call a Cab</a>
+						<a href="#cab-modal" class="btn thin" data-open="booking-modal">Call a Cab</a>
 					</div>
 
 					{% if shop.customer_accounts_enabled %}
@@ -155,7 +155,7 @@
 						</button>
 						
 						<div>
-							<a href="#" class="btn thin" data-open="booking-modal">Call a Cab</a>
+							<a href="#cab-modal" class="btn thin" data-open="booking-modal">Call a Cab</a>
 						</div>
 
 						{% if shop.customer_accounts_enabled %}

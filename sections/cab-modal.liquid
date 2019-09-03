@@ -1,0 +1,377 @@
+{% assign s = section.settings %}
+{% capture class %}{{section.id}}{% endcapture %}
+<!-- sections/{{class}} -->
+{% capture ModalForm %}
+    {%- assign formId = 'ContactForm' -%}
+	<form id="{{formId}}" action="">
+
+	    <div class="grid grid_bottom_margin vert-top">
+	        {% capture inputs %}
+	            medium-up--one-half,First_Name,text,First Name *||
+	            medium-up--one-half,Last_Name,text,Last Name *||
+	            one-whole,Phone,text,Confirmation Phone Number *||
+	            one-whole,Pickup_Location,textarea,Pickup Location *||
+	            medium-up--one-half,Number_in_Party,number,Number of People in Party *
+	        {% endcapture %}
+	        {% assign inputs = inputs | split: '||' %}
+	        {% assign show_labels = false %}
+	        {% for i in inputs %}
+	            {% assign itm       = i | split: ',' %}
+	            {%- assign grid     = itm[0] | strip -%}
+	            {% assign id        = itm[1] | prepend: '-' | prepend: formId %}
+	            {% assign type      = itm[2] %}
+	            {% assign label     = itm[3] %}
+	            {%- capture name_label -%}{{-label|downcase|replace:' *',''|trim-}}{%- endcapture -%}
+	            {% if type == 'hr' %}
+	                {% capture item %}<hr />{% endcapture %}
+	            {% elsif type == 'text' %}
+	                {% capture item %}
+	                    <input type="text" name="contact[{{-name_label-}}]" id="{{id}}"  {% if show_labels == false %}placeholder="{{label}}"{% endif %} {% if label contains '*' %}required="required"{% endif %} />
+	                {% endcapture %}
+	            {% elsif type == 'email' %}
+	                {% capture item %}
+	                    <input
+	                        type="email"
+	                        id="{{id}}"
+	                        name="contact[{{-name_label-}}]"
+	                        autocorrect="off"
+	                        autocapitalize="off"
+	                        {% if show_labels == false %}placeholder="{{label}}"{% endif %}
+	                        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+	                        aria-required="true"
+	                        {%- if form.errors contains 'email' -%}
+	                            class="input--error"
+	                            aria-invalid="true"
+	                            aria-describedby="{{id}}-error"
+	                        {%- endif -%}
+	                        >
+	                    {%- if form.errors contains 'email' -%}
+	                        <span id="{{ formId}}-email-error" class="input-error-message">{% include 'icon-error' %} {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+	                    {%- endif -%}
+	                {% endcapture %}
+	            {% elsif type == 'textarea' %}
+	                {% capture item %}
+	                    <textarea cols="24" rows="10" type="text" name="contact[{{-name_label-}}]" id="{{id}}" {% if show_labels == false %}placeholder="{{label}}"{% endif %} {% if label contains '*' %}required="required"{% endif %} /></textarea>
+	                {% endcapture %}
+	            {% elsif type contains 'select' %}
+	                {% assign itms = type | split: '~' | last %}
+	                {% assign itms = itms | split: ':' %}
+	                {% capture item %}
+	                        
+	                    <select name="contact[{{-name_label-}}]" id="{{-id-}}" {% if label contains '*' %}required="required"{% endif %}>
+	                        {% for i in itms %}
+	                            {% assign val = i | replace: '*','' %}
+	                            <option {% if i contains '*' %}selected="selected"{% endif %} value="{{val}}">{{val}}</option>
+	                        {% endfor %}
+	                    </select>
+	                {% endcapture %}
+	            {% else %}
+	                {% capture item %}
+	                    <input type="{{type}}" name="contact[{{-name_label-}}]" id="{{id}}" {% if show_labels == false %}placeholder="{{label}}"{% endif %} {% if label contains '*' %}required="required"{% endif %} />
+	                {% endcapture %}
+	            {% endif %}
+	            <div class="grid__item {{grid}}">
+	                {% if label != '' %}
+	                    <label class="{% if show_labels == false %}visually-hidden{% endif %}" for="{{-id-}}">{{label}}</label>
+	                {% endif %}
+	                {{item}}
+	            </div>
+	        {% endfor %}
+	        <div class="grid__item text-right">
+	            <input type="submit" class="btn" value="{{ 'contact.form.submit' | t }}">
+	        </div>
+	    </div>
+	</form>
+{% endcapture %}
+
+
+<div class="cab-modal {% if s.show_for_testing == true %}active{% endif %}" data-modal="{{class}}">
+    <span data-close="{{class}}" class="modal-action close-modal bg_close"></span>
+    <div class="modal-inner">
+        <div class="inner-container">
+        	<h2 class="text-center">{{s.title}}</h2>
+            <div class="grid_no_gutter vert-middle">
+            	<div class="grid__item large-up--one-half">
+            		{% comment %}MAP GOES HERE{% endcomment %}
+            		<div id="map"></div>
+            	</div>
+            	<div class="grid__item large-up--one-half text-side">
+            		<div class="info-container">
+	            		<div class="rte">
+	            			{{s.info}}
+	            		</div>
+	            		{{ModalForm}}
+            			<a href="#no" id="no-match-inline">Try geolocation again</a>
+            		</div>
+            	</div>
+            </div>
+
+        </div>
+        <span data-close="{{class}}" class="close-modal modal-action" tabindex="0">
+            <span class="visually-hidden">Close</span>
+            {% include 'icon-close' %}
+        </span>
+    </div>
+	{% assign YOUR_API_KEY = 'AIzaSyDskF7jCihlHyFYaX_Fg1SKB_RWBe1uD8o' %}
+	<script>
+		// Note: This example requires that you consent to location sharing when
+		// prompted by your browser. If you see the error "The Geolocation service
+		// failed.", it means you probably did not give permission for the browser to
+		// locate you.
+		var map, infoWindow, address, errorMsg;
+		var myLatLng 	= {lat: 30.267097, lng: -97.743143 };
+		var inZneCls	= 'inThaZone';
+		var outZneCls	= 'outOfZone';
+		var trueTxtSrt 	= '<h3>Is this an acurate<br>location for you?</h3>';
+		var trueTxtEnd 	= '<div class="button-container"><a class="btn thin" href="#yes" id="yes-match">yes</a><a class="btn btn--tertiary thin" href="#no" id="no-match">no</a></div>';
+		var flsTxt 		= '<h3>Oh No!</h3> <p>Looks like you are outside of our operating area.<br>Call us and let us see what we can do!</p> <a href="tel:512-555-1234">512-555-1234</a><a href="#no" id="no-match">try again?</a>';
+		var thnxTxt 	= '<h3>Awesome!</h3> <p>Fill out the rest of the info to hail one of our cabs to you!</p><a class="btn thin" href="#finish" id="finish">Finish</a>';
+		var count	  	= 0;
+		function initMap() {
+			var map = new google.maps.Map(document.getElementById('map'), {
+					center: myLatLng,
+					zoom: 14,
+					disableDefaultUI: true
+				}),
+				boundary = [
+					{ lat: 30.245499, lng: -97.768489},
+					{ lat: 30.243599, lng: -97.763929},
+					{ lat: 30.237114, lng: -97.750570},
+					{ lat: 30.236289, lng: -97.746890},
+					{ lat: 30.233802, lng: -97.741414},
+					{ lat: 30.231188, lng: -97.735288},
+					{ lat: 30.227554, lng: -97.727875},
+					{ lat: 30.234084, lng: -97.722598},
+					{ lat: 30.248355, lng: -97.713719},
+					{ lat: 30.252952, lng: -97.712796},
+					{ lat: 30.264676, lng: -97.708273},
+					{ lat: 30.266871, lng: -97.710812},
+					{ lat: 30.272894, lng: -97.713580},
+					{ lat: 30.274367, lng: -97.715962},
+					{ lat: 30.284479, lng: -97.718180},
+					{ lat: 30.286795, lng: -97.716893},
+					{ lat: 30.289519, lng: -97.722708},
+					{ lat: 30.289361, lng: -97.723491},
+					{ lat: 30.293845, lng: -97.732868},
+					{ lat: 30.296575, lng: -97.731231},
+					{ lat: 30.306485, lng: -97.752463},
+					{ lat: 30.307754, lng: -97.756830},
+					{ lat: 30.304040, lng: -97.757699},
+					{ lat: 30.303743, lng: -97.757121},
+					{ lat: 30.302150, lng: -97.757818},
+					{ lat: 30.291697, lng: -97.759005},
+					{ lat: 30.281895, lng: -97.765625},
+					{ lat: 30.269279, lng: -97.775753},
+					{ lat: 30.260949, lng: -97.758929}
+				],
+				downtownATX = new google.maps.Polygon({
+				    paths: boundary,
+				    strokeColor: '#B5DCDB',
+				    strokeOpacity: 0.9,
+				    strokeWeight: 2,
+				    fillColor: '#B5DCDB',
+				    fillOpacity: 0.5
+				}),
+				geocoder = new google.maps.Geocoder();
+			downtownATX.setMap(map)
+			infoWindow = new google.maps.InfoWindow(fixInfoWindowScrollbars,{
+				content: '<div class="infoWindow">' + content + '</div>'
+			})
+			clickFunctions(map,geocoder,infoWindow,downtownATX)
+		}
+		function whereYouAt() {
+			return new Promise((res, rej) => {
+		        navigator.geolocation.getCurrentPosition(res, rej)
+		    });
+		}
+		async function inThaZone(map,geocoder,downtownATX) {
+			var position 	= await whereYouAt();
+			var lat 		= parseFloat( position.coords.latitude);
+			var lng 		= parseFloat( position.coords.longitude);
+			var setPos 		= {lat: lat,lng: lng};
+			var posLatLng 	= new google.maps.LatLng(lat,lng);
+			function waitForPoly(method) {
+		      	if (!!google.maps.geometry) {
+		          	method();
+		      	} else {
+		          	setTimeout(function() { waitForPoly(method) }, 50);
+		      	}
+		  	}
+			waitForPoly(function() {
+				var inZone 	= google.maps.geometry.poly.containsLocation(posLatLng,downtownATX)
+				setTheInfo(map,geocoder,inZone,setPos)
+			})
+		}
+		function setTheInfo(map,geocoder,inZone,setPos) {
+			// just here for testing, will need to be removed before launch
+			if ( count % 2 ) {
+				inZone = inZone;
+			} else {
+				inZone = !inZone;
+			}
+			count++;
+
+			if ( inZone ) {
+				$('#map').removeClass(outZneCls).addClass(inZneCls);
+				map.setZoom(16);
+				getAddressText(map,geocoder,setPos)	
+			} else {
+				$('#map').removeClass(inZneCls).addClass(outZneCls);
+				map.setZoom(12);
+				var setText = flsTxt;
+				positionSet(map,setText,setPos) 
+			}
+		}
+		function positionSet(map,setText,setPos) {
+	        infoWindow.setPosition(setPos)
+	        infoWindow.setContent(setText)
+	        infoWindow.open(map);
+			map.setCenter(setPos);
+		}
+		function fixInfoWindowScrollbars() {
+		    if (this.hasFixApplied) return;
+		    // Find the DOM node for this infoWindow
+		    var InfoWindowWrapper = $((this.B || this.D).contentNode.parentElement);
+		    // We disable scrollbars temporarily
+		    // Then increase .infoWindow's natural dimensions by 2px in width and height    
+		    InfoWindowWrapper.children().css('overflow', 'visible');
+		    var InfoWindowElement = InfoWindowWrapper.find('.infoWindow');
+		    InfoWindowElement            
+		        .width(function(i, oldWidth) { return oldWidth + 3 })
+		    // Will this content need scrollbars?  If so, add another 20px padding on right
+		    if (InfoWindowElement.height() > InfoWindowWrapper.height()) {
+		        InfoWindowElement
+		            .css({'padding-right': '20px'})
+		            .width(function(i, oldWidth) { return oldWidth - 20 })
+		    }
+		    InfoWindowElement
+		        .height(function(i, oldHeight) { return oldHeight + 3 })            
+		    // Replace infoWindow content with our new DOM nodes
+		    this.hasFixApplied = true;
+		    this.setContent(InfoWindowElement.get(0))
+		}
+		function getAddressText(map,geocoder,setPos) {
+			geocoder.geocode({'location': setPos}, function(results, status) {
+	          	if (status === 'OK') {
+		            if (results[0]) {
+		            	isAddress = true;
+		            	address = results[0].formatted_address;
+		            	addressBr = address.split(/,(.+)/)[0]+',<br>'+address.split(/,(.+)/)[1];
+		            	addressTxt = address.split(/,(.+)/)[0]+',\n'+address.split(/,(.+)/)[1];
+		            } else {
+		              	address = 'No results found';
+		            }
+	          	} else {
+	            	address = 'Geocoder failed due to: ' + status;
+	          	}
+	        });
+			function waitForaddress(method) {
+		      	if ( !!address && address !== 'undefined') {
+		          	setTimeout(function () {
+		          		method();
+		          	},20)
+		      	} else {
+		          	setTimeout(function() { waitForaddress(method) }, 50);
+		      	}
+		  	}
+			waitForaddress(function() {
+				if ( !!address ) {
+					var setText = trueTxtSrt+'<div class="address">'+addressBr+'</div>'+trueTxtEnd;
+				} else {
+					var setText = trueTxtSrt+trueTxtEnd;
+				}
+				positionSet(map,setText,setPos) 
+			})
+		}
+		function handleLocationError(browserHasGeolocation,infoWindow,pos) {
+			infoWindow.setContent(browserHasGeolocation ?
+				'Error: The Geolocation service failed.' :
+				'Error: Your browser doesn\'t support geolocation.');
+		}
+		function clickFunctions(map,geocoder,infoWindow,downtownATX) {
+			// Try HTML5 geolocation.
+			if (!!navigator.geolocation) {
+			    // Browser doesn't support Geolocation
+			    handleLocationError(false,infoWindow,map.getCenter());
+			}
+			$('[href="#{{class}}"]').on('click touch', function (e) {
+				e.preventDefault();
+			    Modal('[data-modal="{{class}}"]');
+				inThaZone(map,geocoder,downtownATX);
+			})
+			$(document).on('touch click', '#yes-match', function(e) {
+				e.preventDefault()
+				if ( !!isAddress && isAddress == true ) {
+					$('#ContactForm-Pickup_Location').val(addressTxt);
+					infoWindow.setContent(thnxTxt)
+				}
+			})
+			$(document).on('touch click', '#finish', function(e) {
+				e.preventDefault()
+				if ( !!isAddress && isAddress == true ) {
+					document.querySelector('#ContactForm-First_Name').scrollIntoView({
+			            behavior: 'smooth'
+			        });
+					setTimeout(function () {
+						console.log($('#finish').closest('.gm-style-iw-c').children('button[title="Close"]'))
+						$('#finish').closest('.gm-style-iw-c').children('button[title="Close"]').click();
+						$('#ContactForm-First_Name').focus();
+					},750)
+				}
+			})
+			$(document).on('touch click', '#no-match, #no-match-inline', function(e) {
+				e.preventDefault()
+				inThaZone(map,geocoder,downtownATX);
+			})
+		}
+	</script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key={{YOUR_API_KEY}}&callback=initMap"></script>
+</div>
+
+
+
+
+
+{% schema %}
+{
+	"name": "Cab Modal",
+	"settings": [
+		{
+			"type": "checkbox",
+			"id": "show_for_testing",
+			"label": "Show for testing"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "richtext",
+			"id": "info",
+			"label": "Info"
+		},
+		{
+			"type":"header",
+			"content": "Custom CSS Rules"
+		},
+		{
+			"type":"paragraph",
+			"content": "Use '==' to reference this block's parent container, that way the css you use only applies to this container."
+		},
+		{
+			"type":"paragraph",
+			"content": "The example below applies font size to only the h2 element in the current block's container."
+		},
+		{
+			"type":"paragraph",
+			"content": "'== h2 { font-size: 20px; } '"
+		},
+		{
+			"type": "html",
+			"id": "custom_html",
+			"label": "Custom CSS"
+		}
+	]
+}
+{% endschema %}
